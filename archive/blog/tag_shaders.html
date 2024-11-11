@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="main.css" type="text/css" />
+<link rel="stylesheet" href="blog.css" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="Subscribe to this page..." href="feed.rss" />
+<title>Krzysztof J. Weblog &mdash; Posts tagged "shaders"</title>
+</head><body>
+<div id="divbodyholder">
+<div class="headerholder"><div class="header">
+<div id="title">
+<h1 class="nomargin"><a class="ablack" href="http://krzysztofjankowski.com/blog/index.html">Krzysztof J. Weblog</a></h1>
+<div id="description">Indie game developement, pixel art, open source and linux</div>
+</div></div></div>
+<div id="divbody"><div class="content">
+<h3><a class="ablack" href="water-shader-in-godotengine-3.html">
+Water Shader in GodotEngine 3
+</a></h3>
+<!-- bashblog_timestamp: #201806271719.48# -->
+<div class="subtitle">June 27, 2018 &mdash; 
+Krzysztof Jankowski
+</div>
+<!-- text begin -->
+
+<p><img src="assets/shaders/title1.gif" alt="title1" title="" /></p>
+
+<h2>Introduction</h2>
+
+<p>I've started my journey through the wonderful world of shaders around  month ago. It's still all new to me and I'm learning. But over the days  I manage to put few things together and make an awesome water shader  that you all asking about. Thats why I decided to make and in-depth  analysis of this one shader.</p>
+
+<p>Lets start with some background. I generates terrain using height map. </p>
+
+<p><img src="assets/shaders/heightmap.png" alt="heightmap" title="" /></p>
+
+<p>It is a special texture that keeps information about height of each  vertex of the terrain. White pixel is the maximum height. Black is the  base of terrain. Take a look a the pyramid and river shapes.</p>
+
+<p><img src="assets/shaders/i1.png" alt="i1" title="" /></p>
+
+<p><img src="assets/shaders/i2.png" alt="i2" title="" /></p>
+
+<h2>Now the fun part. The shader.</h2>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/title2.gif" alt="title2" title="" /></p>
+
+<p>Here are <a href="https://github.com/w84death/the-islands-of-shaders/blob/master/features/water/code/water.shader">the whole shader you can look at</a>. I start with a bunch of variables. To easily tune-up the final look and make different styles.</p>
+
+<p><code>
+shader_type spatial;
+uniform vec2 amplitude = vec2(1.0, 1.0);
+uniform vec2 frequency = vec2(.2, .2);
+uniform vec2 time_factor = vec2(2.0, 2.0);
+uniform vec3 water_color = vec3(0.25, 0.27, 0.15);
+uniform float water_height = 2.5;
+uniform float water_clearnes = 0.4;
+uniform float water_refraction = 0.014;
+uniform float water_alpha = 0.7;
+uniform float water_shore = 0.36;
+uniform float water_color_contrast = 6.0;
+</code></p>
+
+<p>We need height map sprite to known where is the land. And to find shore line.</p>
+
+<p><code>
+uniform sampler2D height_map;
+</code></p>
+
+<p>Here comes the first function. Height. </p>
+
+<p><code>
+float height(vec2 pos, float time, float noise){
+    return (amplitude.x * sin(pos.x * frequency.x * noise + time * time_factor.x)) + (amplitude.y * sin(pos.y * frequency.y * noise + time * time_factor.y));
+}
+</code></p>
+
+<p>It takes position and time + noise. Then it calculates height using  sin and random value for natural look. To make the water "move", time  variable is added to the calculations.</p>
+
+<p>How to get noise?</p>
+
+<p><code>
+float fake_random(vec2 p){
+    return fract(sin(dot(p.xy, vec2(12.9898,78.233))) * 43758.5453);
+}
+vec2 faker(vec2 p){
+    return vec2(fake_random(p), fake_random(p*124.32));
+}
+</code></p>
+
+<p>I was using texture with random noise but then I found this awesome function. One generates random float and the second vec2.</p>
+
+<h3>Vertex Shader</h3>
+
+<p>Now combine all of this. For each vertex of the water plain I change the height.</p>
+
+<p>Thats how it looks with just a water height (flat).</p>
+
+<p><code>
+VERTEX.y = water_height
+</code></p>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/s1.png" alt="s1" title="" /></p>
+
+<p>And now with noise.</p>
+
+<p><code>
+float noise = faker(VERTEX.xz).x;
+VERTEX.y = water_height + height(VERTEX.xz, TIME, noise);
+</code></p>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/s2.png" alt="s2" title="" /></p>
+
+<p>Water height is added for complex levels where some water will have different height (think waterfall).</p>
+
+<p>Then there is this code. To be honest I don't really understand it  but it's for generating normals. We will need this for refraction.</p>
+
+<p><code>
+TANGENT = normalize( vec3(0.0, height(VERTEX.xz + vec2(0.0, 0.2), TIME, noise) - height(VERTEX.xz + vec2(0.0, -0.2), TIME, noise), 0.4));
+BINORMAL = normalize( vec3(0.4, height(VERTEX.xz + vec2(0.2, 0.0), TIME, noise) - height(VERTEX.xz + vec2(-0.2, 0.0), TIME, noise), 0.0));
+NORMAL = cross(TANGENT, BINORMAL);
+</code></p>
+
+<p>Now that the water moves we can add a little bit of color to it. </p>
+
+<h3>Fragment Shader</h3>
+
+<p>Here's where the magic happens.</p>
+
+<p><code>
+vec2 uv2 = UV * -1.0;
+float height = texture(height_map, uv2.xy).r;
+</code></p>
+
+<p>The way I make the terrain and particles my heightmap needs to be mirrored. Then I read height value from heightmap texture.</p>
+
+<p>Using height I can calculate smooth gradient from the shore to the deepest places.</p>
+
+<p><code>
+float gfx = smoothstep(0.15, water_shore, height);
+vec3 w_color = vec3(gfx, gfx, gfx) * water_color_contrast;
+</code></p>
+
+<p>New color is brighter when closer to the shore. To make it visible like in my example I added high contrast value.</p>
+
+<p>Then comes all the parameters of the material.</p>
+
+<p><code>
+ALBEDO = w_color;
+ROUGHNESS = gfx;
+METALLIC = 0.8;
+SPECULAR = gfx;
+ALPHA = 1.0 - clamp(gfx, water_alpha, 1.0);
+</code></p>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/s3.png" alt="s3" title="" /></p>
+
+<p>And last we have refraction effect. I copied the code form the  YouTube tutorial where the guy says he's copied it form yet another one.  So it's a shared snippet.</p>
+
+<p><code>
+vec3 ref_normal = normalize( mix(VERTEX,TANGENT * NORMALMAP.x + BINORMAL * NORMALMAP.y + VERTEX * NORMALMAP.z, NORMALMAP_DEPTH) );
+vec2 ref_ofs = SCREEN_UV + ref_normal.xy * water_refraction;
+EMISSION += textureLod(SCREEN_TEXTURE, ref_ofs, ROUGHNESS * water_clearnes).rgb * (1.0 - ALPHA);
+ALBEDO *= ALPHA;
+ALPHA = 1.0;
+</code></p>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/s4.png" alt="s4" title="" /></p>
+
+<p>It takes all the light that comes and calculates refracted position.  Then resets alpha as water is already fully rendered and needs to  overlap real ground. The good part of it is that it just works :)</p>
+
+<p>That's the final result:</p>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/screen1.png" alt="screen1" title="" /></p>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/screen2.png" alt="screen2" title="" /></p>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/screen3.png" alt="screen3" title="" /></p>
+
+<p>I hope I could help and inspire you to make your own water shader.</p>
+
+<h2>Stuff</h2>
+
+<p>All the sources are available at the <a href="https://github.com/w84death/the-islands-of-shaders">GitHub</a>. Also the whole tech demo project.</p>
+
+<p>I was using code from those sources:</p>
+
+<ul>
+<li><a href="https://youtu.be/jbYrpKWTlpw">Godot Game Engine - Basic Water (Spatial-) Material by DerDieDasMedia</a></li>
+<li><a href="https://youtu.be/vm9Sdvhq6ho">Godot 3D shader tutorial : Water in 3D by Bastiaan Olij</a></li>
+</ul>
+
+<p>Leave your comments and suggestions at <a href="https://www.reddit.com/r/godot/comments/8uc3tt/teardown_of_the_water_shader_in_godotengine_3/">/r/godot/ post</a>. Thanks!</p>
+
+<p>Tags: <a href='tag_graphics.html'>graphics</a>, <a href='tag_shaders.html'>shaders</a>, <a href='tag_gamedev.html'>gamedev</a>, <a href='tag_godot-engine.html'>godot-engine</a></p>
+<!-- text end -->
+</div>
+<div id="footer">(C) 2017 <a href="http://twitter.com/w84death">Krzysztof Jankowski</a> &mdash; <a href="mailto:kj&#64;p1x&#46;in">kj&#64;p1x&#46;in</a><br/>
+Generated with <a href="https://github.com/cfenollosa/bashblog">bashblog</a>, a single bash script to easily create blogs like this one</div>
+</div></div>
+</body></html>

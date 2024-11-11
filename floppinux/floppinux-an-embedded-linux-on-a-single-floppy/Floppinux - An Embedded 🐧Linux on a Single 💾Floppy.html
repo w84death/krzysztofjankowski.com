@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><script src="//archive.org/includes/analytics.js?v=cf34f82" type="text/javascript"></script>
+<script type="text/javascript">window.addEventListener('DOMContentLoaded',function(){var v=archive_analytics.values;v.service='wb';v.server_name='wwwb-app201.us.archive.org';v.server_ms=273;archive_analytics.send_pageview({});});</script>
+<script type="text/javascript" src="https://web-static.archive.org/_static/js/bundle-playback.js?v=t1Bf4PY_" charset="utf-8"></script>
+<script type="text/javascript" src="https://web-static.archive.org/_static/js/wombat.js?v=txqj7nKC" charset="utf-8"></script>
+<script>window.RufflePlayer=window.RufflePlayer||{};window.RufflePlayer.config={"autoplay":"on","unmuteOverlay":"hidden"};</script>
+<script type="text/javascript" src="https://web-static.archive.org/_static/js/ruffle.js"></script>
+<script type="text/javascript">
+  __wm.init("https://web.archive.org/web");
+  __wm.wombat("https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/","20210724131046","https://web.archive.org/","web","https://web-static.archive.org/_static/",
+	      "1627132246");
+</script>
+<link rel="stylesheet" type="text/css" href="https://web-static.archive.org/_static/css/banner-styles.css?v=S1zqJCYt" />
+<link rel="stylesheet" type="text/css" href="https://web-static.archive.org/_static/css/iconochive.css?v=qtvMKcIJ" />
+<!-- End Wayback Rewrite JS Include -->
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>Floppinux - An Embedded 🐧Linux on a Single 💾Floppy</title>
+    <meta name="HandheldFriendly" content="True"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link rel="preload" href="/web/20210724131046/https://bits.p1x.in/assets/css/app.css?v=ce91749574" as="style"/>
+    <link rel="preload" href="/web/20210724131046/https://bits.p1x.in/assets/js/manifest.js?v=ce91749574" as="script"/>
+    <link rel="preload" href="/web/20210724131046/https://bits.p1x.in/assets/js/vendor/content-api.min.js?v=ce91749574" as="script"/>
+    <link rel="preload" href="/web/20210724131046/https://bits.p1x.in/assets/js/vendor.js?v=ce91749574" as="script"/>
+    <link rel="preload" href="/web/20210724131046/https://bits.p1x.in/assets/js/app.js?v=ce91749574" as="script"/>
+    <link rel="preconnect" href="https://web.archive.org/web/20210724131046/https://polyfill.io/">
+    <link rel="dns-prefetch" href="https://web.archive.org/web/20210724131046/https://polyfill.io/">
+
+      <link rel="preload" href="/web/20210724131046/https://bits.p1x.in/assets/css/post.css?v=ce91749574" as="style"/>
+  <link rel="preload" href="/web/20210724131046/https://bits.p1x.in/assets/js/post.js?v=ce91749574" as="script"/>
+
+
+    <style>
+      /* These font-faces are here to make fonts work if the Ghost instance is installed in a subdirectory */
+
+      /* source-sans-pro-regular */
+      @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: local('SourceSansPro-Regular'),
+            url("/web/20210724131046im_/https://bits.p1x.in/assets/fonts/source-sans-pro/latin/source-sans-pro-regular.woff2?v=ce91749574") format('woff2'),
+            url("/web/20210724131046im_/https://bits.p1x.in/assets/fonts/source-sans-pro/latin/source-sans-pro-regular.woff?v=ce91749574") format('woff');
+      }
+
+      /* source-sans-pro-600 */
+      @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: local('SourceSansPro-SemiBold'),
+            url("/web/20210724131046im_/https://bits.p1x.in/assets/fonts/source-sans-pro/latin/source-sans-pro-600.woff2?v=ce91749574") format('woff2'),
+            url("/web/20210724131046im_/https://bits.p1x.in/assets/fonts/source-sans-pro/latin/source-sans-pro-600.woff?v=ce91749574") format('woff');
+      }
+
+      /* source-sans-pro-700 */
+      @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: local('SourceSansPro-Bold'),
+            url("/web/20210724131046im_/https://bits.p1x.in/assets/fonts/source-sans-pro/latin/source-sans-pro-700.woff2?v=ce91749574") format('woff2'),
+            url("/web/20210724131046im_/https://bits.p1x.in/assets/fonts/source-sans-pro/latin/source-sans-pro-700.woff?v=ce91749574") format('woff');
+      }
+
+      /* iconmoon */
+      @font-face {
+        font-family: 'icomoon';
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+        src: url("/web/20210724131046im_/https://bits.p1x.in/assets/fonts/icomoon/icomoon.eot?101fc3?v=ce91749574");
+        src: url("/web/20210724131046im_/https://bits.p1x.in/assets/fonts/icomoon/icomoon.eot?101fc3#iefix?v=ce91749574") format('embedded-opentype'),
+        url("/web/20210724131046im_/https://bits.p1x.in/assets/fonts/icomoon/icomoon.ttf?101fc3?v=ce91749574") format('truetype'),
+        url("/web/20210724131046im_/https://bits.p1x.in/assets/fonts/icomoon/icomoon.woff?101fc3?v=ce91749574") format('woff'),
+        url("/web/20210724131046im_/https://bits.p1x.in/assets/fonts/icomoon/icomoon.svg?101fc3#icomoon?v=ce91749574") format('svg');
+      }
+    </style>
+
+    <link rel="stylesheet" type="text/css" href="/web/20210724131046cs_/https://bits.p1x.in/assets/css/app.css?v=ce91749574" media="screen"/>
+
+      <link rel="stylesheet" type="text/css" href="/web/20210724131046cs_/https://bits.p1x.in/assets/css/post.css?v=ce91749574" media="screen"/>
+
+
+    
+
+    <link rel="icon" href="/web/20210724131046im_/https://bits.p1x.in/favicon.png" type="image/png"/>
+    <link rel="canonical" href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/"/>
+    <meta name="referrer" content="no-referrer-when-downgrade"/>
+    
+    <meta property="og:site_name" content="Bits"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Floppinux - An Embedded 🐧Linux on a Single 💾Floppy"/>
+    <meta property="og:description" content="Short story why I decided to make my own one floppy distribution. 
+An extensive yet simple tutorial/workshop on how to make embedded Linux distribution under 1.44MB."/>
+    <meta property="og:url" content="https://web.archive.org/web/20210724131046/https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/"/>
+    <meta property="og:image" content="https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/2021/05/floppinux-first-boot.jpeg"/>
+    <meta property="article:published_time" content="2021-05-22T10:02:53.000Z"/>
+    <meta property="article:modified_time" content="2021-06-06T12:19:19.000Z"/>
+    <meta property="article:tag" content="GNU/Linux"/>
+    <meta property="article:tag" content="Embedded"/>
+    
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Floppinux - An Embedded 🐧Linux on a Single 💾Floppy"/>
+    <meta name="twitter:description" content="Short story why I decided to make my own one floppy distribution. 
+An extensive yet simple tutorial/workshop on how to make embedded Linux distribution under 1.44MB."/>
+    <meta name="twitter:url" content="https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/"/>
+    <meta name="twitter:image" content="https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/2021/05/floppinux-first-boot.jpeg"/>
+    <meta name="twitter:label1" content="Written by"/>
+    <meta name="twitter:data1" content="Krzysztof Krystian Jankowski"/>
+    <meta name="twitter:label2" content="Filed under"/>
+    <meta name="twitter:data2" content="GNU/Linux, Embedded"/>
+    <meta name="twitter:site" content="@w84death"/>
+    <meta name="twitter:creator" content="@w84death"/>
+    <meta property="og:image:width" content="1600"/>
+    <meta property="og:image:height" content="1200"/>
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://web.archive.org/web/20210724131046/https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Bits",
+        "url": "https://web.archive.org/web/20210724131046/https://bits.p1x.in/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://web.archive.org/web/20210724131046/https://bits.p1x.in/favicon.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Krzysztof Krystian Jankowski",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://web.archive.org/web/20210724131046/https://bits.p1x.in/content/images/2021/05/kj-drone-pilot.jpeg",
+            "width": 1024,
+            "height": 1024
+        },
+        "url": "https://web.archive.org/web/20210724131046/https://bits.p1x.in/author/kkj/",
+        "sameAs": [
+            "https://web.archive.org/web/20210724131046/http://krzysztofjankowski.com",
+            "https://web.archive.org/web/20210724131046/https://twitter.com/w84death"
+        ]
+    },
+    "headline": "Floppinux - An Embedded 🐧Linux on a Single 💾Floppy",
+    "url": "https://web.archive.org/web/20210724131046/https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/",
+    "datePublished": "2021-05-22T10:02:53.000Z",
+    "dateModified": "2021-06-06T12:19:19.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://web.archive.org/web/20210724131046/https://bits.p1x.in/content/images/2021/05/floppinux-first-boot.jpeg",
+        "width": 1600,
+        "height": 1200
+    },
+    "keywords": "GNU/Linux, Embedded",
+    "description": "Short story why I decided to make my own one floppy distribution. \nAn extensive yet simple tutorial/workshop on how to make embedded Linux distribution under 1.44MB.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://web.archive.org/web/20210724131046/https://bits.p1x.in/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 4.7"/>
+    <link rel="alternate" type="application/rss+xml" title="Bits" href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/rss/"/>
+    <script defer src="https://web.archive.org/web/20210724131046js_/https://unpkg.com/@tryghost/portal@~1.5.1/umd/portal.min.js" data-ghost="https://bits.p1x.in/"></script><style id="gh-members-styles">.gh-post-upgrade-cta-content,
+.gh-post-upgrade-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    width: 100%;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.gh-post-upgrade-cta-content {
+    border-radius: 8px;
+    padding: 40px 4vw;
+}
+
+.gh-post-upgrade-cta h2 {
+    color: #ffffff;
+    font-size: 28px;
+    letter-spacing: -0.2px;
+    margin: 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta p {
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.gh-post-upgrade-cta small {
+    font-size: 16px;
+    letter-spacing: -0.2px;
+}
+
+.gh-post-upgrade-cta a {
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a:hover {
+    color: #ffffff;
+    opacity: 0.8;
+    box-shadow: none;
+    text-decoration: underline;
+}
+
+.gh-post-upgrade-cta a.gh-btn {
+    display: block;
+    background: #ffffff;
+    text-decoration: none;
+    margin: 28px 0 0;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.gh-post-upgrade-cta a.gh-btn:hover {
+    opacity: 0.92;
+}</style><script async src="https://web.archive.org/web/20210724131046js_/https://js.stripe.com/v3/"></script>
+    <style>
+    .post-full-content {background: #fffe;}
+</style><style>:root {--ghost-accent-color: #15171A;}</style>
+
+    <script>
+      // @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt Expat
+      const ghostHost = "https://web.archive.org/web/20210724131046/https://bits.p1x.in"
+      // @license-end
+    </script>
+  </head>
+  <body class="post-template tag-linux tag-embedded"><!-- BEGIN WAYBACK TOOLBAR INSERT -->
+<script>__wm.rw(0);</script>
+<div id="wm-ipp-base" lang="en" style="display:none;direction:ltr;">
+<div id="wm-ipp" style="position:fixed;left:0;top:0;right:0;">
+<div id="donato" style="position:relative;width:100%;">
+  <div id="donato-base">
+    <iframe id="donato-if" src="https://archive.org/includes/donate.php?as_page=1&amp;platform=wb&amp;referer=https%3A//web.archive.org/web/20210724131046/https%3A//bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/"
+	    scrolling="no" frameborder="0" style="width:100%; height:100%">
+    </iframe>
+  </div>
+</div><div id="wm-ipp-inside">
+  <div id="wm-toolbar" style="position:relative;display:flex;flex-flow:row nowrap;justify-content:space-between;">
+    <div id="wm-logo" style="/*width:110px;*/padding-top:12px;">
+      <a href="/web/" title="Wayback Machine home page"><img src="https://web-static.archive.org/_static/images/toolbar/wayback-toolbar-logo-200.png" srcset="https://web-static.archive.org/_static/images/toolbar/wayback-toolbar-logo-100.png, https://web-static.archive.org/_static/images/toolbar/wayback-toolbar-logo-150.png 1.5x, https://web-static.archive.org/_static/images/toolbar/wayback-toolbar-logo-200.png 2x" alt="Wayback Machine" style="width:100px" border="0" /></a>
+    </div>
+    <div class="c" style="display:flex;flex-flow:column nowrap;justify-content:space-between;flex:1;">
+      <form class="u" style="display:flex;flex-direction:row;flex-wrap:nowrap;" target="_top" method="get" action="/web/submit" name="wmtb" id="wmtb"><input type="text" name="url" id="wmtbURL" value="https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/" onfocus="this.focus();this.select();" style="flex:1;"/><input type="hidden" name="type" value="replay" /><input type="hidden" name="date" value="20210724131046" /><input type="submit" value="Go" />
+      </form>
+      <div style="display:flex;flex-flow:row nowrap;align-items:flex-end;">
+                <div class="s" id="wm-nav-captures" style="flex:1;">
+                    <a class="t" href="/web/20210724131046*/https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/" title="See a list of every capture for this URL">39 captures</a>
+          <div class="r" title="Timespan for captures of this URL">22 May 2021 - 29 Mar 2023</div>
+          </div>
+        <div class="k">
+          <a href="" id="wm-graph-anchor">
+            <div id="wm-ipp-sparkline" title="Explore captures for this URL" style="position: relative">
+              <canvas id="wm-sparkline-canvas" width="700" height="27" border="0"></canvas>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="n">
+      <table>
+        <tbody>
+          <!-- NEXT/PREV MONTH NAV AND MONTH INDICATOR -->
+          <tr class="m">
+            <td class="b" nowrap="nowrap"><a href="https://web.archive.org/web/20210621183158/https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/" title="21 Jun 2021"><strong>Jun</strong></a></td>
+            <td class="c" id="displayMonthEl" title="You are here: 13:10:46 Jul 24, 2021">JUL</td>
+            <td class="f" nowrap="nowrap"><a href="https://web.archive.org/web/20210919101003/https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/" title="19 Sep 2021"><strong>Sep</strong></a></td>
+          </tr>
+          <!-- NEXT/PREV CAPTURE NAV AND DAY OF MONTH INDICATOR -->
+          <tr class="d">
+            <td class="b" nowrap="nowrap"><a href="https://web.archive.org/web/20210722085253/https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/" title="08:52:53 Jul 22, 2021"><img src="https://web-static.archive.org/_static/images/toolbar/wm_tb_prv_on.png" alt="Previous capture" width="14" height="16" border="0" /></a></td>
+            <td class="c" id="displayDayEl" style="width:34px;font-size:22px;white-space:nowrap;" title="You are here: 13:10:46 Jul 24, 2021">24</td>
+            <td class="f" nowrap="nowrap"><a href="https://web.archive.org/web/20210919101003/https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/" title="10:10:03 Sep 19, 2021"><img src="https://web-static.archive.org/_static/images/toolbar/wm_tb_nxt_on.png" alt="Next capture" width="14" height="16" border="0" /></a></td>
+          </tr>
+          <!-- NEXT/PREV YEAR NAV AND YEAR INDICATOR -->
+          <tr class="y">
+            <td class="b" nowrap="nowrap">2020</td>
+            <td class="c" id="displayYearEl" title="You are here: 13:10:46 Jul 24, 2021">2021</td>
+            <td class="f" nowrap="nowrap"><a href="https://web.archive.org/web/20220726163148/https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/" title="26 Jul 2022"><strong>2022</strong></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="r" style="display:flex;flex-flow:column nowrap;align-items:flex-end;justify-content:space-between;">
+      <div id="wm-btns" style="text-align:right;height:23px;">
+                <span class="xxs">
+          <div id="wm-save-snapshot-success">success</div>
+          <div id="wm-save-snapshot-fail">fail</div>
+          <a id="wm-save-snapshot-open" href="#" title="Share via My Web Archive" >
+            <span class="iconochive-web"></span>
+          </a>
+          <a href="https://archive.org/account/login.php" title="Sign In" id="wm-sign-in">
+            <span class="iconochive-person"></span>
+          </a>
+          <span id="wm-save-snapshot-in-progress" class="iconochive-web"></span>
+        </span>
+                <a class="xxs" href="http://faq.web.archive.org/" title="Get some help using the Wayback Machine" style="top:-6px;"><span class="iconochive-question" style="color:rgb(87,186,244);font-size:160%;"></span></a>
+        <a id="wm-tb-close" href="#close" style="top:-2px;" title="Close the toolbar"><span class="iconochive-remove-circle" style="color:#888888;font-size:240%;"></span></a>
+      </div>
+      <div id="wm-share" class="xxs">
+        <a href="/web/20210724131046/http://web.archive.org/screenshot/https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/"
+           id="wm-screenshot"
+           title="screenshot">
+          <span class="wm-icon-screen-shot"></span>
+        </a>
+        <a href="#" id="wm-video" title="video">
+          <span class="iconochive-movies"></span>
+        </a>
+        <a id="wm-share-facebook" href="#" data-url="https://web.archive.org/web/20210724131046/https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/" title="Share on Facebook" style="margin-right:5px;" target="_blank"><span class="iconochive-facebook" style="color:#3b5998;font-size:160%;"></span></a>
+        <a id="wm-share-twitter" href="#" data-url="https://web.archive.org/web/20210724131046/https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/" title="Share on Twitter" style="margin-right:5px;" target="_blank"><span class="iconochive-twitter" style="color:#1dcaff;font-size:160%;"></span></a>
+      </div>
+      <div style="padding-right:2px;text-align:right;white-space:nowrap;">
+        <a id="wm-expand" class="wm-btn wm-closed" href="#expand" onclick="__wm.ex(event);return false;"><span id="wm-expand-icon" class="iconochive-down-solid"></span> <span class="xxs" style="font-size:80%;">About this capture</span></a>
+      </div>
+    </div>
+  </div>
+    <div id="wm-capinfo" style="border-top:1px solid #777;display:none; overflow: hidden">
+        <div id="wm-capinfo-notice" source="api"></div>
+                <div id="wm-capinfo-collected-by">
+    <div style="background-color:#666;color:#fff;font-weight:bold;text-align:center">COLLECTED BY</div>
+    <div style="padding:3px;position:relative" id="wm-collected-by-content">
+      <div style="display:inline-block;vertical-align:top;width:49%;">
+			<span class="c-logo" style="background-image:url(https://archive.org/services/img/commoncrawl)"></span>
+		<div>Collection: <a style="color:#33f;" href="https://archive.org/details/commoncrawl" target="_new"><span class="wm-title">Common Crawl</span></a></div>
+		<div style="max-height:75px;overflow:hidden;position:relative;">
+	  <div style="position:absolute;top:0;left:0;width:100%;height:75px;background:linear-gradient(to bottom,rgba(255,255,255,0) 0%,rgba(255,255,255,0) 90%,rgba(255,255,255,255) 100%);"></div>
+	  Web crawl data from Common Crawl.
+	</div>
+	      </div>
+    </div>
+    </div>
+    <div id="wm-capinfo-timestamps">
+    <div style="background-color:#666;color:#fff;font-weight:bold;text-align:center" title="Timestamps for the elements of this page">TIMESTAMPS</div>
+    <div>
+      <div id="wm-capresources" style="margin:0 5px 5px 5px;max-height:250px;overflow-y:scroll !important"></div>
+      <div id="wm-capresources-loading" style="text-align:left;margin:0 20px 5px 5px;display:none"><img src="https://web-static.archive.org/_static/images/loading.gif" alt="loading" /></div>
+    </div>
+    </div>
+  </div></div></div></div><div id="wm-ipp-print">The Wayback Machine - https://web.archive.org/web/20210724131046/https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/</div>
+<script type="text/javascript">//<![CDATA[
+__wm.bt(700,27,25,2,"web","https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/","20210724131046",1996,"https://web-static.archive.org/_static/",["https://web-static.archive.org/_static/css/banner-styles.css?v=S1zqJCYt","https://web-static.archive.org/_static/css/iconochive.css?v=qtvMKcIJ"], false);
+  __wm.rw(1);
+//]]></script>
+<!-- END WAYBACK TOOLBAR INSERT -->
+ 
+    
+
+
+
+  
+<header class="m-header with-picture js-header">
+  <div class="m-mobile-topbar" data-aos="fade-down">
+    <button class="m-icon-button in-mobile-topbar js-open-menu" aria-label="Open menu">
+      <span class="icon-menu" aria-hidden="true"></span>
+    </button>
+      <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/" class="m-site-name in-mobile-topbar">
+        Bits
+      </a>
+    <button class="m-icon-button in-mobile-topbar js-open-search" aria-label="Open search">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <div class="m-menu js-menu">
+    <button class="m-icon-button outlined as-close-menu js-close-menu" aria-label="Close menu">
+      <span class="icon-close"></span>
+    </button>
+    <div class="m-menu__main" data-aos="fade-down">
+      <div class="l-wrapper">
+        <div class="m-nav js-main-nav">
+          <nav class="m-nav__left js-main-nav-left" role="navigation" aria-label="Main menu">
+            <ul>
+                <li class="only-desktop">
+                  <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/" class="m-site-name in-desktop-menu">
+                    Bits
+                  </a>
+                </li>
+                
+    <li class="nav-gamedev">
+      <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/tag/gamedev/">Gamedev</a>
+    </li>
+    <li class="nav-linux">
+      <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/tag/linux/">Linux</a>
+    </li>
+    <li class="nav-dos">
+      <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/tag/dos/">DOS</a>
+    </li>
+    <li class="nav-godotengine">
+      <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/tag/godotengine/">GodotEngine</a>
+    </li>
+    <li class="nav-raspberry-pi">
+      <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/tag/raspberry-pi/">Raspberry Pi</a>
+    </li>
+    <li class="nav-web-server">
+      <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/tag/web-server/">Web Server</a>
+    </li>
+    <li class="nav-kkj">
+      <a href="https://web.archive.org/web/20210724131046/https://krzysztofjankowski.com/">KKJ</a>
+    </li>
+
+              <li class="submenu-option js-submenu-option">
+                <button class="m-icon-button in-menu-main more js-toggle-submenu" aria-label="Open submenu">
+                  <span class="icon-more" aria-hidden="true"></span>
+                </button>
+                <div class="m-submenu js-submenu">
+                  <div class="l-wrapper in-submenu">
+                    <section class="m-recent-articles">
+                      <h3 class="m-submenu-title in-recent-articles">Recent articles</h3>
+                          <div class="glide js-recent-slider">
+                            <div class="glide__track" data-glide-el="track">
+                              <div class="glide__slides">
+                                <div class="glide__slide">
+                                  <a href="/web/20210724131046/https://bits.p1x.in/sq12-camera-mini-review/" class="m-recent-article">
+                                    <div class="m-recent-article__picture ">
+                                        <img src="/web/20210724131046im_/https://bits.p1x.in/content/images/size/w300/2021/07/IMG_20210704_173654-1.jpg" loading="lazy" alt="">
+                                    </div>
+                                    <h3 class="m-recent-article__title js-recent-article-title" title="SQ12 Camera Mini Review">
+                                      SQ12 Camera Mini Review
+                                    </h3>
+                                    <span class="m-recent-article__date">20 days ago</span>
+                                  </a>
+                                </div>
+                                <div class="glide__slide">
+                                  <a href="/web/20210724131046/https://bits.p1x.in/my-developer-pc-software-list/" class="m-recent-article">
+                                    <div class="m-recent-article__picture ">
+                                        <img src="/web/20210724131046im_/https://bits.p1x.in/content/images/size/w300/2021/07/software.png" loading="lazy" alt="">
+                                    </div>
+                                    <h3 class="m-recent-article__title js-recent-article-title" title="My Developer PC Software List">
+                                      My Developer PC Software List
+                                    </h3>
+                                    <span class="m-recent-article__date">20 days ago</span>
+                                  </a>
+                                </div>
+                                <div class="glide__slide">
+                                  <a href="/web/20210724131046/https://bits.p1x.in/ai-driven-concept-art/" class="m-recent-article">
+                                    <div class="m-recent-article__picture ">
+                                        <img src="/web/20210724131046im_/https://bits.p1x.in/content/images/size/w300/2021/06/Pi_8x-1.png" loading="lazy" alt="">
+                                    </div>
+                                    <h3 class="m-recent-article__title js-recent-article-title" title="AI Driven Concept Art - NVIDIA Canvas">
+                                      AI Driven Concept Art - NVIDIA Canvas
+                                    </h3>
+                                    <span class="m-recent-article__date">a month ago</span>
+                                  </a>
+                                </div>
+                                <div class="glide__slide">
+                                  <a href="/web/20210724131046/https://bits.p1x.in/using-ms-dos-and-wordstar-in-2021/" class="m-recent-article">
+                                    <div class="m-recent-article__picture ">
+                                        <img src="/web/20210724131046im_/https://bits.p1x.in/content/images/size/w300/2021/06/signal-2021-06-20-172559_003.jpeg" loading="lazy" alt="">
+                                    </div>
+                                    <h3 class="m-recent-article__title js-recent-article-title" title="Using MS-DOS and WordStar in 2021">
+                                      Using MS-DOS and WordStar in 2021
+                                    </h3>
+                                    <span class="m-recent-article__date">a month ago</span>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </section>
+                    <section class="m-tags">
+                      <h3 class="m-submenu-title">Tags</h3>
+                        <ul>
+                            <li>
+                              <a href="/web/20210724131046/https://bits.p1x.in/tag/3d-printing/">3D printing</a>
+                            </li>
+                            <li>
+                              <a href="/web/20210724131046/https://bits.p1x.in/tag/dos/">DOS</a>
+                            </li>
+                            <li>
+                              <a href="/web/20210724131046/https://bits.p1x.in/tag/drones/">Drones</a>
+                            </li>
+                            <li>
+                              <a href="/web/20210724131046/https://bits.p1x.in/tag/embedded/">Embedded</a>
+                            </li>
+                            <li>
+                              <a href="/web/20210724131046/https://bits.p1x.in/tag/fpv/">FPV</a>
+                            </li>
+                            <li>
+                              <a href="/web/20210724131046/https://bits.p1x.in/tag/linux/">GNU/Linux</a>
+                            </li>
+                            <li>
+                              <a href="/web/20210724131046/https://bits.p1x.in/tag/gamedev/">Game Development</a>
+                            </li>
+                            <li>
+                              <a href="/web/20210724131046/https://bits.p1x.in/tag/godotengine/">GodotEngine</a>
+                            </li>
+                            <li>
+                              <a href="/web/20210724131046/https://bits.p1x.in/tag/hardware/">Hardware</a>
+                            </li>
+                            <li>
+                              <a href="/web/20210724131046/https://bits.p1x.in/tag/microsoft-windows/">Microsoft Windows</a>
+                            </li>
+                        </ul>
+                    </section>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </nav>
+          <div class="m-nav__right">
+            <button class="m-icon-button in-menu-main js-open-search" aria-label="Open search">
+              <span class="icon-search" aria-hidden="true"></span>
+            </button>
+            <div class="m-toggle-darkmode js-tooltip" data-tippy-content="Toggle dark mode" tabindex="0">
+              <label for="toggle-darkmode" class="sr-only">
+                Toggle dark mode
+              </label>
+              <input id="toggle-darkmode" type="checkbox" class="js-toggle-darkmode">
+              <div>
+                <span class="icon-moon moon" aria-hidden="true"></span>
+                <span class="icon-sunny sun" aria-hidden="true"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+
+<main class="main-wrap">
+    
+  <section class="m-hero with-picture" data-aos="fade">
+    <div class="m-hero__picture in-post">
+      <img srcset="/web/20210724131046im_/https://bits.p1x.in/content/images/size/w300/2021/05/floppinux-first-boot.jpeg 300w, /web/20210724131046im_/https://bits.p1x.in/content/images/size/w600/2021/05/floppinux-first-boot.jpeg 600w, /web/20210724131046im_/https://bits.p1x.in/content/images/size/w1000/2021/05/floppinux-first-boot.jpeg 1000w, /web/20210724131046im_/https://bits.p1x.in/content/images/size/w2000/2021/05/floppinux-first-boot.jpeg 2000w" sizes="(max-width: 600px) 600px, (max-width: 1000px) 1000px, 2000px" src="/web/20210724131046im_/https://bits.p1x.in/content/images/size/w1000/2021/05/floppinux-first-boot.jpeg" alt=""/>
+    </div>
+    </section>
+  
+  <article>
+    <div class="l-content in-post">
+        <div class="l-wrapper in-post  js-aos-wrapper" data-aos="fade-up" data-aos-delay="300">
+          <div class="l-post-content js-progress-content">
+            <header class="m-heading">
+              <h1 class="m-heading__title in-post">Floppinux - An Embedded 🐧Linux on a Single 💾Floppy</h1>
+              <div class="m-heading__meta">
+                  <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/tag/linux/" class="m-heading__meta__tag">GNU/Linux</a>
+                  <span class="m-heading__meta__divider" aria-hidden="true">&bull;</span>
+                <span class="m-heading__meta__time">May 22, 2021</span>
+              </div>
+            </header>
+            <div class="pos-relative js-post-content">
+              <div class="m-share">
+                <div class="m-share__content js-sticky">
+                  <a href="https://web.archive.org/web/20210724131046/https://www.facebook.com/sharer/sharer.php?u=https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/" class="m-icon-button filled in-share" target="_blank" rel="noopener" aria-label="Facebook">
+                    <span class="icon-facebook" aria-hidden="true"></span>
+                  </a>
+                  <a href="https://web.archive.org/web/20210724131046/https://twitter.com/intent/tweet?text=Floppinux%20-%20An%20Embedded%20%F0%9F%90%A7Linux%20on%20a%20Single%20%F0%9F%92%BEFloppy&amp;url=https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/" class="m-icon-button filled in-share" target="_blank" rel="noopener" aria-label="Twitter">
+                    <span class="icon-twitter" aria-hidden="true"></span>
+                  </a>
+                  <button class="m-icon-button filled in-share progress js-scrolltop" aria-label="Scroll to top">
+                    <span class="icon-arrow-top" aria-hidden="true"></span>
+                    <svg aria-hidden="true">
+                      <circle class="progress-ring__circle js-progress" fill="transparent" r="0"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <blockquote>I use Linux for more than a 7 years as my main OS. I play with Linux since the first Fedora and Ubuntu came out. I still remember getting those free Live-CD from Canonical. I have now installed it on every computer I have including all Raspberry Pi's and smartphones. I administrate two IBM server that runs Linux. But even with all of that I did not know much of the underlying principles behind it. I decided to change that while also make something fun and useful.</blockquote><h3 id="preface">Preface</h3><p>I created an embedded Linux distribution from scratch. It fits on a single floppy diskette. At the time of writing it uses ~1MB of storage. This gives me ~400KB free space to use on any custom software.</p><p>This distribution can boot on 486DX PC with 24 MB of ram (did not boot with less using QEMU). On an emulator it boots almost instantly. On bare metal modern hardware the only thing that prevent those speeds is the actual speed of a floppy drive. The maximum raw speed is 125KB/s. In reality it is even slower. <br>I did not test on real 486 yet as I do not have one but I saw others done similar things and it took around 1 minute. To be fair most of that time was that data loading from the drive.</p><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/2021/05/floppinux_eeepc-1.jpg" class="kg-image" alt loading="lazy" width="2000" height="1500" srcset="https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/size/w600/2021/05/floppinux_eeepc-1.jpg 600w, https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/size/w1000/2021/05/floppinux_eeepc-1.jpg 1000w, https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/size/w1600/2021/05/floppinux_eeepc-1.jpg 1600w, https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/size/w2400/2021/05/floppinux_eeepc-1.jpg 2400w" sizes="(min-width: 720px) 720px"><figcaption>Asus Eee PC 701SD running FLOPPINUX - Intel Celeron-M 900MHz with 512MB RAM</figcaption></figure><p>When I started this project I did a lot of research and to my surprise there was not a single good tutorial. Or I can not find it. There are a lot of instructions how to make some aspects but mostly redundant, old or oversimplified. And when I tried to combine this knowledge I hit many walls. This forced me to do even more research. In the end I learned a lot and manage to meed all my needs. </p><p>If your interested in making something similar I'm writing this article for you!</p><h3 id="application">Application</h3><p>My first application I want to run will be <a href="https://web.archive.org/web/20210724131046/https://github.com/w84death/floppinux-nomad-diskmag">Nomad Diskmag</a>. An old-school magazine I'm creating. For a PC I made a nice Python GUI using PyGame. For this embedded project I will change the front-end to the bash script. Articles on both versions are plain .txt files. All I need is to present cover, table of content and then cat body of each file (using less for pages). </p><p>Before that I need the working distribution that will boot and run that script. Let's create one.</p><h2 id="goals-for-the-project">Goals for the project</h2><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/2021/05/floppies-in-the-sun-1.jpeg" class="kg-image" alt loading="lazy" width="1600" height="1200" srcset="https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/size/w600/2021/05/floppies-in-the-sun-1.jpeg 600w, https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/size/w1000/2021/05/floppies-in-the-sun-1.jpeg 1000w, https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/2021/05/floppies-in-the-sun-1.jpeg 1600w" sizes="(min-width: 720px) 720px"><figcaption>Colorful translusive floppies!</figcaption></figure><h3 id="the-obvious-most-important-goal-is-to-fit-everything-ossoftware-on-one-floppy-or-1440kib">The obvious most important goal is to fit everything (OS+software) on one floppy or 1440KiB</h3><ul><li>Latest Linux kernel</li><li>Tools reduced to those needed to support my embedded application</li><li>Documentation with easy and understandable steps to reproduce the build</li><li>As always free and open source</li></ul><p>Additional future upgrades:</p><ul><li>Ability to mount another floppy to save files</li><li>Nano text editor (or anything similar)</li></ul><h2 id="lets-build-floppinux-distribution">Let's Build FLOPPINUX Distribution</h2><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/2021/05/floppinux-fujitsusiemens.jpg" class="kg-image" alt loading="lazy" width="2000" height="1500" srcset="https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/size/w600/2021/05/floppinux-fujitsusiemens.jpg 600w, https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/size/w1000/2021/05/floppinux-fujitsusiemens.jpg 1000w, https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/size/w1600/2021/05/floppinux-fujitsusiemens.jpg 1600w, https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/size/w2400/2021/05/floppinux-fujitsusiemens.jpg 2400w" sizes="(min-width: 720px) 720px"><figcaption>Gold Master Floppy for FLOPPINUX VERSION 0.1.0</figcaption></figure><h3 id="64-bit-systems">64-bit Systems</h3><p>Compiling 32-bit code on 64-bit system is a little bit tricky. To make it easier I just make everything on my old notebook with 32-bit CPU. </p><p>You can use VirtualBox with 32bit system.<br><br><strong>If you want to use 64-bit host OS <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/how-to-build-32-bit-floppinux-on-a-64-bit-os/">open my article with needed changes</a> and follow this tutorial.</strong></p><h3 id="epub">EPUB</h3><p>This tutorial/workshop is available in many formats including EPUB. Put it on your favorite eBook reader for better reading experience.</p><ul><li>Download: <a href="https://web.archive.org/web/20210724131046/https://archive.org/details/floppinux-manual/">https://archive.org/details/floppinux-manual/</a></li></ul><h2 id="working-directory">Working Directory</h2><p>Create directory where you will keep all the files.</p><pre><code>mkdir ~/my-linux-distro/
+BASE=~/my-linux-distro/
+cd BASE</code></pre><h3 id="requirements">Requirements</h3><p>Install needed software/libs. In Ubuntu 21.04:</p><pre><code>apt install git flex bison libncurses-dev qemu-system-x86 syslinux</code></pre><h3 id="kernel">Kernel</h3><p>I'm using the latest revision. It's a feat of it's own that connects old and new technologies together. At the moment it is Kernel 5.13.0-rc2. </p><p>Get the sources:</p><pre><code>git clone --depth=1 https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+cd linux</code></pre><p>Now that you have them in /linux/ directory lets configure and build our custom kernel. First create tiniest configuration:</p><pre><code>make tinyconfig</code></pre><p>Now you need to add additonal config settings on top of it:</p><pre><code>make menuconfig </code></pre><p>From menus choose those options:</p><ul><li>Processor type and features &gt; Processor family &gt; <strong>486</strong></li><li>Device Drivers &gt; Character devices &gt; <strong>Enable TTY</strong></li><li>General Setup &gt; Configure standard kernel features (expert users) &gt;<strong> Enable support for printk</strong></li><li>General Setup &gt; <strong>Initial RAM filesystem and RAM disk (initramfs/initrd)</strong></li><li>Executable file formats &gt; <strong>Kernel support for ELF binaries</strong></li><li>Executable file formats &gt; <strong>Kernel support for scripts starting with #!</strong></li></ul><p>Exit configuration (yes, save settings to .config). Now it's time for compiling!</p><pre><code>make bzImage</code></pre><p>This will take a while depending on the speed of your CPU. In the end the kernel will be created in <em>arch/x86/boot/bzImage</em>. Move it to our main directory.</p><pre><code>mv arch/x86/boot/bzImage ../</code></pre><h3 id="tools">Tools</h3><p>Without tools kernel will just boot and you will not be able to do anything. One of the most popular lightweight tools are BusyBox. Those replaces (bigger) GNU tools with just enough functionality for embedded needs.</p><p>Check the latest version at <a href="https://web.archive.org/web/20210724131046/https://busybox.net/downloads/">https://busybox.net/downloads/</a>. At the moment it is 1.33.1. Download this file, extract it and change directory:</p><pre><code>wget https://busybox.net/downloads/busybox-1.33.1.tar.bz2
+tar xjvf busybox-1.33.1.tar.bz2
+cd busybox-1.33.1/</code></pre><p>As with kernel you need to create starting configuration:</p><pre><code>make allnoconfig</code></pre><p>Now the fun part. You need to choose what tools you want. Each menu entry will show how much more KB will be taken if you choose it. So choose it wisely :)</p><pre><code>make menuconfig</code></pre><p>I chosed those:</p><ul><li>Settings &gt; <strong>Build static binary (no shared libs)</strong></li><li>Settings &gt; <strong>Support files &gt; 2GB</strong> </li><li>Coreutils &gt; <strong>cat, du, echo, ls, sleep, uname</strong> (change Operating system name to anything you want)</li><li>Console Utilities &gt; <strong>clear</strong></li><li>Editors &gt; <strong>vi</strong></li><li>Init Utilities &gt; <strong>poweroff, reboot, init, Support reading an inittab file</strong></li><li>Linux System Utilities &gt; <strong>mount, umount</strong></li><li>Miscellaneous Utilities &gt;<strong> less</strong></li><li>Shells &gt; <strong>ash, Optimize for size instead of speed, Alias support, Help support</strong></li></ul><p>Now exit with save config. Compile time.</p><pre><code>make
+make install</code></pre><p>This will create a filesystem with all the files at _install. Move it to our main directory. I like to rename it also.</p><pre><code>mv _install ../filesystem</code></pre><h3 id="filesystem">Filesystem</h3><p>You got kernel and basic tools but the system still needs some additional directory structure.</p><pre><code>cd ../filesystem
+mkdir -pv {dev,proc,etc/init.d,sys,tmp}
+sudo mknod dev/console c 5 1
+sudo mknod dev/null c 1 3</code></pre><p>Now create few configuration files. First one is a welcome message that will be shown after booting:</p><pre><code>cat &gt;&gt; welcome &lt;&lt; EOF
+Some welcome text...
+EOF</code></pre><p>Inittab file that handles starting, exiting and restarting:</p><pre><code>cat &gt;&gt; etc/inittab &lt;&lt; EOF
+::sysinit:/etc/init.d/rc
+::askfirst:/bin/sh
+::restart:/sbin/init
+::ctrlaltdel:/sbin/reboot
+::shutdown:/bin/umount -a -r
+EOF</code></pre><p>And the actual init script:</p><pre><code>cat &gt;&gt; etc/init.d/rc &lt;&lt; EOF
+#!/bin/sh
+mount -t proc none /proc
+mount -t sysfs none /sys
+clear
+cat welcome
+/bin/sh
+EOF</code></pre><p>Make init executable and owner of all files to root:</p><pre><code>chmod +x etc/init.d/rc
+sudo chown -R root:root .</code></pre><p>Lastly compress this directory into one file:</p><pre><code>find . | cpio -H newc -o | gzip -9 &gt; ../rootfs.cpio.gz</code></pre><p>You can test if everything goes as planned by runing QEMU from the base directory:</p><pre><code>qemu-system-i386 -kernel bzImage -initrd rootfs.cpio.gz</code></pre><p>Next step is to put this on a floppy!</p><h3 id="boot-image">Boot Image</h3><p>Create this Syslinux boot file that will point to your newly created kernel and filesystem:</p><pre><code>cat &gt;&gt; syslinux.cfg &lt;&lt; EOF
+DEFAULT linux
+LABEL linux 
+  SAY [ BOOTING FLOPPINUX VERSION 0.1.0 ] 
+  KERNEL bzImage
+  APPEND initrd=rootfs.cpio.gz
+EOF</code></pre><pre><code>chmod +x syslinux.cfg</code></pre><p>Create empty floppy image:</p><pre><code>dd if=/dev/zero of=floppinux.img bs=1k count=1440
+mkdosfs floppinux.img
+syslinux --install floppinux.img</code></pre><p>Mount it and copy syslinux, kernel and filesystem onto it:</p><pre><code>sudo mount -o loop floppinux.img /mnt
+sudo cp bzImage /mnt
+sudo cp rootfs.cpio.gz /mnt
+sudo cp syslinux.cfg /mnt
+sudo umount /mnt</code></pre><p>Done!</p><p>You have your own distribution image floppinux.img ready to burn onto a floppy and boot on real hardware!</p><h3 id="burning">Burning</h3><p>If you have internal floppy drive:</p><pre><code>sudo dd if=floppinux.img of=/dev/fd0</code></pre><p>I was having problems burning image to the external floppy drive on Linux so I used <a href="https://web.archive.org/web/20210724131046/http://freeextractor.sourceforge.net/diskwrite/">diskwrite</a> tool on Windows. Then I found the problem. If you also have USB drive it will show as /dev/hd*. On my computer:</p><pre><code>sudo dd if=floppinux.img of=/dev/sdb</code></pre><p>It took less than 3 minutes.</p><blockquote>1474560 bytes (1,5 MB, 1,4 MiB) copied, 164,476 s, 9,0 kB/s</blockquote><h3 id="first-boot">First boot!</h3><figure class="kg-card kg-embed-card kg-card-hascaption"><iframe src="https://web.archive.org/web/20210724131046if_/https://player.vimeo.com/video/553653700?app_id=122963" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Booting FLOPPINUX - One Floppy OS 1.44MB"></iframe><figcaption>Booting FLOPPINUX on a Fujitsu Siemens P1610 - Intel Core Solo 1.2 GHz with 1 GB RAM</figcaption></figure><h3 id="summary">Summary</h3><p>Full size: 1440KiB / <strong>1.44MiB</strong><br>Kernel size: 632KiB<br>Tools: 552KiB<br>Free space left (du -h): <strong>272KiB</strong></p><h2 id="downloads">Downloads</h2><p>If you don't want to bother with all of this just grab my files:</p><h3 id="version-010">Version 0.1.0</h3><p>Bare-bones system ready for customization.</p><ul><li>Kernel: 🐧 <a href="https://web.archive.org/web/20210724131046/https://krzysztofjankowski.com/floppinux/downloads/0.1.0/bzImage">bzImage</a></li><li>Filesystem with tools: 🧰 <a href="https://web.archive.org/web/20210724131046/https://krzysztofjankowski.com/floppinux/downloads/0.1.0/rootfs.cpio.gz">rootfs.cpio.gz</a></li><li>Bootloader: <a href="https://web.archive.org/web/20210724131046/https://krzysztofjankowski.com/floppinux/downloads/0.1.0/syslinux.cfg">syslinux.cfg</a> </li><li>Configs <a href="https://web.archive.org/web/20210724131046/https://krzysztofjankowski.com/floppinux/downloads/0.2.0/linux/.config">Linux</a> / <a href="https://web.archive.org/web/20210724131046/https://krzysztofjankowski.com/floppinux/downloads/0.2.0/busybox/.config">Busybox</a> (slightly updated vs publication)</li><li>Final <strong>floppy image</strong>: 💾 <a href="https://web.archive.org/web/20210724131046/https://krzysztofjankowski.com/floppinux/downloads/0.1.0/floppinux_0.1.0.img">floppinux.img</a> &lt;– You want this file</li><li>Mirror: 💾 <a href="https://web.archive.org/web/20210724131046/https://archive.org/details/floppinux_0.1.0">floppinux_0.1.0</a></li></ul><h3 id="run">Run</h3><pre><code>qemu-system-i386 -fda floppinux.img</code></pre><h3 id="version-021">Version 0.2.1</h3><figure class="kg-card kg-image-card kg-card-hascaption"><img src="https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/2021/05/floppinux-0.2.0-bootimg.jpeg" class="kg-image" alt loading="lazy" width="1600" height="1200" srcset="https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/size/w600/2021/05/floppinux-0.2.0-bootimg.jpeg 600w, https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/size/w1000/2021/05/floppinux-0.2.0-bootimg.jpeg 1000w, https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/2021/05/floppinux-0.2.0-bootimg.jpeg 1600w" sizes="(min-width: 720px) 720px"><figcaption>FLOPPINUX Version 0.2.0 New Logo and boot image</figcaption></figure><p>New Logo. New boot screen and overall text interface. Simple interactive shell script for reading text files. KIOSK mode.</p><p>Read more at <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/floppinux-update-0-2-1">Floppinux Update 0.2.1</a></p><ul><li>Kernel: 🐧 <a href="https://web.archive.org/web/20210724131046/https://krzysztofjankowski.com/floppinux/downloads/0.2.1/bzImage">bzImage</a></li><li>Filesystem with tools: 🧰 <a href="https://web.archive.org/web/20210724131046/https://krzysztofjankowski.com/floppinux/downloads/0.2.1/rootfs.cpio.gz">rootfs.cpio.gz</a></li><li>Bootloader: <a href="https://web.archive.org/web/20210724131046/https://krzysztofjankowski.com/floppinux/downloads/0.2.1/syslinux.cfg">syslinux.cfg</a> </li><li>Configs <a href="https://web.archive.org/web/20210724131046/https://krzysztofjankowski.com/floppinux/downloads/0.2.1/linux/.config">Linux</a> / <a href="https://web.archive.org/web/20210724131046/https://krzysztofjankowski.com/floppinux/downloads/0.2.1/busybox/.config">Busybox</a></li><li>Final <strong>floppy image</strong>: 💾 <a href="https://web.archive.org/web/20210724131046/https://krzysztofjankowski.com/floppinux/downloads/0.2.1/floppinux_0.2.1.img">floppinux_0.2.1.img</a> &lt;– You want this file</li><li>(optional) GitHub repository <a href="https://web.archive.org/web/20210724131046/https://github.com/w84death/floppinux">https://github.com/w84death/floppinux</a></li><li>Mirror: <a href="https://web.archive.org/web/20210724131046/https://archive.org/details/floppinux_0.2.1">https://archive.org/details/floppinux_0.2.1</a></li></ul><h3 id="adding-embedded-application">Adding Embedded Application</h3><p>Now as we have our embedded distribution let's make some use of it. It boots very fast (after floppy loads) and can easily run any compiled application. But I want to have some fun with scripts. So I will put .sh scripts instead of compiled software. The process then is the same.</p><ul><li>Update files in the /filesystem/ directory</li><li>compress rootfs file</li><li>mount distro image</li><li>replace rootfs file</li><li>umonut image</li><li>(optionaly) burn new iso to the floppy</li><li>boot to a new system with your updated software</li></ul><h3 id="kiosk-mode">KIOSK Mode</h3><p>FLOPPINUX runs whatever application is in <strong>/home/main</strong>. Change it to run your software instead.</p><h3 id="resources">Resources</h3><ul><li>GitHub repository <a href="https://web.archive.org/web/20210724131046/https://github.com/w84death/floppinux">https://github.com/w84death/floppinux</a></li><li><a href="https://web.archive.org/web/20210724131046/https://www.insentricity.com/a.cl/283">https://www.insentricity.com/a.cl/283</a></li><li><a href="https://web.archive.org/web/20210724131046/https://backreference.org/2010/07/04/modifying-initrdinitramfs-files/">https://backreference.org/2010/07/04/modifying-initrdinitramfs-files/</a></li><li><a href="https://web.archive.org/web/20210724131046/https://www.centennialsoftwaresolutions.com/post/build-the-linux-kernel-and-busybox-and-run-them-on-qemu">https://www.centennialsoftwaresolutions.com/post/build-the-linux-kernel-and-busybox-and-run-them-on-qemu</a></li><li><a href="https://web.archive.org/web/20210724131046/http://web.archive.org/web/20120531230823/http://blog.nasirabed.com/2012/01/minimal-linux-busybox.html">http://blog.nasirabed.com/2012/01/minimal-linux-busybox.html</a></li><li><a href="https://web.archive.org/web/20210724131046/https://bootlin.com/doc/legacy/elfs/embedded_lfs.pdf">https://bootlin.com/doc/legacy/elfs/embedded_lfs.pdf</a></li></ul><h3 id="discussion">Discussion</h3><ul><li>Hacker News <a href="https://web.archive.org/web/20210724131046/https://news.ycombinator.com/item?id=27247612">https://news.ycombinator.com/item?id=27247612</a></li><li>HackADay <a href="https://web.archive.org/web/20210724131046/https://hackaday.com/2021/05/24/running-modern-linux-from-a-single-floppy-disk/">https://hackaday.com/2021/05/24/running-modern-linux-from-a-single-floppy-disk/</a></li></ul><!--kg-card-begin: html--><a rel="license" href="https://web.archive.org/web/20210724131046/http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://web.archive.org/web/20210724131046im_/https://i.creativecommons.org/l/by/4.0/88x31.png"/></a><br/>This work is licensed under a <a rel="license" href="https://web.archive.org/web/20210724131046/http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.<!--kg-card-end: html-->
+                <section class="m-tags in-post">
+                  <h3 class="m-submenu-title">Tags</h3>
+                  <ul>
+                      <li>
+                        <a href="/web/20210724131046/https://bits.p1x.in/tag/linux/" title="GNU/Linux">GNU/Linux</a>
+                      </li>
+                      <li>
+                        <a href="/web/20210724131046/https://bits.p1x.in/tag/embedded/" title="Embedded">Embedded</a>
+                      </li>
+                  </ul>
+                </section>
+            </div>
+          </div>
+        </div>
+        <section class="m-subscribe-section js-newsletter">
+          <div class="l-wrapper in-post">
+            <div class="m-subscribe-section__content">
+              <div class="m-subscribe-section__text">
+                <h4 class="m-subscribe-section__title">Subscribe to our newsletter</h4>
+                <p class="m-subscribe-section__description">
+                  Get the latest posts delivered right to your inbox.
+                </p>
+              </div>
+              <div class="m-subscribe-section__form">
+                
+<div class="m-subscribe-section__form">
+  <form data-members-form="subscribe" id="newsletter-form" class="m-subscribe-section__container">
+    <div class="m-subscribe__form">
+      <div class="pos-relative">
+        <label for="newsletter-input" class="sr-only">Your email address</label>
+        <input data-members-email id="newsletter-input" class="m-input in-subscribe-section" type="email" placeholder="Your email address" required/>
+      </div>
+      <button id="newsletter-button" class="m-button primary block" type="submit">Subscribe</button>
+    </div>
+    <div class="m-subscribe__success">
+      <header class="m-heading no-margin">
+        <img src="/web/20210724131046im_/https://bits.p1x.in/assets/images/success.png?v=ce91749574" alt="Success!" class="m-subscribe__success_icon">
+        <p class="m-heading__description in-newsletter-form">
+          Now check your inbox and click the link to confirm your subscription.
+        </p>
+      </header>
+    </div>
+    <p class="m-subscribe__invalid m-small-text">
+      Please enter a valid email address
+    </p>
+    <p class="m-subscribe__error m-small-text">
+      Oops! There was an error sending the email, please try later.
+    </p>
+  </form>
+</div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="m-author">
+          <div class="m-author__content">
+            <div class="m-author__picture">
+              <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/author/kkj/" class="m-author-picture" aria-label="Krzysztof Krystian Jankowski">
+                  <div style="background-image: url(https://web.archive.org/web/20210724131046im_/https://bits.p1x.in/content/images/2021/05/kj-drone-pilot.jpeg);"></div>
+              </a>
+            </div>
+            <div class="m-author__info">
+              <h4 class="m-author__name">
+                <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/author/kkj/">Krzysztof Krystian Jankowski</a>
+              </h4>
+              <ul class="m-author-links">
+                  <li>
+                    <a href="https://web.archive.org/web/20210724131046/http://krzysztofjankowski.com/" target="_blank" rel="noopener" aria-label="Website">
+                      <span class="icon-globe" aria-hidden="true"></span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://web.archive.org/web/20210724131046/https://twitter.com/@w84death" target="_blank" rel="noopener" aria-label="Twitter">
+                      <span class="icon-twitter" aria-hidden="true"></span>
+                    </a>
+                  </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+          <section class="m-recommended">
+            <div class="l-wrapper in-recommended">
+              <h3 class="m-section-title in-recommended">Recommended for you</h3>
+              <div class="m-recommended-articles">
+                <div class="m-recommended-slider glide js-recommended-slider">
+                  <div class="glide__track" data-glide-el="track">
+                    <div class="glide__slides">
+                      
+    <div class="m-recommended-slider__item glide__slide">
+  <article class="m-article-card  post tag-linux tag-raspberry-pi tag-3d-printing">
+    <div class="m-article-card__picture">
+      <a href="/web/20210724131046/https://bits.p1x.in/enter-the-fourth-industrial-revolution-with-reprap/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="/web/20210724131046im_/https://bits.p1x.in/content/images/size/w600/2018/12/PANO_20181218_193543.jpg" loading="lazy" alt="">
+      <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/author/kkj/" class="m-article-card__author js-tooltip" aria-label="Krzysztof Krystian Jankowski" data-tippy-content="Posted by Krzysztof Krystian Jankowski ">
+          <div style="background-image: url(/web/20210724131046im_/https://bits.p1x.in/content/images/size/w100/2021/05/kj-drone-pilot.jpeg);"></div>
+      </a>
+    </div>
+      <div class="m-article-card__info">
+        <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/tag/linux/" class="m-article-card__tag">GNU/Linux</a>
+      <a href="/web/20210724131046/https://bits.p1x.in/enter-the-fourth-industrial-revolution-with-reprap/" class="m-article-card__info-link" aria-label="Enter The Fourth Industrial Revolution with RepRap">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="Enter The Fourth Industrial Revolution with RepRap">
+            Enter The Fourth Industrial Revolution with RepRap
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>3 years ago</span>
+          <span>&bull;</span>
+          <span>5 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+    </div>
+    <div class="m-recommended-slider__item glide__slide">
+  <article class="m-article-card  post tag-embedded tag-dos">
+    <div class="m-article-card__picture">
+      <a href="/web/20210724131046/https://bits.p1x.in/freedos-with-qbasic-on-single-floppy/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="/web/20210724131046im_/https://bits.p1x.in/content/images/size/w600/2021/06/signal-2021-06-12-203845.jpeg" loading="lazy" alt="">
+      <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/author/kkj/" class="m-article-card__author js-tooltip" aria-label="Krzysztof Krystian Jankowski" data-tippy-content="Posted by Krzysztof Krystian Jankowski ">
+          <div style="background-image: url(/web/20210724131046im_/https://bits.p1x.in/content/images/size/w100/2021/05/kj-drone-pilot.jpeg);"></div>
+      </a>
+    </div>
+      <div class="m-article-card__info">
+        <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/tag/embedded/" class="m-article-card__tag">Embedded</a>
+      <a href="/web/20210724131046/https://bits.p1x.in/freedos-with-qbasic-on-single-floppy/" class="m-article-card__info-link" aria-label="FreeDos with QBASIC From a Single Floppy">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="FreeDos with QBASIC From a Single Floppy">
+            FreeDos with QBASIC From a Single Floppy
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>a month ago</span>
+          <span>&bull;</span>
+          <span>4 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+    </div>
+    <div class="m-recommended-slider__item glide__slide">
+  <article class="m-article-card  post tag-embedded tag-linux">
+    <div class="m-article-card__picture">
+      <a href="/web/20210724131046/https://bits.p1x.in/floppinux-0-2-2/" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+        <img class="m-article-card__picture-background" src="/web/20210724131046im_/https://bits.p1x.in/content/images/size/w600/2021/06/Screenshot-from-2021-06-06-13-49-52-1.png" loading="lazy" alt="">
+      <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/author/kkj/" class="m-article-card__author js-tooltip" aria-label="Krzysztof Krystian Jankowski" data-tippy-content="Posted by Krzysztof Krystian Jankowski ">
+          <div style="background-image: url(/web/20210724131046im_/https://bits.p1x.in/content/images/size/w100/2021/05/kj-drone-pilot.jpeg);"></div>
+      </a>
+    </div>
+      <div class="m-article-card__info">
+        <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/tag/embedded/" class="m-article-card__tag">Embedded</a>
+      <a href="/web/20210724131046/https://bits.p1x.in/floppinux-0-2-2/" class="m-article-card__info-link" aria-label="FLOPPINUX 0.2.2">
+        <div>
+          <h2 class="m-article-card__title js-article-card-title " title="FLOPPINUX 0.2.2">
+            FLOPPINUX 0.2.2
+          </h2>
+        </div>
+        <div class="m-article-card__timestamp">
+          <span>2 months ago</span>
+          <span>&bull;</span>
+          <span>1 min read</span>
+        </div>
+      </a>
+    </div>
+  </article>
+    </div>
+                    </div>
+                  </div>
+                  <div data-glide-el="controls" class="glide__arrows js-controls">
+                    <button data-glide-dir="<" class="m-icon-button filled in-recommended-articles glide-prev" aria-label="Previous">
+                      <span class="icon-arrow-left" aria-hidden="true"></span>
+                    </button>
+                    <button data-glide-dir=">" class="m-icon-button filled in-recommended-articles glide-next" aria-label="Next">
+                      <span class="icon-arrow-right" aria-hidden="true"></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+    </div>
+  </article>
+</main>
+
+
+
+    
+<div class="m-search js-search" role="dialog" aria-modal="true" aria-label="Search">
+  <button class="m-icon-button outlined as-close-search js-close-search" aria-label="Close search">
+    <span class="icon-close" aria-hidden="true"></span>
+  </button>
+  <div class="m-search__content">
+    <form class="m-search__form">
+      <div class="pos-relative">
+        <span class="icon-search m-search-icon" aria-hidden="true"></span>
+        <label for="search-input" class="sr-only">
+          Type to search
+        </label>
+        <input id="search-input" type="text" class="m-input in-search js-input-search" placeholder="Type to search">
+      </div>
+    </form>
+    <div class="js-search-results hide"></div>
+    <p class="m-not-found align-center hide js-no-results">
+      No results for your search, please try with something else.
+    </p>
+  </div>
+</div>
+
+    
+<footer class="m-footer">
+  <div class="m-footer__content">
+    <nav class="m-footer-social">
+        <a href="https://web.archive.org/web/20210724131046/https://twitter.com/w84death" target="_blank" rel="noopener" aria-label="Twitter">
+          <span class="icon-twitter" aria-hidden="true"></span>
+        </a>
+      <a href="https://web.archive.org/web/20210724131046/https://bits.p1x.in/rss" aria-label="RSS">
+        <span class="icon-rss" aria-hidden="true"></span>
+      </a>
+    </nav>
+    <p class="m-footer-copyright">
+      <span>Bits &copy; 2021</span>
+      <span>&nbsp; &bull; &nbsp;</span>
+      <span>Published with <a href="https://web.archive.org/web/20210724131046/https://ghost.org/" target="_blank" rel="noopener">Ghost</a></span>
+    </p>
+    <p class="m-footer-copyright jslicense">
+      <a href="/web/20210724131046/https://bits.p1x.in/assets/html/javascript.html?v=ce91749574" rel="jslicense">JavaScript license information</a>
+    </p>
+  </div>
+</footer>
+
+    <div class="m-alert success subscribe js-alert" data-notification="subscribe">
+  Great! You&#x27;ve successfully subscribed.
+  <button class="m-alert__close js-notification-close" aria-label="Close">
+    <span class="icon-close"></span>
+  </button>
+</div>
+
+<div class="m-alert success signup js-alert" data-notification="signup">
+  Great! Next, complete checkout for full access.
+  <button class="m-alert__close js-notification-close" aria-label="Close">
+    <span class="icon-close"></span>
+  </button>
+</div>
+
+<div class="m-alert success signin js-alert" data-notification="signin">
+  Welcome back! You&#x27;ve successfully signed in.
+  <button class="m-alert__close js-notification-close" aria-label="Close">
+    <span class="icon-close"></span>
+  </button>
+</div>
+
+<div class="m-alert success checkout js-alert" data-notification="checkout">
+  Success! Your account is fully activated, you now have access to all content.
+  <button class="m-alert__close js-notification-close" aria-label="Close">
+    <span class="icon-close"></span>
+  </button>
+</div>
+    <script crossorigin="anonymous" src="https://web.archive.org/web/20210724131046js_/https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver%2CPromise%2CArray.prototype.includes%2CString.prototype.endsWith%2CString.prototype.startsWith%2CObject.assign%2CNodeList.prototype.forEach"></script>
+    <script defer src="/web/20210724131046js_/https://bits.p1x.in/assets/js/manifest.js?v=ce91749574"></script>
+    <script defer src="/web/20210724131046js_/https://bits.p1x.in/assets/js/vendor/content-api.min.js?v=ce91749574"></script>
+    <script defer src="/web/20210724131046js_/https://bits.p1x.in/assets/js/vendor.js?v=ce91749574"></script>
+    <script defer src="/web/20210724131046js_/https://bits.p1x.in/assets/js/app.js?v=ce91749574"></script>
+
+      <script defer src="/web/20210724131046js_/https://bits.p1x.in/assets/js/post.js?v=ce91749574"></script>
+
+
+    
+  </body>
+</html>
+<!--
+     FILE ARCHIVED ON 13:10:46 Jul 24, 2021 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 21:25:28 Nov 28, 2023.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  captures_list: 177.401 (11)
+  exclusion.robots: 0.175
+  exclusion.robots.policy: 0.167
+  cdx.remote: 0.055
+  esindex: 0.008
+  LoadShardBlock: 147.515 (3)
+  PetaboxLoader3.datanode: 124.555 (4)
+  PetaboxLoader3.resolve: 91.545 (2)
+  load_resource: 82.569
+-->

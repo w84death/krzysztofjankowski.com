@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="main.css" type="text/css" />
+<link rel="stylesheet" href="blog.css" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="Subscribe to this page..." href="feed.rss" />
+<title>Resurecting an EEE PC Netbook with Debian</title>
+</head><body>
+<div id="divbodyholder">
+<div class="headerholder"><div class="header">
+<div id="title">
+<h1 class="nomargin"><a class="ablack" href="http://krzysztofjankowski.com/blog/index.html">Krzysztof J. Weblog</a></h1>
+<div id="description">Indie game developement, pixel art, open source and linux</div>
+</div></div></div>
+<div id="divbody"><div class="content">
+<!-- entry begin -->
+<h3><a class="ablack" href="resurecting-an-eee-pc-netbook-with-debian.html">
+Resurecting an EEE PC Netbook with Debian
+</a></h3>
+<!-- bashblog_timestamp: #201808051945.24# -->
+<div class="subtitle">August 05, 2018 &mdash; 
+Krzysztof Jankowski
+</div>
+<!-- text begin -->
+
+<p>I bought an classic ASUS EEE PC 701SD. </p>
+
+<p><img src="assets/eeepc.jpg" alt="ASUS EEE PC 701SD" title="" /></p>
+
+<p>I tested a few distributions and desktop environments but with no luck. Mostly because this computer have only 1GB ram and old Celeron 900Mhz. On that kind of machine everything runs slow. By default. But this is a GNU/LINUX. It works on everything. So I changed my approach to this problem. Instead of searching for faster distro I first decide what I need in terms of software.</p>
+
+<p>My ultimate goal is to have small Linux computer with good keyboard (mechanical) for remote writing. Closes to this dream is freeway writer. But it's expensive and very, very limited. EEE PC + external keyboard seems close enough.</p>
+
+<p>Thinking from this perspective I could run just any Linux with decent word-processor. And the best word-processor I know and love is wordgrinder. A terminal application. Then why I even need a desktop in the first place? It turns out that was the answer to most of my problems (with low spec computers). </p>
+
+<p>I put Debian 9.5 minimal install on the EEE PC. Terminal only. And then, using apt install only the necessary applications. What did I choose?</p>
+
+<p>Essentials:</p>
+
+<ul>
+<li>wicd, wicd-daemon wicd-curses; for connecting to WiFi</li>
+<li>mc; for file/dir management</li>
+<li>htop; process monitor</li>
+<li>git</li>
+<li>wordgrinder; to write this post</li>
+<li>ltp; power management for laptops</li>
+<li>woof; for simple file sharing over the local network</li>
+<li>acpi; for battery info</li>
+<li>links; for web browsing, duckduckgo/wikipedia</li>
+</ul>
+
+<p>Additional:</p>
+
+<ul>
+<li>ncdu; Disk Usage utility, useful for small storages</li>
+<li>neofetch; for cool info about the system</li>
+<li>figlet; for generating huge text banners, useful for scripts</li>
+<li>ansiweather; for easy weather forecast</li>
+<li>vrms; just to be sure the RMS is proud of me ;)</li>
+</ul>
+
+<p><img src="assets/debian-eepc.jpg" alt="Custom Debian welcome" title="" /></p>
+
+<p>This setup cost me less than 1GB of storage. I made some scripts to mimic desktop environment. Instead of icons for most used apps I have aliases. For windows I have [alt]+[arrows] that works like [alt]+[tab]. And each app/terminal is in full-screen non-distraction mode by default :)</p>
+
+<p>For wikipedia and some basic duckduckgo stuff Links is enough I need.</p>
+
+<p>And beside the OS, the hardware itself is small, quiet and just cute. </p>
+
+<p>Tags: <a href='tag_linux.html'>linux</a></p>
+<!-- text end -->
+<!-- entry end -->
+</div>
+<div id="footer">(C) 2017 <a href="http://twitter.com/w84death">Krzysztof Jankowski</a> &mdash; <a href="mailto:kj&#64;p1x&#46;in">kj&#64;p1x&#46;in</a><br/>
+Generated with <a href="https://github.com/cfenollosa/bashblog">bashblog</a>, a single bash script to easily create blogs like this one</div>
+</div></div>
+</body></html>

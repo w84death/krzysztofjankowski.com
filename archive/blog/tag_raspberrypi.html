@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="main.css" type="text/css" />
+<link rel="stylesheet" href="blog.css" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="Subscribe to this page..." href="feed.rss" />
+<title>Krzysztof J. Weblog &mdash; Posts tagged "raspberrypi"</title>
+</head><body>
+<div id="divbodyholder">
+<div class="headerholder"><div class="header">
+<div id="title">
+<h1 class="nomargin"><a class="ablack" href="http://krzysztofjankowski.com/blog/index.html">Krzysztof J. Weblog</a></h1>
+<div id="description">Indie game developement, pixel art, open source and linux</div>
+</div></div></div>
+<div id="divbody"><div class="content">
+<h3><a class="ablack" href="raspberrypi-zero-timelapse.html">
+RaspberryPi Zero Timelapse
+</a></h3>
+<!-- bashblog_timestamp: #201706251752.54# -->
+<div class="subtitle">June 25, 2017 &mdash; 
+Krzysztof Jankowski
+</div>
+<!-- text begin -->
+
+<p><img src="assets/zerolapse/zerolapse.jpg" alt="ZeroLapse" title="" /></p>
+
+<p>I finaly dicover the perfect use for my Zero. I want to build the ultimate timelapse device.</p>
+
+<h2>Parts</h2>
+
+<p>It will have: </p>
+
+<ul>
+<li><a href="https://thepihut.com/collections/raspberry-pi-hats/products/pan-tilt-hat">moving arm</a></li>
+<li>infrared camera 5MP</li>
+<li>scripts to automate the process</li>
+</ul>
+
+<p>For now I'm working on the timelapse workflow. I'll have the moving arm in few weeks.</p>
+
+<h2>Setup</h2>
+
+<p>I ducktaped the camera to window and power up Raspberry with good power bank. Cron is runing raspiLapseCam.py script at each reboot.</p>
+
+<p><a href="https://bitbucket.org/fotosyn/fotosynlabs/raw/0a5f212958637ce20f502fc579fc28338b33d87e/RaspiLapseCam/raspiLapseCam.py">piLapseCam.py by James Moore</a></p>
+
+<p>I leave the Pi computer for and hour and then grab all images it takes. </p>
+
+<p><img src="assets/zerolapse/gallery.jpg" alt="gallery" title="" /></p>
+
+<h2>Postproduction</h2>
+
+<p>Then I use bake.sh to make a 2K video file.</p>
+
+<p><code>ls *.jpg &gt; list.txt
+mencoder -nosound -ovc lavc -lavcopts vcodec=mpeg4:aspect=2.39/1:vbitrate=8000000 -vf scale=2048:858 -o timelapse.avi -mf type=jpeg:fps=24 mf://@list.txt</code></p>
+
+<p>There's always room for image quality improvements. LightWorks is perfect for this.</p>
+
+<p><img src="assets/zerolapse/lightworks.jpg" alt="LightWorks" title="" /></p>
+
+<p><img src="assets/zerolapse/colors.jpg" alt="Colors" title="" /></p>
+
+<h2>Final Videos</h2>
+
+<p><iframe src="https://player.vimeo.com/video/223028078" width="776" height="440" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></p>
+
+<p><iframe src="https://player.vimeo.com/video/223053564" width="776" height="440" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></p>
+
+<p>Tags: <a href='tag_raspberrypi.html'>raspberrypi</a>, <a href='tag_photography.html'>photography</a>, <a href='tag_video.html'>video</a></p>
+
+
+<!-- text end -->
+</div>
+<div id="footer">(C) 2017 <a href="http://twitter.com/w84death">Krzysztof Jankowski</a> &mdash; <a href="mailto:kj&#64;p1x&#46;in">kj&#64;p1x&#46;in</a><br/>
+Generated with <a href="https://github.com/cfenollosa/bashblog">bashblog</a>, a single bash script to easily create blogs like this one</div>
+</div></div>
+</body></html>

@@ -1,0 +1,772 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<channel><title>Krzysztof J. Weblog</title><link>http://krzysztofjankowski.com/blog/index.html</link>
+<description>Indie game developement, pixel art, open source and linux</description><language>en</language>
+<lastBuildDate>Sun, 05 Aug 2018 19:45:39 +0000</lastBuildDate>
+<pubDate>Sun, 05 Aug 2018 19:45:39 +0000</pubDate>
+<atom:link href="http://krzysztofjankowski.com/blog/feed.rss" rel="self" type="application/rss+xml" />
+<item><title>
+Resurecting an EEE PC Netbook with Debian
+</title><description><![CDATA[
+
+<p>I bought an classic ASUS EEE PC 701SD. </p>
+
+<p><img src="assets/eeepc.jpg" alt="ASUS EEE PC 701SD" title="" /></p>
+
+<p>I tested a few distributions and desktop environments but with no luck. Mostly because this computer have only 1GB ram and old Celeron 900Mhz. On that kind of machine everything runs slow. By default. But this is a GNU/LINUX. It works on everything. So I changed my approach to this problem. Instead of searching for faster distro I first decide what I need in terms of software.</p>
+
+<p>My ultimate goal is to have small Linux computer with good keyboard (mechanical) for remote writing. Closes to this dream is freeway writer. But it's expensive and very, very limited. EEE PC + external keyboard seems close enough.</p>
+
+<p>Thinking from this perspective I could run just any Linux with decent word-processor. And the best word-processor I know and love is wordgrinder. A terminal application. Then why I even need a desktop in the first place? It turns out that was the answer to most of my problems (with low spec computers). </p>
+
+<p>I put Debian 9.5 minimal install on the EEE PC. Terminal only. And then, using apt install only the necessary applications. What did I choose?</p>
+
+<p>Essentials:</p>
+
+<ul>
+<li>wicd, wicd-daemon wicd-curses; for connecting to WiFi</li>
+<li>mc; for file/dir management</li>
+<li>htop; process monitor</li>
+<li>git</li>
+<li>wordgrinder; to write this post</li>
+<li>ltp; power management for laptops</li>
+<li>woof; for simple file sharing over the local network</li>
+<li>acpi; for battery info</li>
+<li>links; for web browsing, duckduckgo/wikipedia</li>
+</ul>
+
+<p>Additional:</p>
+
+<ul>
+<li>ncdu; Disk Usage utility, useful for small storages</li>
+<li>neofetch; for cool info about the system</li>
+<li>figlet; for generating huge text banners, useful for scripts</li>
+<li>ansiweather; for easy weather forecast</li>
+<li>vrms; just to be sure the RMS is proud of me ;)</li>
+</ul>
+
+<p><img src="assets/debian-eepc.jpg" alt="Custom Debian welcome" title="" /></p>
+
+<p>This setup cost me less than 1GB of storage. I made some scripts to mimic desktop environment. Instead of icons for most used apps I have aliases. For windows I have [alt]+[arrows] that works like [alt]+[tab]. And each app/terminal is in full-screen non-distraction mode by default :)</p>
+
+<p>For wikipedia and some basic duckduckgo stuff Links is enough I need.</p>
+
+<p>And beside the OS, the hardware itself is small, quiet and just cute. </p>
+
+<p>Tags: <a href='tag_linux.html'>linux</a></p>
+<!-- text end -->
+]]></description><link>http://krzysztofjankowski.com/blog/resurecting-an-eee-pc-netbook-with-debian.html</link>
+<guid>http://krzysztofjankowski.com/blog/./resurecting-an-eee-pc-netbook-with-debian.html</guid>
+<dc:creator>Krzysztof Jankowski</dc:creator>
+<pubDate>Sun, 05 Aug 2018 19:45:24 +0000</pubDate></item>
+<item><title>
+Water Shader in GodotEngine 3
+</title><description><![CDATA[
+
+<p><img src="assets/shaders/title1.gif" alt="title1" title="" /></p>
+
+<h2>Introduction</h2>
+
+<p>I've started my journey through the wonderful world of shaders around  month ago. It's still all new to me and I'm learning. But over the days  I manage to put few things together and make an awesome water shader  that you all asking about. Thats why I decided to make and in-depth  analysis of this one shader.</p>
+
+<p>Lets start with some background. I generates terrain using height map. </p>
+
+<p><img src="assets/shaders/heightmap.png" alt="heightmap" title="" /></p>
+
+<p>It is a special texture that keeps information about height of each  vertex of the terrain. White pixel is the maximum height. Black is the  base of terrain. Take a look a the pyramid and river shapes.</p>
+
+<p><img src="assets/shaders/i1.png" alt="i1" title="" /></p>
+
+<p><img src="assets/shaders/i2.png" alt="i2" title="" /></p>
+
+<h2>Now the fun part. The shader.</h2>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/title2.gif" alt="title2" title="" /></p>
+
+<p>Here are <a href="https://github.com/w84death/the-islands-of-shaders/blob/master/features/water/code/water.shader">the whole shader you can look at</a>. I start with a bunch of variables. To easily tune-up the final look and make different styles.</p>
+
+<p><code>
+shader_type spatial;
+uniform vec2 amplitude = vec2(1.0, 1.0);
+uniform vec2 frequency = vec2(.2, .2);
+uniform vec2 time_factor = vec2(2.0, 2.0);
+uniform vec3 water_color = vec3(0.25, 0.27, 0.15);
+uniform float water_height = 2.5;
+uniform float water_clearnes = 0.4;
+uniform float water_refraction = 0.014;
+uniform float water_alpha = 0.7;
+uniform float water_shore = 0.36;
+uniform float water_color_contrast = 6.0;
+</code></p>
+
+<p>We need height map sprite to known where is the land. And to find shore line.</p>
+
+<p><code>
+uniform sampler2D height_map;
+</code></p>
+
+<p>Here comes the first function. Height. </p>
+
+<p><code>
+float height(vec2 pos, float time, float noise){
+    return (amplitude.x * sin(pos.x * frequency.x * noise + time * time_factor.x)) + (amplitude.y * sin(pos.y * frequency.y * noise + time * time_factor.y));
+}
+</code></p>
+
+<p>It takes position and time + noise. Then it calculates height using  sin and random value for natural look. To make the water "move", time  variable is added to the calculations.</p>
+
+<p>How to get noise?</p>
+
+<p><code>
+float fake_random(vec2 p){
+    return fract(sin(dot(p.xy, vec2(12.9898,78.233))) * 43758.5453);
+}
+vec2 faker(vec2 p){
+    return vec2(fake_random(p), fake_random(p*124.32));
+}
+</code></p>
+
+<p>I was using texture with random noise but then I found this awesome function. One generates random float and the second vec2.</p>
+
+<h3>Vertex Shader</h3>
+
+<p>Now combine all of this. For each vertex of the water plain I change the height.</p>
+
+<p>Thats how it looks with just a water height (flat).</p>
+
+<p><code>
+VERTEX.y = water_height
+</code></p>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/s1.png" alt="s1" title="" /></p>
+
+<p>And now with noise.</p>
+
+<p><code>
+float noise = faker(VERTEX.xz).x;
+VERTEX.y = water_height + height(VERTEX.xz, TIME, noise);
+</code></p>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/s2.png" alt="s2" title="" /></p>
+
+<p>Water height is added for complex levels where some water will have different height (think waterfall).</p>
+
+<p>Then there is this code. To be honest I don't really understand it  but it's for generating normals. We will need this for refraction.</p>
+
+<p><code>
+TANGENT = normalize( vec3(0.0, height(VERTEX.xz + vec2(0.0, 0.2), TIME, noise) - height(VERTEX.xz + vec2(0.0, -0.2), TIME, noise), 0.4));
+BINORMAL = normalize( vec3(0.4, height(VERTEX.xz + vec2(0.2, 0.0), TIME, noise) - height(VERTEX.xz + vec2(-0.2, 0.0), TIME, noise), 0.0));
+NORMAL = cross(TANGENT, BINORMAL);
+</code></p>
+
+<p>Now that the water moves we can add a little bit of color to it. </p>
+
+<h3>Fragment Shader</h3>
+
+<p>Here's where the magic happens.</p>
+
+<p><code>
+vec2 uv2 = UV * -1.0;
+float height = texture(height_map, uv2.xy).r;
+</code></p>
+
+<p>The way I make the terrain and particles my heightmap needs to be mirrored. Then I read height value from heightmap texture.</p>
+
+<p>Using height I can calculate smooth gradient from the shore to the deepest places.</p>
+
+<p><code>
+float gfx = smoothstep(0.15, water_shore, height);
+vec3 w_color = vec3(gfx, gfx, gfx) * water_color_contrast;
+</code></p>
+
+<p>New color is brighter when closer to the shore. To make it visible like in my example I added high contrast value.</p>
+
+<p>Then comes all the parameters of the material.</p>
+
+<p><code>
+ALBEDO = w_color;
+ROUGHNESS = gfx;
+METALLIC = 0.8;
+SPECULAR = gfx;
+ALPHA = 1.0 - clamp(gfx, water_alpha, 1.0);
+</code></p>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/s3.png" alt="s3" title="" /></p>
+
+<p>And last we have refraction effect. I copied the code form the  YouTube tutorial where the guy says he's copied it form yet another one.  So it's a shared snippet.</p>
+
+<p><code>
+vec3 ref_normal = normalize( mix(VERTEX,TANGENT * NORMALMAP.x + BINORMAL * NORMALMAP.y + VERTEX * NORMALMAP.z, NORMALMAP_DEPTH) );
+vec2 ref_ofs = SCREEN_UV + ref_normal.xy * water_refraction;
+EMISSION += textureLod(SCREEN_TEXTURE, ref_ofs, ROUGHNESS * water_clearnes).rgb * (1.0 - ALPHA);
+ALBEDO *= ALPHA;
+ALPHA = 1.0;
+</code></p>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/s4.png" alt="s4" title="" /></p>
+
+<p>It takes all the light that comes and calculates refracted position.  Then resets alpha as water is already fully rendered and needs to  overlap real ground. The good part of it is that it just works :)</p>
+
+<p>That's the final result:</p>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/screen1.png" alt="screen1" title="" /></p>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/screen2.png" alt="screen2" title="" /></p>
+
+<p><img src="http://krzysztofjankowski.com/blog/assets/shaders/screen3.png" alt="screen3" title="" /></p>
+
+<p>I hope I could help and inspire you to make your own water shader.</p>
+
+<h2>Stuff</h2>
+
+<p>All the sources are available at the <a href="https://github.com/w84death/the-islands-of-shaders">GitHub</a>. Also the whole tech demo project.</p>
+
+<p>I was using code from those sources:</p>
+
+<ul>
+<li><a href="https://youtu.be/jbYrpKWTlpw">Godot Game Engine - Basic Water (Spatial-) Material by DerDieDasMedia</a></li>
+<li><a href="https://youtu.be/vm9Sdvhq6ho">Godot 3D shader tutorial : Water in 3D by Bastiaan Olij</a></li>
+</ul>
+
+<p>Leave your comments and suggestions at <a href="https://www.reddit.com/r/godot/comments/8uc3tt/teardown_of_the_water_shader_in_godotengine_3/">/r/godot/ post</a>. Thanks!</p>
+
+<p>Tags: <a href='tag_graphics.html'>graphics</a>, <a href='tag_shaders.html'>shaders</a>, <a href='tag_gamedev.html'>gamedev</a>, <a href='tag_godot-engine.html'>godot-engine</a></p>
+<!-- text end -->
+]]></description><link>http://krzysztofjankowski.com/blog/water-shader-in-godotengine-3.html</link>
+<guid>http://krzysztofjankowski.com/blog/./water-shader-in-godotengine-3.html</guid>
+<dc:creator>Krzysztof Jankowski</dc:creator>
+<pubDate>Wed, 27 Jun 2018 17:19:48 +0000</pubDate></item>
+<item><title>
+Game of Life for BBC Micro:bit
+</title><description><![CDATA[
+
+<p>This incredible little machine is both cute and intresting. What you can do with 16Mhz, 16KB RAM and a screen capable of 5x5 resolution?</p>
+
+<p><img src="assets/microbit/gol1.gif" alt="Game of Life on micro:bit" title="" />
+<img src="assets/microbit/gol2.gif" alt="Game of Life on micro:bit" title="" /></p>
+
+<h2>You can make Game of Life!</h2>
+
+<p>I don't have the real unit yet so I'm using web emulator. But to make it more challanging and fun I'm using only Microsoft Block Editor to program micro:bit controller.</p>
+
+<p><img src="assets/microbit/ide.png" alt="block-ide" title="" /></p>
+
+<p>My first attemt was to use two-dimmensional arrays. But blocks don't support this well. Also it takes more ram. The solution was to use more calculations on a flat array. The screen resolution is 5x5 that gives us 25 cells. Then I created second array for sorrounding cells positions. This simplifies the code. Less code equals to less blocks in the editor. Final code turns out very nice. Both as algorithm and visual structure. And blinking LED are always cool.</p>
+
+<p><a href="assets/microbit/code.png"><img src="assets/microbit/code776.png" alt="source-code" title="" /></a></p>
+
+<h2>Radio</h2>
+
+<p>Another cool thing about micro:bit and it's software is radio module. It is the simplies way to communicate between multiple devices I have ever seen and used. It's super fun. I tested it implementing sharing feature for this Game of Life. Each moment you can pause and share world state with another micro:bits.</p>
+
+<h2>Not Only For Kids</h2>
+
+<p>BBC Micro:bit is designed for kids. But is as usefull for adults as well. I woudl never made this kind of solution for Game of Life before using e.g. Python. This turns out as a nice, refreshing exercise/experiment. And as a bonus when I finally buy real device I will have a nice code to run.</p>
+
+<h2>Play</h2>
+
+<ul>
+<li>[Shake] to generate new random state.</li>
+<li>[A] send state to other devices via radio</li>
+<li>[B] start/stop simulation</li>
+<li>[A]+[B] print generation number</li>
+</ul>
+
+<div style="position:relative;height:0;padding-bottom:81.97%;overflow:hidden;"><iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://makecode.microbit.org/---run?id=_YiR8bMifY5y9" allowfullscreen="allowfullscreen" sandbox="allow-popups allow-forms allow-scripts allow-same-origin" frameborder="0"></iframe></div>
+
+<p>Tags: <a href='tag_microbit.html'>microbit</a>, <a href='tag_code.html'>code</a>, <a href='tag_Microsoft-Block-Editor.html'>Microsoft-Block-Editor</a></p>
+<!-- text end -->
+]]></description><link>http://krzysztofjankowski.com/blog/game-of-life-for-bbc-microbit.html</link>
+<guid>http://krzysztofjankowski.com/blog/./game-of-life-for-bbc-microbit.html</guid>
+<dc:creator>Krzysztof Jankowski</dc:creator>
+<pubDate>Thu, 24 Aug 2017 19:31:33 +0000</pubDate></item>
+<item><title>
+Word Grinder
+</title><description><![CDATA[
+
+<p><img src="assets/wordgrinder/header.png" alt="Word Grinder" title="" /></p>
+
+<p>Once in a while I found some new software that's so perfect for my needs as if I write it myself. One of those is a Word Grinder. It's a terminal <em>word processor for processing words</em> (quote from the homepage). Nothing less, nothing more. Perfect.</p>
+
+<h2>Why?</h2>
+
+<p><img src="assets/wordgrinder/wg1.png" alt="Word Grinder simplicity" title="" /></p>
+
+<p>Most important thing while writing longer text is to avoid any distractions. Word Grinder puts you right into the document and hides everything else. No menus, no toolbars. There is a status bar at the bottom by default but it can be easly hidden (toggle view). Afther that it looks and behave like any modern "distraction free" editor. So the real question is why do you need those when there is already Word Grinder.</p>
+
+<p>It works on any Linux powered computer. It's super fast and lightweight. All you need is a terminal. Raspberry Pi Zero can do that. And on Debian it's already installed.</p>
+
+<p><img src="assets/wordgrinder/wg2.png" alt="Word Grinder menus" title="" /></p>
+
+<p>It is a word processor not a text editor. For those that don't know the difference: one can make text bolder, underline, set heading, bullet lists, etc and the other not. It can import/export Open Document Format files. So it's compatible with LibreOffice Writer. It can export as HTML and Markdown also. For my simple needs it's more than enough.</p>
+
+<p>I just like terminal applications. Perhaps I'm just old enough that it reminds me the <em>good old days</em>. Or I'm old enough to understand that all those visual effects like windows, toolbars or icons are unnesesary. At last for applications like this. All I need is a blank page to fill.</p>
+
+<h2>Conclusion</h2>
+
+<p>I always try to make VIM as simple and as easy to write articles. It was possible but it requies config and some plugins. Managing thoes on multiple computers (including bunch of Raspberry Pi's) was too complicated.</p>
+
+<p>Word Grinder makes this all obsolete<strong>. I's perfect as it is.</strong> Combining it with good mechanical keyboard is an "end game" of distraction writing for me.</p>
+
+<p>Highly recommended. Give it a try. You'll love it.</p>
+
+<p>Tags: <a href='tag_linux.html'>linux</a>, <a href='tag_terminal.html'>terminal</a></p>
+
+
+<!-- text end -->
+]]></description><link>http://krzysztofjankowski.com/blog/word-grinder.html</link>
+<guid>http://krzysztofjankowski.com/blog/./word-grinder.html</guid>
+<dc:creator>Krzysztof Jankowski</dc:creator>
+<pubDate>Sat, 12 Aug 2017 23:20:33 +0000</pubDate></item>
+<item><title>
+RaspberryPi Zero Timelapse
+</title><description><![CDATA[
+
+<p><img src="assets/zerolapse/zerolapse.jpg" alt="ZeroLapse" title="" /></p>
+
+<p>I finaly dicover the perfect use for my Zero. I want to build the ultimate timelapse device.</p>
+
+<h2>Parts</h2>
+
+<p>It will have: </p>
+
+<ul>
+<li><a href="https://thepihut.com/collections/raspberry-pi-hats/products/pan-tilt-hat">moving arm</a></li>
+<li>infrared camera 5MP</li>
+<li>scripts to automate the process</li>
+</ul>
+
+<p>For now I'm working on the timelapse workflow. I'll have the moving arm in few weeks.</p>
+
+<h2>Setup</h2>
+
+<p>I ducktaped the camera to window and power up Raspberry with good power bank. Cron is runing raspiLapseCam.py script at each reboot.</p>
+
+<p><a href="https://bitbucket.org/fotosyn/fotosynlabs/raw/0a5f212958637ce20f502fc579fc28338b33d87e/RaspiLapseCam/raspiLapseCam.py">piLapseCam.py by James Moore</a></p>
+
+<p>I leave the Pi computer for and hour and then grab all images it takes. </p>
+
+<p><img src="assets/zerolapse/gallery.jpg" alt="gallery" title="" /></p>
+
+<h2>Postproduction</h2>
+
+<p>Then I use bake.sh to make a 2K video file.</p>
+
+<p><code>ls *.jpg &gt; list.txt
+mencoder -nosound -ovc lavc -lavcopts vcodec=mpeg4:aspect=2.39/1:vbitrate=8000000 -vf scale=2048:858 -o timelapse.avi -mf type=jpeg:fps=24 mf://@list.txt</code></p>
+
+<p>There's always room for image quality improvements. LightWorks is perfect for this.</p>
+
+<p><img src="assets/zerolapse/lightworks.jpg" alt="LightWorks" title="" /></p>
+
+<p><img src="assets/zerolapse/colors.jpg" alt="Colors" title="" /></p>
+
+<h2>Final Videos</h2>
+
+<p><iframe src="https://player.vimeo.com/video/223028078" width="776" height="440" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></p>
+
+<p><iframe src="https://player.vimeo.com/video/223053564" width="776" height="440" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></p>
+
+<p>Tags: <a href='tag_raspberrypi.html'>raspberrypi</a>, <a href='tag_photography.html'>photography</a>, <a href='tag_video.html'>video</a></p>
+
+
+<!-- text end -->
+]]></description><link>http://krzysztofjankowski.com/blog/raspberrypi-zero-timelapse.html</link>
+<guid>http://krzysztofjankowski.com/blog/./raspberrypi-zero-timelapse.html</guid>
+<dc:creator>Krzysztof Jankowski</dc:creator>
+<pubDate>Sun, 25 Jun 2017 17:52:54 +0000</pubDate></item>
+<item><title>
+Benefits of being a Hipster
+</title><description><![CDATA[
+
+<h2>Subtitle: Don't get in the hype of buying latest and greatest each year</h2>
+
+<p>Every company in the world will try to convence you that having a latest gadget in any category is a must have. That this year product is the best ever. But the next year it's the same story. I will share my story as an example.</p>
+
+<p>I always wanted to have a pro video camera. I never like to use DSLR for video. And mirrorless cameras are even worse. Smartphonce are just silly. I like to use real camera. The one I can easly hold and balance in my hand. That have most important buttons in easy to access places. Semi-pro camera cost around 20K PLN ($5292). This is a huge price. So what I did?</p>
+
+<p>I bought a semi-pro Sony VX2100 video camera for 1500 PLN ($397). In the time that camera was the best semi-pro camera around I has 15 years old. It cost much more than 20K back then. It was a dream to have one. Now 15 years later I have it.</p>
+
+<p>And it's better than I could emagine. I am blown away of the image quality, camera build, super ergonomy in usage. And evrything works so smoothly. Even auto-focus is faster than legendary Canon 5DmkII in still mode. And at top of that all the battery holds for 850 minutes of work. 14 hours of operation. This is insane in todays world standards.</p>
+
+<p>The only downside it have: SD resolution. Do not think as SD quality. No. It's super, almost film like footage but rendered on 560i frame. It sounds like very little. But in reality the most important part is always the content. And adding to it superb colors and low-light capabilities I get very nice image of it. Then I blow it up to 720p and it looks as the movie on DVD. Do you remember those? The same hype as today 4K. But we all watch those videos online (more compression) and on small screens. Smartphones and small portable laptops. In eader way SD quality is still enough. </p>
+
+<p>So what about this super sharp 4K? I will test that in another 10 years. When I can get Sony semi-pro camera just taking some money from monthly paycheck. Because more than megapixels I love just making that damn videos! To master the skill 10 years will be not enough. So why bother about pixels and just concentrate on good lighting and composition. </p>
+
+<p>And the conclusion is that in todays world nobody will quesion my camera choice. Evryone just thinks it's a hipster thing and they even like the "SD quality". It's a win-win situation.</p>
+
+<p>Tags: <a href='tag_notes.html'>notes</a></p>
+
+
+
+<!-- text end -->
+]]></description><link>http://krzysztofjankowski.com/blog/benefits-of-being-a-hipster.html</link>
+<guid>http://krzysztofjankowski.com/blog/./benefits-of-being-a-hipster.html</guid>
+<dc:creator>Krzysztof Jankowski</dc:creator>
+<pubDate>Tue, 20 Jun 2017 15:51:38 +0000</pubDate></item>
+<item><title>
+Front-Trends 2017 Or How I will-change
+</title><description><![CDATA[
+
+<p><a href="http://https://2017.front-trends.com">Front-Trends</a> is in my opinion one of the best conferences for web developers in Poland. It has it's ups and downs but overall quality is always high.</p>
+
+<p><img src="assets/front-trends-17/header.jpg" alt="Front-Trends" title="" /></p>
+
+<p>This year there it was less awesome than year ago but still I learn something, get inspired and spend a nice four days in Warsaw.</p>
+
+<h2>Venue</h2>
+
+<p><img src="assets/front-trends-17/ft1.jpg" alt="Venue" title="" /></p>
+
+<p>Meh. In 2016 it was epic place, this time it was just a big hangar. No TV outside to watch talks. Only few sunbeds to sit. And garden umbrellas that were closed most of the time. Another thing I missed from last year was lack of comfortable sits in the main room. Sad but true. </p>
+
+<p>Just look at the picture below.</p>
+
+<p><img src="assets/front-trends-17/ft7.jpg" alt="Venue" title="" /></p>
+
+<h2>Food &amp;&amp; Drinks</h2>
+
+<p>As always delicious and vegan friendly. At last this doesn't change.</p>
+
+<h2>Talks</h2>
+
+<p><img src="assets/front-trends-17/ft4.jpg" alt="Venue" title="" />
+<img src="assets/front-trends-17/ft5.jpg" alt="Venue" title="" /></p>
+
+<p>Enough of the hate. It's time for commenting on the main and most important thing - talks. Overall professional and at high level. I selected most interesting ones so you can watch them when they become available on the web sometime in the future.</p>
+
+<h2>Highlights</h2>
+
+<p><img src="assets/front-trends-17/ft2.jpg" alt="Venue" title="" /></p>
+
+<ul>
+<li>The Power of CSS - Lot of code examples and an important tip to use 'will-change' property.</li>
+<li>Field-tested interfaces For the Next Billion - most people on the web have low spec android with little to no internet access (and electricity)</li>
+<li>Alternative Reality DevTools - grate ideas for the future of browsers developer tools</li>
+<li>Rendering Performance Inside Out - a lot of valuable knowledge about rendering and detailed information how 'will-change' works</li>
+<li>Easy and Affordable User-Testing - a few interesting tips for easy testing apps with real users</li>
+<li>Changing the Layout Game - a lot of code examples and CSS hacks!</li>
+</ul>
+
+<p>Besides some awesome talks there was one particular thing that I recognize - a lot of (front-end) girls. It's known that IT conferences are mostly a guy things. But this year there was a huge diversity. I thing at last one third was women. This is a big step up. We can be proud of it.</p>
+
+<h2>Missing Parts</h2>
+
+<p><img src="assets/front-trends-17/ft3.jpg" alt="Venue" title="" /></p>
+
+<p>Each year there is some kind of micro-controllers talk(s). This time it was named IoT to be more trendy. They're not front-end related but gives a nice and light pause between more hardcore talks. Each time I listening to any kind of IoT lecture and hope for some security advices. It was sad that we all know that this is a problem but to this day I did not hear of any resolution for this. What was hilarious is that someone hijack internet enabled drone live on stage. And try to fly it away. Security. Yeah.</p>
+
+<p><img src="assets/front-trends-17/ft9.jpg" alt="Venue" title="" /></p>
+
+<p>Another thing that I missed was lack of highly technical talks and code examples. Year ago there was even live coding. This time it was more talk and confusing charts. Some times it was so low tech that we feel offended. In a room full of professional developers we saw tutorial how to make a web page as icon on your smartphone or how to use RGB values to change colors of a pixel. In 2017.</p>
+
+<h2>Fun Parts</h2>
+
+<p>Right at the beginning at the registration booth I was asked if I'm the guy with the 'big, strange laptop?' :) So yes, I become recognized by my DELL Rugged Extreme computer that I use to make photos at conferences.</p>
+
+<p>As usualy the Code Wise provides beer. This time they made custom bottles! How cool is that?</p>
+
+<p><img src="assets/front-trends-17/ft8.jpg" alt="Venue" title="" /></p>
+
+<h2>Summary</h2>
+
+<p><img src="assets/front-trends-17/ft6.jpg" alt="Venue" title="" /></p>
+
+<p>It wasn't perfect but overall I spend a nice three days in Warsaw. I learn something new witch is the main purpose of the conference. I meet lot of people from last year. I eat good food. I certainly come back next year.</p>
+
+<p>Tags: <a href='tag_events.html'>events</a>, <a href='tag_javascript.html'>javascript</a></p>
+
+
+
+<!-- text end -->
+]]></description><link>http://krzysztofjankowski.com/blog/front-trends-2017-or-how-i-will-change.html</link>
+<guid>http://krzysztofjankowski.com/blog/./front-trends-2017-or-how-i-will-change.html</guid>
+<dc:creator>Krzysztof Jankowski</dc:creator>
+<pubDate>Sun, 28 May 2017 15:00:36 +0000</pubDate></item>
+<item><title>
+(What I Love in) Pico-8 Fantasy Console
+</title><description><![CDATA[
+
+<p><img src="assets/pico8.png" alt="Pico-8 Fantasy Console" title="" /></p>
+
+<h1>Introduction</h1>
+
+<p>Pico-8 is a new player in the game engines war. But instead of fighting for better graphics than UE4 or for having more plugins than Unity it's just a simple, cute and nostalgic game creation environment.</p>
+
+<p>Its simplicity and integrated tools are the most distinctive strengths. This will not be the full review nor tutorial. I'll just highlight the best parts of it after some time of use.</p>
+
+<h1>Restrictions</h1>
+
+<p><img src="assets/pico8-gif2.gif" alt="Happy Little Island" title="" /></p>
+
+<p>Pico-8 have strict restrictions like 8x8 sprites, 32KB cartridge size for code, gfx, sfx and maps. Only one, 128x128 screen resolution and simplified LUA code base. But thanks to this it's super easy to make game and final binary will run on almost any computer including Raspberry Pi Zero!</p>
+
+<p>The code reminds me of BASIC from 8bit computers. And brings memories from my childhood when I did my first programming on 486 PC. Looking at today's trends people like this approach.</p>
+
+<h1>Complete Toolkit</h1>
+
+<p>Pico-8 is a complete package: code editor (and compiler), pixel art editor, map editor, sampler and music composer. All of this for only $15. Yes, it's not free. But good things costs. And considering that you will be able to create a full game using one application it's a small price. I don't know of any other game engine that have that ability.</p>
+
+<h1>True Pixel Art Heaven</h1>
+
+<p><img src="assets/pico8-editor.png" alt="Pixel Editor" title="" /></p>
+
+<p>Graphics in Pico-8 are inspired by 8-bit era (hence the name). Screen size is always 128x128 and sprites are based on 8x8 grid. Also there are only 16 colors to choose from.</p>
+
+<p>For me this is a perfect setup as I always use 16 or 32 palette for my art. I normally make sprites 16x16 (or more) but I did a lot of art in 8x8 in the past. And restricting size and palette is good for practicing. It force you to re-think and come up with all the tricks to make the sprite recognizable while good looking.</p>
+
+<p>In daily developing I'm using Aseprite as my go to graphics editor. Pico-8 have own, build-in editor. I's not that powerful but still much better than most of the competition. It's simple but have all the tools needed for pixel art.</p>
+
+<h1>Good Manual and BASIC Like Language</h1>
+
+<p><img src="assets/pico8-code.png" alt="Code" title="" /></p>
+
+<p>One of the fundamental things about game engines are manual. Without it it's unnecessary harder to develop. I'm looking at you - Godot Engine. But on the other hand when manual is too big and too complicated it scares junior developers.</p>
+
+<p>Pico-8 manual thanks to it's simple language is short and straightforward. Covers all functions and engine capabilities. It's a very good base at learning new language.</p>
+
+<p>Language itself is highly BASIC inspired but uses LUA simplified syntax. It's changed mostly to fit small screen estate of the (built-in) editor. Also it have all the functions to do graphics and music things. Putting a pixel or a sprite ona screen is as easy and pleasing as in BASIC.</p>
+
+<p>Why I love BASIC languages? Because right after I open the environment I can write few lines of code and have something on the screen. Doing this, drawing pixel art sprites, on modern engines is harder than it should and requires lot of configuring. It's not just "put a sprite on x and y. I need to import sprite (from external editor), make some node with sprite object, configure it to show me that file. Then configure engine to have proper resolution and not blurring the sprites. And all this uses so much processing power as under the hood there's still sophisticated engine. For 8-bit kind of games it's over-engineering. That's why Pico-8 wins in this scenario. It looses badly if you want to make anything 3D or vector. But that's why we have special tools for special needs.</p>
+
+<p>Pico-8 is perfect for simple, pixel art games (and programs). Also small games
+are easier to do and maintain. And finish ;)</p>
+
+<h1>Exporting and Sharing</h1>
+
+<p>Exporting finished game and sharing the process of it's creation from the Pico-8 is a dream. It has everything I ever wanted to have in a game engine.</p>
+
+<p><img src="assets/pico8-gif1.gif" alt="gif" title="" /></p>
+
+<p>I can make screenshots in on simple click. I can make game cover in another. But that's nothing special. But then it goes to 11. I can make GIFs very simple. This one feature is so useful and unseen in any other engine.
+Normally making GIFs from game is unnecessary complicated process involving few applications and few rendering times. In Pico-8 I just set a starting mark and then end it with a hotkey. After that immediately I have a pixel perfect GIF to share. Brilliantly simple and useful. Why no other tool have that? It's one of those little details that makes <strong>big</strong> differences.</p>
+
+<p>Another cool thing is extremely simple exporting to JavaScript/web. One command and I have two files ready to be pushed to the server. And from my testing it works on every OS, browser and device I tested. I know it's only a 32KB simple programs but still - export to HTML5 works as a charm and that's a good thing. I know engines that still have trouble with this (Godot) or requires a stupid plugin (Unity).</p>
+
+<p><img src="assets/hli.p8.png" alt="Happy Little Island v0.8" title="" /></p>
+
+<p>And the last but most awesome thing is exporting the cartridge (Pico-8 game) as a PNG file! Yes. The files are so small that they can be embedded into the PNG file itself. So the file is a .png that opens as a image of a cover with description. But when opened in Pico-8 they works as a proper cartridge - runs an embedded game (The image above this paragraph is an actual cartridge you can run). It's so brilliantly cool :)</p>
+
+<p>As a bonus, the Pico-8 cartridges (.p8 not .png) are git friendly. Basically any text editor friendly. They are just  a plain text divided by the code, graphics, map and music. Once again simple and easy to maintain.</p>
+
+<h1>Publishing</h1>
+
+<p>The Pico-8 have build in game browser - just like App Store in iOS devices. Anyone can publish and all those games are open-source. So anyone can look at the code, learn from it and modify for fun and experiment. This feature is always advertising as a key thing.</p>
+
+<p>For me it's just a nice thing to have as I don't use it often. But that doesn't mean it's not needed. Anyone less skilled will appreciate it. And whatever people will use it or not it teaches developers that open-source is a good and needed thing.</p>
+
+<h1>Raspberry Pi Zero Console</h1>
+
+<p><img src="assets/pico8-pizero.jpg" alt="Pi Zero" title="" /></p>
+
+<p>Last thing I want to mention is that Pico-8 runs on Raspberry Pi. Also the Pi Zero. And community made a special distribution (super small) that change the Pi to the little console. It boots directly to the Pico-8 (in a few seconds!) and supports Xbox controllers out of the box.</p>
+
+<p>Full setup contains Pi Zero + XBox retriever and whole thing connected to the monitor. And that's it. Power up and I have a Pico-8 console ready to play. I will provide this on each trade shows we (P1X Team) show up from now on. And we usually do 2-3 in a year. The closest one will be in April (Pyrkon).</p>
+
+<p>I just mention this because it's impossible to do this kind of (cheap) console for Godot, Unity or Unreal Engine. Another small win for Pico-8.</p>
+
+<h1>Sound</h1>
+
+<p><img src="assets/pico8-sound.png" alt="sound" title="" /></p>
+
+<p>This fantasy console have a fully featured sequencer and synthesizer for
+chip tunes. But I'm not a musician and can't compare nor review it properly. I
+can make sample sound effects for my games and that's great. In the past I use
+mostly xsfr and this is kind of similar. And once again - it's build in so no
+external tools are needed.</p>
+
+<h1>Conclusion</h1>
+
+<p>It seems like the Pico-8 is the best game engine out there. No it's not. But it's one of the most solid ones. And for 8bit games with pixel art graphics (and chip tune sound) it's the one that will just work.</p>
+
+<p>I just love to make some small experiments/prototypes in Pico-8 in the free time. It's so simple and just works as intended.</p>
+
+<p>I can easily share GIFs to the awesome twitter community. When I finish my first completed game I will publish it to the Pico-8 console itself so any one can play. I already test this feature for the Work In Progress category and it was easy and fast.</p>
+
+<p>Graphics restrictions pushes my pixel art skill to the limit and beyond. I learn a lot trying to fit my vision in those few pixels and code limitations.</p>
+
+<p>For anyone that wants to make first steps in game development or veterans that want something small and simple to play in the evenings I <strong>highly recommend Pico-8</strong>.</p>
+
+<p>Tags: <a href='tag_pixel-art.html'>pixel-art</a>, <a href='tag_pico-8.html'>pico-8</a>, <a href='tag_game-development.html'>game-development</a>, <a href='tag_raspberry-pi.html'>raspberry-pi</a></p>
+
+
+
+
+
+<!-- text end -->
+]]></description><link>http://krzysztofjankowski.com/blog/pico-8-fantasy-console.html</link>
+<guid>http://krzysztofjankowski.com/blog/./pico-8-fantasy-console.html</guid>
+<dc:creator>Krzysztof Jankowski</dc:creator>
+<pubDate>Tue, 31 Jan 2017 19:40:25 +0000</pubDate></item>
+<item><title>
+Tale of Smart Watches
+</title><description><![CDATA[
+
+<h2>Introduction</h2>
+
+<p>About a year ago I bought Pebble watch. It was cheap and interesting. First I wanted to just test if I really need wearable device. Then I discover it's superb SDK for making my own apps for it. Not long after that Pebble make another highly successful campaign about new, color watch. But they failed to deliver. And eventually bankrupt. No more Pebble watches, no more updates nor software to manage the watch.</p>
+
+<h2>How I use smart watch</h2>
+
+<p>After all that time I figure out that I only use this (smart)watch for few things. Most people check the time on (smart)phones. I don't even carry one with me all the time. So first and most obvious use is to check the time. And doing it just by looking at the watch. Not pressing to activate nor any other bullshit like gestures (I'm looking at you Apple). Just take a look. Only Pebble can do this as it have persistent display. It just show the time. Simple as that.</p>
+
+<p>Time is not only hour of the day. Time is also a date of the month. I often check what day of the week will be at given date in the future using full screen calendar. It's super useful in so many situations. And much, much faster than on the (smart)phones. I have a hotkey for this on Pebble (calendar view).</p>
+
+<p>Second most used use case is timer. I do lot of cooking. And cooking is mostly about timing. I destroy lot of pots before just by forgetting to turn off the stove. Now I just set the timer and the watch will gently vibrate to recall me. I can't cook without it. So I have another hotkey for this on Pebble.</p>
+
+<p>And that's basically it. I don't do any thing more. I don't pare (Bluetooth) it with a smartphone. I don't use any other apps or games. I definitely do not want notifications and I don't want to control any IoT, HiFi, etc. Watch is a watch.</p>
+
+<h2>Problems</h2>
+
+<p>Pebble stats to fail lately. First there is a screen tearing problem. I need to hit the watch really hard to enable the screen to work. It's a know problem of generation one of Pebbles.</p>
+
+<p>Second thing is the battery. It's getting worse and worse. And it's not user replaceable. Pebble is all glued.</p>
+
+<p>The last thing is most absurd. User <em>can not</em> set a time on the watch. You. Can not. Set time. On a watch. If it's loose all power then it reset to the year 2000 and 12:00 AM. The only way to update the time is to connect to the (smart)phone app (Apple/Android only). And then it sets the time automatically. Not manual! And right now it failed to do even that by not counting daylight saving. So I have a wrong time. And whats even worse the app will work only till the end of 2017.</p>
+
+<h2>A new watch!</h2>
+
+<p>As much I love the Pebble it was time to buy a new watch. I searched for something that will have persistent screen, timer and calendar, long battery life, be waterproof and don't cost more that Pebble. Also needs to look retro nerdy. I don't like analog nor circled watches. I'm an engineer!</p>
+
+<p>And I have found it :) It's almost perfect. It doesn't have calendar view (only today date). But as a bonus It have a little map with ability to see the time in many cities. It has clear screen. It has timer/stopper. And the best part: up to 10 years of battery life.</p>
+
+<p>It's a <a href="http://www.casio-intl.com/in/en/wat/watch_detail/AE-1200WH-1BV/">CASIO AE-1200WH-1B</a>. 2013 classic dumb watch. Looks cool, satisfy my needs and it's very solid. I couldn't be happier :)</p>
+
+<p><img src="https://i.imgur.com/mkT7P5D.jpg" alt="CASIO AE-1200WH-1B]" title="" /></p>
+
+<h2>Conclusion</h2>
+
+<h3>Pebble</h3>
+
+<p>Pros:</p>
+
+<ul>
+<li>C SDK to write own apps</li>
+<li>application store with free apps</li>
+<li>many watch faces to choose</li>
+<li>persistent screen that is visible in the sunlight</li>
+<li>waterproof</li>
+<li>vibration instead of sound alarm</li>
+<li>good price for smartwatch (~$80)</li>
+</ul>
+
+<p>Cons:</p>
+
+<ul>
+<li>very poor battery life (still the best in smart watches)</li>
+<li>known problems with screen</li>
+<li>can't change the time without outside application</li>
+<li>it's dead as.. dead</li>
+</ul>
+
+<h3>Casio</h3>
+
+<p>Pros:</p>
+
+<ul>
+<li>world time</li>
+<li>extremely good battery life (up to 10 years)</li>
+<li>solid but light construction</li>
+<li>very good price (~$25)</li>
+<li>I like the look</li>
+</ul>
+
+<p>Cons:</p>
+
+<ul>
+<li>no calendar view</li>
+<li>no vibration</li>
+</ul>
+
+<p>Tags: <a href='tag_watch.html'>watch</a></p>
+
+
+
+
+
+<!-- text end -->
+]]></description><link>http://krzysztofjankowski.com/blog/tale-of-smart-watches.html</link>
+<guid>http://krzysztofjankowski.com/blog/./tale-of-smart-watches.html</guid>
+<dc:creator>Krzysztof Jankowski</dc:creator>
+<pubDate>Sat, 14 Jan 2017 10:57:35 +0000</pubDate></item>
+<item><title>
+Updated Software and Hardware Stack
+</title><description><![CDATA[
+
+<p>Over the years I'm changing hardware and software to create my perfect setup. Hardware those days are not changing that fast. Today 5 year old computer is more than good. But software is rapidly updating and new created. Also my switch to Linux makes this even more dynamic as I yet not know everything and still learning this awesome OS.</p>
+
+<h2>Hardware</h2>
+
+<ul>
+<li>Dell Rugged Extreme (7204) i5/8GB/256 SSD/touch screen</li>
+<li>Dell P1914S (5:4, 1280x1024)</li>
+<li>Vortex Pok3r (mechanical keyboard with Cherry MX Browns)</li>
+<li>Kensington Orbit (trackball)</li>
+</ul>
+
+<p>This did not change. It's still the best laptop I own. I can use it in the shower (water proof) or throw it to the ground (shock proof). And the Pok3r keyboard with brown switches is superb. I do a lot of coding/writing and can't see doing this without mechanical keyboard.</p>
+
+<ul>
+<li>Sonim 3300 (rugged phone)</li>
+<li>FiiO X3 (HiFi music player)</li>
+<li>Grado SR 80e (headphones)</li>
+</ul>
+
+<p>I don't need smartphone - I have enough computers around me. And I need rugged phone. Sonim is one of the best and it's indestructible. As of music I'm a little audiophile and FiiO/Grado gives me the best sound I can imagine.</p>
+
+<h2>Software</h2>
+
+<p>As hardware stays the same I can't say this about the software.</p>
+
+<h2>OS</h2>
+
+<ul>
+<li>Fedora 25</li>
+<li>GNOME</li>
+</ul>
+
+<h2>Apps</h2>
+
+<ul>
+<li>Vivaldi (web)</li>
+<li>Terminal with tmux</li>
+<li>Vim/gVim (code/writing)</li>
+<li>rsync (files sync)</li>
+<li>Syncthing (backup/sync)</li>
+<li>gFTP (sftp)</li>
+<li>CherryTree (notes)</li>
+<li>Quod Libet (music player)</li>
+<li>digiKam (photos)</li>
+<li>GIMP (graphics)</li>
+<li>Aseprite (pixelart)</li>
+</ul>
+
+<h2>Services</h2>
+
+<ul>
+<li>Tutanota (mail)</li>
+<li>Google Mail HTML version (mail)</li>
+<li>Discord (IM)</li>
+<li>Facebook Messenger (IM)</li>
+<li>YouTube (video)</li>
+<li>Gaia TV (video)</li>
+<li>Reddit (news)</li>
+<li>Slashdot (news)</li>
+<li>Allegro (shopping)</li>
+<li>Aliexpress (shopping)</li>
+<li>Bandcamp (music)</li>
+<li>Digitally Imported (music)</li>
+</ul>
+
+<p>Tags: <a href='tag_hardware.html'>hardware</a>, <a href='tag_software.html'>software</a>, <a href='tag_linux.html'>linux</a></p>
+
+
+
+
+
+<!-- text end -->
+]]></description><link>http://krzysztofjankowski.com/blog/updated-software-and-hardware-stack.html</link>
+<guid>http://krzysztofjankowski.com/blog/./updated-software-and-hardware-stack.html</guid>
+<dc:creator>Krzysztof Jankowski</dc:creator>
+<pubDate>Sat, 10 Dec 2016 09:26:35 +0000</pubDate></item>
+</channel></rss>

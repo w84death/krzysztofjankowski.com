@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="main.css" type="text/css" />
+<link rel="stylesheet" href="blog.css" type="text/css" />
+<link rel="alternate" type="application/rss+xml" title="Subscribe to this page..." href="feed.rss" />
+<title>Krzysztof J. Weblog &mdash; Posts tagged "arch"</title>
+</head><body>
+<div id="divbodyholder">
+<div class="headerholder"><div class="header">
+<div id="title">
+<h1 class="nomargin"><a class="ablack" href="http://krzysztofjankowski.com/blog/index.html">Krzysztof J. Weblog</a></h1>
+<div id="description">Indie game developement, pixel art, open source and linux</div>
+</div></div></div>
+<div id="divbody"><div class="content">
+<h3><a class="ablack" href="how-i-broke-and-fix-my-linux-distro.html">
+How I broke and fix my linux distro
+</a></h3>
+<!-- bashblog_timestamp: #201605050932.00# -->
+<div class="subtitle">May 05, 2016 &mdash; 
+Krzysztof Jankowski
+</div>
+<!-- text begin -->
+
+<p>One day (yesterday) after waking up the laptop I found out that something is wrong. The login manager was corrupted. Whenever I press spacebar or clik on my login name it crashes (black screen, white screen) and then starts over. So basicly I can not login to the system.</p>
+
+<p><img src="assets/lightdmchange.jpg" alt="lightDM" title="" /></p>
+
+<h2>Panic</h2>
+
+<p>First toughts was as always - panic that yet another update broke my system. I did not know what was wrong. This mean reinstall for me. But I have too much stuff already set up to just do it all over again. So I decidet to at last try to investigate.</p>
+
+<h2>Investigation</h2>
+
+<p>I was able to swith to the console at F1. From there when I run <code>startx</code> I get fwm and some terminals open. Good I have at last working sytem. I edited the X init stript and change <code>fwm</code> to <code>gnome-session</code>. Restart the X. </p>
+
+<p>System (X/Gnome) works as nothing happened. So now I was certain that the broken part is login manager.</p>
+
+<p>I found out I have lightDM installed with some eyecandy greeter. And this is probably the source of problems. I have Webkit2 greeter instaled. And there are also (available) GTK+, Unity and KDE. GTK+ looks much lighter than Webkit.</p>
+
+<h2>Fix</h2>
+
+<p>I just remove all lightDM packages. And then install lightDM + GTK+ greeter + configurator for X.</p>
+
+<p>System restart...</p>
+
+<p>It works! Now I have new greeter that is much better. Who need all those funcy stuff? I just want to type my password. No more no less.</p>
+
+<h2>Conslusion</h2>
+
+<p>Never panic. Try to get what is working and what not. Remember that linux always have [ctrl][alt][f*] consoles in the "background". </p>
+
+<p>And the best thing about all this is that after configuring GTK+ greeter it looks better and runs faster than before (Webkit). It's simple and elegant. And just works.</p>
+
+<p>Another good day in my (new) linux life as a developer :)</p>
+
+<p>Tags: <a href='tag_linux.html'>linux</a>, <a href='tag_arch.html'>arch</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- text end -->
+</div>
+<div id="footer">(C) 2017 <a href="http://twitter.com/w84death">Krzysztof Jankowski</a> &mdash; <a href="mailto:kj&#64;p1x&#46;in">kj&#64;p1x&#46;in</a><br/>
+Generated with <a href="https://github.com/cfenollosa/bashblog">bashblog</a>, a single bash script to easily create blogs like this one</div>
+</div></div>
+</body></html>

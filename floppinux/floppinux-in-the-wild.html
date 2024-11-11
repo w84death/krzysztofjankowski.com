@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <title>Floppinux in the Wild</title>
+    <meta name="HandheldFriendly" content="True"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+
+
+    <link rel="icon" href="favicon.png" type="image/png"/>
+
+    <meta property="og:site_name" content="Bits"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:title" content="Floppinux - An Embedded 🐧Linux on a Single 💾Floppy"/>
+    <meta property="og:description" content="Short story why I decided to make my own one floppy distribution.
+An extensive yet simple tutorial/workshop on how to make embedded Linux distribution under 1.44MB."/>
+    <meta property="og:url" content="https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/"/>
+    <meta property="og:image" content="floppinux-first-boot.jpeg"/>
+    <meta property="article:published_time" content="2021-05-22T10:02:53.000Z"/>
+    <meta property="article:modified_time" content="2021-06-06T12:19:19.000Z"/>
+    <meta property="article:tag" content="GNU/Linux"/>
+    <meta property="article:tag" content="Embedded"/>
+
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="Floppinux - An Embedded 🐧Linux on a Single 💾Floppy"/>
+    <meta name="twitter:description" content="Short story why I decided to make my own one floppy distribution.
+An extensive yet simple tutorial/workshop on how to make embedded Linux distribution under 1.44MB."/>
+    <meta name="twitter:url" content="https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/"/>
+    <meta name="twitter:image" content="floppinux-first-boot.jpeg"/>
+    <meta name="twitter:label1" content="Written by"/>
+    <meta name="twitter:data1" content="Krzysztof Krystian Jankowski"/>
+    <meta name="twitter:label2" content="Filed under"/>
+    <meta name="twitter:data2" content="GNU/Linux, Embedded"/>
+    <meta name="twitter:site" content="@w84death"/>
+    <meta name="twitter:creator" content="@w84death"/>
+    <meta property="og:image:width" content="1600"/>
+    <meta property="og:image:height" content="1200"/>
+
+
+    <style>
+    body {
+        font-family: monospace;
+        max-width: 640px;
+        padding-left: 2%;
+        padding-right: 3%;
+        margin: 0 auto;
+        background: #F5F5F0;
+        color: #444;
+    }
+    h1,h2,h3,h4,h5,h6 { color: #222;}
+    img {max-width:640px;}
+    </style>
+  </head>
+<body>
+    <main>
+        <blockquote>I'm very happy about the overall reception of my latest project. I received many questions and read a lot of cool old-time stories. I did not expect such wonderful reaction :)</blockquote><p>It was my first project/article that was shared on Hacker News and got to the front page! Hack-a-day write about it. It got hot on Mastodon. Overall people like the idea and my detailed tutorial. </p><p>Hackers started to test my distribution on their own hardware. I grab those reports and put them here for comparison. We got a range of notebooks starting from 1997!</p><blockquote>If you want to share your custom-build version (or just boot my own image) please send me the photo and info to <a href="mailto:kj@p1x.in">kj@p1x.in</a>.</blockquote>
+
+        <h2 id="1997-ibm-thinkpad">1997 IBM Thinkpad</h2>
+        <figure class="kg-card kg-image-card"><img src="content/images/ibm_thinkpad-1.jpg"/></figure>
+        <p>Thanks to <a href="https://pappp.net/">pappp</a> for the photos and help with builds on 64-bit OS!</p>
+        <h3 id="thinkpad-560e-2642-40u">ThinkPad 560E 2642-40U</h3>
+        <ul><li>Pentium MMX 166MHz</li>
+            <li>80MB RAM</li></ul>
+        
+        <h2 id="1997-toshiba-satellite">1997 Toshiba Satellite</h2>
+        <figure><img src="content/images/toshiba_satelite.jpg"><figcaption>FLOPPINUX booted on Toshiba Satellite 4000CDS</figcaption></figure><p>Thanks to Andreu <a href="https://twitter.com/ea3ifh">@EA3IFH</a> for the photos!</p><h3 id="toshiba-satellite-4000cd">Toshiba Satellite 4000CD</h3>
+        <ul><li>Pentium II @233Mhz</li>
+            <li>96Mb RAM</li></ul>
+        
+        <h2 id="2007-fujitsu-siemens-lifebook">2007 Fujitsu-Siemens Lifebook</h2>
+        <figure><img src="content/imagesIMG_20210522_112020.jpg"/><figcaption>FLOPPINUX booted on Fujitsu-Siemens P1610</figcaption></figure><p>This is my 32-bit developer/writer notebook.  I created FLOPPINUX on it. I also do all my outdoor writings on it. Very nice machine.</p><h3 id="fujitsu-siemens-p1610">Fujitsu-Siemens P1610</h3>
+        <ul><li>Intel Core Solo U1400 @1.2GHz</li>
+            <li>1GB RAM</li></ul>
+        
+        <h2 id="2008-asus-eeepc">2008 Asus EeePC</h2>
+        <figure><img src="content/images/signal-2021-05-23-162504_004.jpeg"/><figcaption>FLOPPINUX booted on the Asus EeePC</figcaption></figure><p>Legendary notebook. This is the latest revision of the 7* series with 7" screens.</p><h3 id="asus-eeepc-701sd">Asus EeePC 701SD</h3>
+        <ul><li>Intel Celeron M 353 @900MHz</li>
+            <li>512MB RAM</li></ul>
+        
+        <h2 id="emulation-qemu">Emulation / QEMU</h2>
+        <h3 id="adamdlinux">adamd_linux</h3>
+        <figure><img src="content/images/floppinux-adamd.png"/><figcaption>adamd_linux in QEMU</figcaption></figure>
+        <p>Personalized flavor by <a href="https://mastodon.sdf.org/@adamd">Adam Dawson</a>.</p>
+        
+        <h2 id="failed-attempts">Failed Attempts</h2>
+        <p>Thanks to Adam Dawson we found out the limits of FLOPPINUX distribution. He uses <strong>5.25" floppy on his 486DX2</strong>. It boots but crashes on the away. Big thanks for testing it on such wonderful PC!</p><figure><div><div><div><img src="content/images/bca7d33cb5f40820.png"></div></div></div><figcaption>Generic PC from the days with failed attempt to boot FLOPPINUX.</figcaption></figure><h3 id="classic-pc">Classic PC</h3>
+        <ul>
+            <li>Intel 486DX2 @66MHz</li>
+            <li>16MB RAM</li>
+        </ul>
+
+
+        <h2 id="on-the-web">On The Web</h2>
+        <ul><li>Floppinux Fixed for i486 and Up by papp <a href="https://pappp.net/?p=45560">https://pappp.net/?p=45560</a></li>
+<li>Hacker News <a href="https://news.ycombinator.com/item?id=27247612">https://news.ycombinator.com/item?id=27247612</a></li>
+<li>HackADay <a href="https://hackaday.com/2021/05/24/running-modern-linux-from-a-single-floppy-disk/">https://hackaday.com/2021/05/24/running-modern-linux-from-a-single-floppy-disk/</a></li>
+<li>Adafruit <a href="https://blog.adafruit.com/2021/05/27/floppinux-an-embedded-linux-on-a-single-floppy-linux-w84death/">https://blog.adafruit.com/2021/05/27/floppinux-an-embedded-linux-on-a-single-floppy-linux-w84death/</a></li>
+<li>Mastodon <a href="https://mastodon.social/web/statuses/106257685960283225">https://mastodon.social/web/statuses/106257685960283225</a></li>
+<li>Fork by clark_electric repo <a href="https://gitlab.com/clark_electric/floppinux">https://gitlab.com/clark_electric/floppinux</a> and a video <a href="https://www.youtube.com/watch?v=m5bjI7HoQ50">https://www.youtube.com/watch?v=m5bjI7HoQ50</a></li>
+<li>hackster.io <a href="https://www.hackster.io/news/floppinux-places-a-compact-form-of-linux-on-a-floppy-disk-3f5fdab432b0">https://www.hackster.io/news/floppinux-places-a-compact-form-of-linux-on-a-floppy-disk-3f5fdab432b0</a></li></ul>
+    </main>
+</body>
+</html>
+
+
+</li>
+<li>

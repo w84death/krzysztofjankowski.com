@@ -1,0 +1,14 @@
+#title{font-size: x-large;}
+        a.ablack{color:black !important;}
+        li{margin-bottom:8px;}
+        ul,ol{margin-left:24px;margin-right:24px;}
+        #all_posts{margin-top:24px;text-align:center;}
+        .subtitle{font-family:"Courier New","Courier",monospace;font-size:small;margin:0 0 12px 0;}
+        .content p{margin-left:24px;margin-right:24px;font-size:1.2em;}
+        h1{margin-bottom:12px !important;}
+        #description{font-size:large;margin-bottom:12px;}
+        h3{margin-top:32px;margin-bottom:8px;}
+        h4, h5{margin-left:24px;margin-right:24px; font-size:1.4em;}
+	h5{font-size:1.2em;}
+        #twitter{line-height:20px;vertical-align:top;text-align:right;font-style:italic;color:#333;margin-top:24px;font-size:14px;}
+        code {background-color:#ccc;color:black;display:block;white-space:pre-wrap;padding:0 2em 1em 2em;font-family:Monaco,Consolas,"Andale Mono","DejaVu Sans Mono",monospace;font-size:.6em;line-height:140%;}

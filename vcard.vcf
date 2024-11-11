@@ -1,0 +1,15 @@
+BEGIN:VCARD
+VERSION:4.0
+N:Jankowski;Krzysztof;Krystian;;
+FN:Krzysztof Krystian Jankowski
+NICKNAME:w84death
+EMAIL;TYPE=INTERNET;TYPE=WORK;TYPE=PREF:kj@p1x.in
+EMAIL;TYPE=INTERNET;TYPE=WORK:w84death@gmail.com
+URL;TYPE=Homepage:http://krzysztofjankowski.com/
+SOURCE:http://krzysztofjankowski.com/vcard.vcf
+ORG:P1X;beffio
+TITLE:Producer; Senior Project Manager
+PHOTO;MEDIATYPE=image/jpeg:http://krzysztofjankowski.com/krzysztofjankowski.gif
+LOGO;MEDIATYPE=image/png:http://p1x.in/assets/p1x_72x72.png
+NOTE:Cyfrowy Nomada and P1X Founder. Enjoys Linux, FOSS, Pixel Art, Game Development, and Blender. Experienced in Python, Blender, AI. 
+END:VCARD
