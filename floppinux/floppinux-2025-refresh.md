@@ -319,6 +319,8 @@ mkdir -p /mnt /home
 mount -t msdos -o rw /dev/fd0 /mnt
 mkdir -p /mnt/data
 mount --bind /mnt/data /home
+clear
+cat welcome
 cd /home
 /bin/sh
 EOF
