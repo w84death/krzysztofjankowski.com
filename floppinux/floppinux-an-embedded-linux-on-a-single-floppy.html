@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>FLOPPINUX - An Embedded 🐧Linux on a Single 💾Floppy</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="stylesheet" href="style.css" />
+    <meta property="og:site_name" content="Bits" />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:title"
+      content="Floppinux - An Embedded 🐧Linux on a Single 💾Floppy"
+    />
+    <meta
+      property="og:description"
+      content="Short story why I decided to make my own one floppy distribution. An extensive yet simple tutorial/workshop on how to make embedded Linux distribution under 1.44MB."
+    />
+    <meta
+      property="og:url"
+      content="https://krzysztofjankowski.com/floppinux/floppinux-an-embedded-linux-on-a-single-floppy.html"
+    />
+    <meta property="og:image" content="floppinux-first-boot.jpeg" />
+    <meta
+      property="article:published_time"
+      content="2021-05-22T10:02:53.000Z"
+    />
+    <meta property="article:modified_time" content="2021-06-06T12:19:19.000Z" />
+    <meta property="article:tag" content="GNU/Linux" />
+    <meta property="article:tag" content="Embedded" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Floppinux - An Embedded 🐧Linux on a Single 💾Floppy"
+    />
+    <meta
+      name="twitter:description"
+      content="Short story why I decided to make my own one floppy distribution. An extensive yet simple tutorial/workshop on how to make embedded Linux distribution under 1.44MB."
+    />
+    <meta
+      name="twitter:url"
+      content="https://krzysztofjankowski.com/floppinux/floppinux-an-embedded-linux-on-a-single-floppy.html"
+    />
+    <meta name="twitter:image" content="floppinux-first-boot.jpeg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Krzysztof Krystian Jankowski" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="GNU/Linux, Embedded" />
+    <meta name="twitter:site" content="@w84death" />
+    <meta name="twitter:creator" content="@w84death" />
+    <meta property="og:image:width" content="1600" />
+    <meta property="og:image:height" content="1200" />
+  </head>
+  <body>
+    <article>
+      <header>
+        <h1>FLOPPINUX - An Embedded 🐧Linux on a Single 💾Floppy</h1>
+        <span>May 22, 2021</span>
+        <nav><a href="/">back to home</a></nav>
+      </header>
+
+      <blockquote>
+        I use Linux for more than a 7 years as my main OS. I play with Linux
+        since the first Fedora and Ubuntu came out. I still remember getting
+        those free Live-CD from Canonical. I have now installed it on every
+        computer I have including all Raspberry Pi's and smartphones. I
+        administrate two IBM server that runs Linux. But even with all of that I
+        did not know much of the underlying principles behind it. I decided to
+        change that while also make something fun and useful.
+      </blockquote>
+      <h3 id="preface">Preface</h3>
+      <p>
+        I created an embedded Linux distribution from scratch. It fits on a
+        single floppy diskette. At the time of writing it uses ~1MB of storage.
+        This gives me ~400KB free space to use on any custom software.
+      </p>
+      <p>
+        This distribution can boot on 486DX PC with 24 MB of ram (did not boot
+        with less using QEMU). On an emulator it boots almost instantly. On bare
+        metal modern hardware the only thing that prevent those speeds is the
+        actual speed of a floppy drive. The maximum raw speed is 125KB/s. In
+        reality it is even slower.
+        <br />I did not test on real 486 yet as I do not have one but I saw
+        others done similar things and it took around 1 minute. To be fair most
+        of that time was that data loading from the drive.
+      </p>
+      <figure class="kg-card kg-image-card kg-card-hascaption">
+        <img
+          src="floppinux-an-embedded-linux-on-a-single-floppy/floppinux_eeepc-1.jpg"
+        />
+        <figcaption>
+          Asus Eee PC 701SD running FLOPPINUX - Intel Celeron-M 900MHz with
+          512MB RAM
+        </figcaption>
+      </figure>
+      <p>
+        When I started this project I did a lot of research and to my surprise
+        there was not a single good tutorial. Or I can not find it. There are a
+        lot of instructions how to make some aspects but mostly redundant, old
+        or oversimplified. And when I tried to combine this knowledge I hit many
+        walls. This forced me to do even more research. In the end I learned a
+        lot and manage to meed all my needs.
+      </p>
+      <p>
+        If your interested in making something similar I'm writing this article
+        for you!
+      </p>
+      <h3 id="application">Application</h3>
+      <p>
+        My first application I want to run will be
+        <a href="https://github.com/w84death/floppinux-nomad-diskmag"
+          >Nomad Diskmag</a
+        >. An old-school magazine I'm creating. For a PC I made a nice Python
+        GUI using PyGame. For this embedded project I will change the front-end
+        to the bash script. Articles on both versions are plain .txt files. All
+        I need is to present cover, table of content and then cat body of each
+        file (using less for pages).
+      </p>
+      <p>
+        Before that I need the working distribution that will boot and run that
+        script. Let's create one.
+      </p>
+      <h2 id="goals-for-the-project">Goals for the project</h2>
+      <figure class="kg-card kg-image-card kg-card-hascaption">
+        <img
+          src="https://krzysztofjankowski.com/floppinux/content/images/2021/05/floppies-in-the-sun-1.jpeg"
+        />
+        <figcaption>Colorful translusive floppies!</figcaption>
+      </figure>
+      <h3
+        id="the-obvious-most-important-goal-is-to-fit-everything-ossoftware-on-one-floppy-or-1440kib"
+      >
+        The obvious most important goal is to fit everything (OS+software) on
+        one floppy or 1440KiB
+      </h3>
+      <ul>
+        <li>Latest Linux kernel</li>
+        <li>
+          Tools reduced to those needed to support my embedded application
+        </li>
+        <li>
+          Documentation with easy and understandable steps to reproduce the
+          build
+        </li>
+        <li>As always free and open source</li>
+      </ul>
+      <p>Additional future upgrades:</p>
+      <ul>
+        <li>Ability to mount another floppy to save files</li>
+        <li>Nano text editor (or anything similar)</li>
+      </ul>
+      <h2 id="lets-build-floppinux-distribution">
+        Let's Build FLOPPINUX Distribution
+      </h2>
+      <figure class="kg-card kg-image-card kg-card-hascaption">
+        <img
+          src="https://krzysztofjankowski.com/floppinux/content/images/2021/05/floppinux-fujitsusiemens.jpg"
+        />
+        <figcaption>Gold Master Floppy for FLOPPINUX VERSION 0.1.0</figcaption>
+      </figure>
+      <h3 id="64-bit-systems">64-bit Systems</h3>
+      <p>
+        Compiling 32-bit code on 64-bit system is a little bit tricky. To make
+        it easier I just make everything on my old notebook with 32-bit CPU.
+      </p>
+      <p>
+        You can use VirtualBox with 32bit system.<br /><br /><strong
+          >If you want to use 64-bit host OS
+          <a
+            href="https://krzysztofjankowski.com/floppinux/how-to-build-32-bit-floppinux-on-a-64-bit-os.html"
+            >open my article with needed changes</a
+          >
+          and follow this tutorial.</strong
+        >
+      </p>
+      <h3 id="epub">EPUB</h3>
+      <p>
+        This tutorial/workshop is available in many formats including EPUB. Put
+        it on your favorite eBook reader for better reading experience.
+      </p>
+      <ul>
+        <li>
+          Download:
+          <a href="https://archive.org/details/floppinux-manual/"
+            >https://archive.org/details/floppinux-manual/</a
+          >
+        </li>
+      </ul>
+      <h2 id="working-directory">Working Directory</h2>
+      <p>Create directory where you will keep all the files.</p>
+      <pre><code>mkdir ~/my-linux-distro/
+BASE=~/my-linux-distro/
+cd BASE</code></pre>
+      <h3 id="requirements">Requirements</h3>
+      <p>Install needed software/libs. In Ubuntu 21.04:</p>
+      <pre><code>apt install git flex bison libncurses-dev qemu-system-x86 syslinux</code></pre>
+      <h3 id="kernel">Kernel</h3>
+      <p>
+        I'm using the latest revision. It's a feat of it's own that connects old
+        and new technologies together. At the moment it is Kernel 5.13.0-rc2.
+      </p>
+      <p>Get the sources:</p>
+      <pre><code>git clone --depth=1 https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+cd linux</code></pre>
+      <p>
+        Now that you have them in /linux/ directory lets configure and build our
+        custom kernel. First create tiniest configuration:
+      </p>
+      <pre><code>make tinyconfig</code></pre>
+      <p>Now you need to add additonal config settings on top of it:</p>
+      <pre><code>make menuconfig </code></pre>
+      <p>From menus choose those options:</p>
+      <ul>
+        <li>
+          Processor type and features &gt; Processor family &gt;
+          <strong>486</strong>
+        </li>
+        <li>
+          Device Drivers &gt; Character devices &gt;
+          <strong>Enable TTY</strong>
+        </li>
+        <li>
+          General Setup &gt; Configure standard kernel features (expert users)
+          &gt;<strong> Enable support for printk</strong>
+        </li>
+        <li>
+          General Setup &gt;
+          <strong
+            >Initial RAM filesystem and RAM disk (initramfs/initrd)</strong
+          >
+        </li>
+        <li>
+          Executable file formats &gt;
+          <strong>Kernel support for ELF binaries</strong>
+        </li>
+        <li>
+          Executable file formats &gt;
+          <strong>Kernel support for scripts starting with #!</strong>
+        </li>
+      </ul>
+      <p>
+        Exit configuration (yes, save settings to .config). Now it's time for
+        compiling!
+      </p>
+      <pre><code>make bzImage</code></pre>
+      <p>
+        This will take a while depending on the speed of your CPU. In the end
+        the kernel will be created in
+        <em>arch/x86/boot/bzImage</em>. Move it to our main directory.
+      </p>
+      <pre><code>mv arch/x86/boot/bzImage ../</code></pre>
+      <h3 id="tools">Tools</h3>
+      <p>
+        Without tools kernel will just boot and you will not be able to do
+        anything. One of the most popular lightweight tools are BusyBox. Those
+        replaces (bigger) GNU tools with just enough functionality for embedded
+        needs.
+      </p>
+      <p>
+        Check the latest version at
+        <a href="https://busybox.net/downloads/"
+          >https://busybox.net/downloads/</a
+        >. At the moment it is 1.33.1. Download this file, extract it and change
+        directory:
+      </p>
+      <pre><code>wget https://busybox.net/downloads/busybox-1.33.1.tar.bz2
+tar xjvf busybox-1.33.1.tar.bz2
+cd busybox-1.33.1/</code></pre>
+      <p>As with kernel you need to create starting configuration:</p>
+      <pre><code>make allnoconfig</code></pre>
+      <p>
+        Now the fun part. You need to choose what tools you want. Each menu
+        entry will show how much more KB will be taken if you choose it. So
+        choose it wisely :)
+      </p>
+      <pre><code>make menuconfig</code></pre>
+      <p>I chosed those:</p>
+      <ul>
+        <li>
+          Settings &gt;
+          <strong>Build static binary (no shared libs)</strong>
+        </li>
+        <li>Settings &gt; <strong>Support files &gt; 2GB</strong></li>
+        <li>
+          Coreutils &gt;
+          <strong>cat, du, echo, ls, sleep, uname</strong> (change Operating
+          system name to anything you want)
+        </li>
+        <li>Console Utilities &gt; <strong>clear</strong></li>
+        <li>Editors &gt; <strong>vi</strong></li>
+        <li>
+          Init Utilities &gt;
+          <strong
+            >poweroff, reboot, init, Support reading an inittab file</strong
+          >
+        </li>
+        <li>Linux System Utilities &gt; <strong>mount, umount</strong></li>
+        <li>Miscellaneous Utilities &gt;<strong> less</strong></li>
+        <li>
+          Shells &gt;
+          <strong
+            >ash, Optimize for size instead of speed, Alias support, Help
+            support</strong
+          >
+        </li>
+      </ul>
+      <p>Now exit with save config. Compile time.</p>
+      <pre><code>make
+make install</code></pre>
+      <p>
+        This will create a filesystem with all the files at _install. Move it to
+        our main directory. I like to rename it also.
+      </p>
+      <pre><code>mv _install ../filesystem</code></pre>
+      <h3 id="filesystem">Filesystem</h3>
+      <p>
+        You got kernel and basic tools but the system still needs some
+        additional directory structure.
+      </p>
+      <pre><code>cd ../filesystem
+mkdir -pv {dev,proc,etc/init.d,sys,tmp}
+sudo mknod dev/console c 5 1
+sudo mknod dev/null c 1 3</code></pre>
+      <p>
+        Now create few configuration files. First one is a welcome message that
+        will be shown after booting:
+      </p>
+      <pre><code>cat &gt;&gt; welcome &lt;&lt; EOF
+Some welcome text...
+EOF</code></pre>
+      <p>Inittab file that handles starting, exiting and restarting:</p>
+      <pre><code>cat &gt;&gt; etc/inittab &lt;&lt; EOF
+::sysinit:/etc/init.d/rc
+::askfirst:/bin/sh
+::restart:/sbin/init
+::ctrlaltdel:/sbin/reboot
+::shutdown:/bin/umount -a -r
+EOF</code></pre>
+      <p>And the actual init script:</p>
+      <pre><code>cat &gt;&gt; etc/init.d/rc &lt;&lt; EOF
+#!/bin/sh
+mount -t proc none /proc
+mount -t sysfs none /sys
+clear
+cat welcome
+/bin/sh
+EOF</code></pre>
+      <p>Make init executable and owner of all files to root:</p>
+      <pre><code>chmod +x etc/init.d/rc
+sudo chown -R root:root .</code></pre>
+      <p>Lastly compress this directory into one file:</p>
+      <pre><code>find . | cpio -H newc -o | gzip -9 &gt; ../rootfs.cpio.gz</code></pre>
+      <p>
+        You can test if everything goes as planned by runing QEMU from the base
+        directory:
+      </p>
+      <pre><code>qemu-system-i386 -kernel bzImage -initrd rootfs.cpio.gz</code></pre>
+      <p>Next step is to put this on a floppy!</p>
+      <h3 id="boot-image">Boot Image</h3>
+      <p>
+        Create this Syslinux boot file that will point to your newly created
+        kernel and filesystem:
+      </p>
+      <pre><code>cat &gt;&gt; syslinux.cfg &lt;&lt; EOF
+DEFAULT linux
+LABEL linux
+SAY [ BOOTING FLOPPINUX VERSION 0.1.0 ]
+KERNEL bzImage
+APPEND initrd=rootfs.cpio.gz
+EOF</code></pre>
+      <pre><code>chmod +x syslinux.cfg</code></pre>
+      <p>Create empty floppy image:</p>
+      <pre><code>dd if=/dev/zero of=floppinux.img bs=1k count=1440
+mkdosfs floppinux.img
+syslinux --install floppinux.img</code></pre>
+      <p>Mount it and copy syslinux, kernel and filesystem onto it:</p>
+      <pre><code>sudo mount -o loop floppinux.img /mnt
+sudo cp bzImage /mnt
+sudo cp rootfs.cpio.gz /mnt
+sudo cp syslinux.cfg /mnt
+sudo umount /mnt</code></pre>
+      <p>Done!</p>
+      <p>
+        You have your own distribution image floppinux.img ready to burn onto a
+        floppy and boot on real hardware!
+      </p>
+      <h3 id="burning">Burning</h3>
+      <p>If you have internal floppy drive:</p>
+      <pre><code>sudo dd if=floppinux.img of=/dev/fd0</code></pre>
+      <p>
+        I was having problems burning image to the external floppy drive on
+        Linux so I used
+        <a href="http://freeextractor.sourceforge.net/diskwrite/">diskwrite</a>
+        tool on Windows. Then I found the problem. If you also have USB drive it
+        will show as /dev/hd*. On my computer:
+      </p>
+      <pre><code>sudo dd if=floppinux.img of=/dev/sdb</code></pre>
+      <p>It took less than 3 minutes.</p>
+      <blockquote>
+        1474560 bytes (1,5 MB, 1,4 MiB) copied, 164,476 s, 9,0 kB/s
+      </blockquote>
+      <h3 id="first-boot">First boot!</h3>
+      <figure class="kg-card kg-embed-card kg-card-hascaption">
+        <iframe
+          src="https://player.vimeo.com/video/553653700?app_id=122963"
+          width="640"
+          height="360"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+          title="Booting FLOPPINUX - One Floppy OS 1.44MB"
+        ></iframe>
+        <figcaption>
+          Booting FLOPPINUX on a Fujitsu Siemens P1610 - Intel Core Solo 1.2 GHz
+          with 1 GB RAM
+        </figcaption>
+      </figure>
+      <h3 id="summary">Summary</h3>
+      <p>
+        Full size: 1440KiB / <strong>1.44MiB</strong><br />Kernel size:
+        632KiB<br />Tools: 552KiB<br />Free space left (du -h):
+        <strong>272KiB</strong>
+      </p>
+      <h2 id="downloads">Downloads</h2>
+      <p>If you don't want to bother with all of this just grab my files:</p>
+      <h3 id="version-010">Version 0.1.0</h3>
+      <p>Bare-bones system ready for customization.</p>
+      <ul>
+        <li>
+          Kernel: 🐧
+          <a href="downloads/0.1.0/bzImage">bzImage</a>
+        </li>
+        <li>
+          Filesystem with tools: 🧰
+          <a href="downloads/0.1.0/rootfs.cpio.gz">rootfs.cpio.gz</a>
+        </li>
+        <li>
+          Bootloader:
+          <a href="downloads/0.1.0/syslinux.cfg">syslinux.cfg</a>
+        </li>
+        <li>
+          Configs
+          <a href="downloads/0.2.0/linux/.config">Linux</a>
+          /
+          <a href="downloads/0.2.0/busybox/.config">Busybox</a>
+          (slightly updated vs publication)
+        </li>
+        <li>
+          Final <strong>floppy image</strong>: 💾
+          <a href="downloads/0.1.0/floppinux_0.1.0.img">floppinux.img</a>
+          &lt;– You want this file
+        </li>
+        <li>
+          Mirror: 💾
+          <a href="https://archive.org/details/floppinux_0.1.0"
+            >floppinux_0.1.0</a
+          >
+        </li>
+      </ul>
+      <h3 id="run">Run</h3>
+      <pre><code>qemu-system-i386 -fda floppinux.img</code></pre>
+      <h3 id="version-021">Version 0.2.1</h3>
+      <figure class="kg-card kg-image-card kg-card-hascaption">
+        <img
+          src="floppinux-an-embedded-linux-on-a-single-floppy/floppinux-0.2.0-bootimg.jpeg"
+        />
+        <figcaption>FLOPPINUX Version 0.2.0 New Logo and boot image</figcaption>
+      </figure>
+      <p>
+        New Logo. New boot screen and overall text interface. Simple interactive
+        shell script for reading text files. KIOSK mode.
+      </p>
+      <ul>
+        <li>
+          Kernel: 🐧
+          <a href="downloads/0.2.1/bzImage">bzImage</a>
+        </li>
+        <li>
+          Filesystem with tools: 🧰
+          <a href="downloads/0.2.1/rootfs.cpio.gz">rootfs.cpio.gz</a>
+        </li>
+        <li>
+          Bootloader:
+          <a href="downloads/0.2.1/syslinux.cfg">syslinux.cfg</a>
+        </li>
+        <li>
+          Configs
+          <a href="downloads/0.2.1/linux/.config">Linux</a>
+          /
+          <a href="downloads/0.2.1/busybox/.config">Busybox</a>
+        </li>
+        <li>
+          Final <strong>floppy image</strong>: 💾
+          <a href="downloads/0.2.1/floppinux_0.2.1.img">floppinux_0.2.1.img</a>
+          &lt;– You want this file
+        </li>
+        <li>
+          (optional) GitHub repository
+          <a href="https://github.com/w84death/floppinux"
+            >https://github.com/w84death/floppinux</a
+          >
+        </li>
+        <li>
+          Mirror:
+          <a href="https://archive.org/details/floppinux_0.2.1"
+            >https://archive.org/details/floppinux_0.2.1</a
+          >
+        </li>
+      </ul>
+      <h3 id="adding-embedded-application">Adding Embedded Application</h3>
+      <p>
+        Now as we have our embedded distribution let's make some use of it. It
+        boots very fast (after floppy loads) and can easily run any compiled
+        application. But I want to have some fun with scripts. So I will put .sh
+        scripts instead of compiled software. The process then is the same.
+      </p>
+      <ul>
+        <li>Update files in the /filesystem/ directory</li>
+        <li>compress rootfs file</li>
+        <li>mount distro image</li>
+        <li>replace rootfs file</li>
+        <li>umonut image</li>
+        <li>(optionaly) burn new iso to the floppy</li>
+        <li>boot to a new system with your updated software</li>
+      </ul>
+      <h3 id="kiosk-mode">KIOSK Mode</h3>
+      <p>
+        FLOPPINUX runs whatever application is in
+        <strong>/home/main</strong>. Change it to run your software instead.
+      </p>
+      <h3 id="resources">Resources</h3>
+      <ul>
+        <li>
+          GitHub repository
+          <a href="https://github.com/w84death/floppinux"
+            >https://github.com/w84death/floppinux</a
+          >
+        </li>
+        <li>
+          <a href="https://www.insentricity.com/a.cl/283"
+            >https://www.insentricity.com/a.cl/283</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://backreference.org/2010/07/04/modifying-initrdinitramfs-files/"
+            >https://backreference.org/2010/07/04/modifying-initrdinitramfs-files/</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://www.centennialsoftwaresolutions.com/post/build-the-linux-kernel-and-busybox-and-run-them-on-qemu"
+            >https://www.centennialsoftwaresolutions.com/post/build-the-linux-kernel-and-busybox-and-run-them-on-qemu</a
+          >
+        </li>
+        <li>
+          <a
+            href="http://web.archive.org/web/20120531230823/http://blog.nasirabed.com/2012/01/minimal-linux-busybox.html"
+            >http://blog.nasirabed.com/2012/01/minimal-linux-busybox.html</a
+          >
+        </li>
+        <li>
+          <a href="https://bootlin.com/doc/legacy/elfs/embedded_lfs.pdf"
+            >https://bootlin.com/doc/legacy/elfs/embedded_lfs.pdf</a
+          >
+        </li>
+      </ul>
+      <h3 id="discussion">Discussion</h3>
+      <ul>
+        <li>
+          Hacker News
+          <a href="https://news.ycombinator.com/item?id=27247612"
+            >https://news.ycombinator.com/item?id=27247612</a
+          >
+        </li>
+        <li>
+          HackADay
+          <a
+            href="https://hackaday.com/2021/05/24/running-modern-linux-from-a-single-floppy-disk/"
+            >https://hackaday.com/2021/05/24/running-modern-linux-from-a-single-floppy-disk/</a
+          >
+        </li>
+      </ul>
+      <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"
+        ><img
+          alt="Creative Commons License"
+          style="border-width: 0"
+          src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a
+      ><br />This work is licensed under a
+      <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"
+        >Creative Commons Attribution 4.0 International License</a
+      >.
+    </article>
+
+    <footer>
+      <hr />
+      <pre><code>
+
+                               _________________
+                              /_/ FLOPPINUX  /_/;
+                             / ' boot disk  ' //
+                            / '------------' //
+                           /   .--------.   //
+                          /   /         /  //
+                         .___/_________/__//   1440KiB
+                         '===\_________\=='   3.5&quot;
+
+
+                     Now go and make something fun with it!
+
+
+
+      </code></pre>
+      <nav><a href="/">back to home</a></nav>
+    </footer>
+  </body>
+</html>

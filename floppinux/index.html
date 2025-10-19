@@ -1,109 +1,202 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <title>Floppinux - An Embedded 🐧Linux on a Single 💾Floppy</title>
-    <meta name="HandheldFriendly" content="True"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="icon" href="favicon.png" type="image/png"/>
+    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="stylesheet" href="style.css" />
+    <meta property="og:site_name" content="Bits" />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:title"
+      content="Floppinux - An Embedded 🐧Linux on a Single 💾Floppy"
+    />
+    <meta
+      property="og:description"
+      content="Short story why I decided to make my own one floppy distribution. An extensive yet simple tutorial/workshop on how to make embedded Linux distribution under 1.44MB."
+    />
+    <meta
+      property="og:url"
+      content="https://krzysztofjankowski.com/floppinux/"
+    />
+    <meta property="og:image" content="floppinux-first-boot.jpeg" />
+    <meta
+      property="article:published_time"
+      content="2021-05-22T10:02:53.000Z"
+    />
+    <meta property="article:modified_time" content="2021-06-06T12:19:19.000Z" />
+    <meta property="article:tag" content="GNU/Linux" />
+    <meta property="article:tag" content="Embedded" />
 
-    <meta property="og:site_name" content="Bits"/>
-    <meta property="og:type" content="article"/>
-    <meta property="og:title" content="Floppinux - An Embedded 🐧Linux on a Single 💾Floppy"/>
-    <meta property="og:description" content="Short story why I decided to make my own one floppy distribution. An extensive yet simple tutorial/workshop on how to make embedded Linux distribution under 1.44MB."/>
-    <meta property="og:url" content="https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/"/>
-    <meta property="og:image" content="floppinux-first-boot.jpeg"/>
-    <meta property="article:published_time" content="2021-05-22T10:02:53.000Z"/>
-    <meta property="article:modified_time" content="2021-06-06T12:19:19.000Z"/>
-    <meta property="article:tag" content="GNU/Linux"/>
-    <meta property="article:tag" content="Embedded"/>
-
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:title" content="Floppinux - An Embedded 🐧Linux on a Single 💾Floppy"/>
-    <meta name="twitter:description" content="Short story why I decided to make my own one floppy distribution. An extensive yet simple tutorial/workshop on how to make embedded Linux distribution under 1.44MB."/>
-    <meta name="twitter:url" content="https://bits.p1x.in/floppinux-an-embedded-linux-on-a-single-floppy/"/>
-    <meta name="twitter:image" content="floppinux-first-boot.jpeg"/>
-    <meta name="twitter:label1" content="Written by"/>
-    <meta name="twitter:data1" content="Krzysztof Krystian Jankowski"/>
-    <meta name="twitter:label2" content="Filed under"/>
-    <meta name="twitter:data2" content="GNU/Linux, Embedded"/>
-    <meta name="twitter:site" content="@w84death"/>
-    <meta name="twitter:creator" content="@w84death"/>
-    <meta property="og:image:width" content="1600"/>
-    <meta property="og:image:height" content="1200"/>
-
-
-    <style>
-    body {
-        font-family: monospace;
-        max-width: 640px;
-        padding-left: 2%;
-        padding-right: 3%;
-        margin: 0 auto;
-        background: #F5F5F0;
-        color: #444;
-    }
-    h1,h2,h3,h4,h5,h6 { color: #222;}
-    img {max-width:640px;}
-    </style>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Floppinux - An Embedded 🐧Linux on a Single 💾Floppy"
+    />
+    <meta
+      name="twitter:description"
+      content="Short story why I decided to make my own one floppy distribution. An extensive yet simple tutorial/workshop on how to make embedded Linux distribution under 1.44MB."
+    />
+    <meta
+      name="twitter:url"
+      content="https://krzysztofjankowski.com/floppinux/"
+    />
+    <meta name="twitter:image" content="floppinux-first-boot.jpeg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Krzysztof Krystian Jankowski" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="GNU/Linux, Embedded" />
+    <meta name="twitter:site" content="@w84death" />
+    <meta name="twitter:creator" content="@w84death" />
+    <meta property="og:image:width" content="1600" />
+    <meta property="og:image:height" content="1200" />
   </head>
-<body>
+  <body>
     <header>
-        <h1>FLOPPINUX - An Embedded 🐧Linux on a Single 💾Floppy</h1>
+      <h1>FLOPPINUX - An Embedded 🐧Linux on a Single 💾Floppy</h1>
     </header>
     <main>
-        <blockquote>Project goal is simple: create latest Linux OS that fits on one floppy and boots right into the embedded application.</blockquote>
-        <p>This is the meta page that lists all the information about the project.</p><h2 id="articles">Articles</h2>
-        <ul>
-            <li><a href="floppinux-an-embedded-linux-on-a-single-floppy.html">Article and tutorial on creating FLOPPINUX from scratch</a></li>
-            <li><a href="sample-application.html">Creating sample application for FLOPPINUX</a></li>
-            <li><a href="how-to-build-32-bit-floppinux-on-a-64-bit-os.html">How To Build 32-bit FLOPPINUX on a 64-bit Operating System</a></li>
-            <li><a href="floppinux-in-the-wild.html">Community showcase</a></li>
-        </ul>
+      <blockquote>
+        Project goal is simple: create latest Linux OS that fits on one floppy
+        and boots right into the embedded application.
+      </blockquote>
+      <p>
+        This is the meta page that lists all the information about the project.
+      </p>
+      <h2 id="articles">Articles</h2>
+      <ul>
+        <li>
+          <a href="floppinux-an-embedded-linux-on-a-single-floppy.html"
+            >Article and tutorial on creating FLOPPINUX from scratch</a
+          >
+        </li>
+        <li>
+          <a href="sample-application.html"
+            >Creating sample application for FLOPPINUX</a
+          >
+        </li>
+        <li>
+          <a href="how-to-build-32-bit-floppinux-on-a-64-bit-os.html"
+            >How To Build 32-bit FLOPPINUX on a 64-bit Operating System</a
+          >
+        </li>
+        <li>
+          <a href="floppinux-in-the-wild.html"
+            >FLOPPINUX in the Wild - Community showcase</a
+          >
+        </li>
+        <li>
+          <a href="floppinux-2025-refresh.html">FLOPPINUX 2025.10 Refresh</a>
+          <em>NEW</em>
+        </li>
+      </ul>
 
-        <h2 id="resources">Resources</h2>
-        <ul>
-            <li>Sources <a href="https://web.archive.org/web/20230908155940/https://github.com/w84death/floppinux">https://github.com/w84death/floppinux</a></li>
-            <li>Instruction in PDF <a href="content/manuals/floppinux-manual-0.1.0.pdf">floppinux-manual-0.1.0.pdf</a></li>
-            <li>Instruction in ePUB/PDF (mirror) <a href="https://web.archive.org/web/20230908155940/https://archive.org/details/floppinux-manual">https://archive.org/details/floppinux-manual</a></li>
-            <li>Floppy Image backup <a href="https://web.archive.org/web/20230908155940/https://archive.org/details/floppinux_0.2.1">https://archive.org/details/floppinux_0.2.1</a></li>
-        </ul>
+      <h2 id="resources">Resources</h2>
+      <ul>
+        <li>
+          Sources
+          <a href="https://github.com/w84death/floppinux"
+            >https://github.com/w84death/floppinux</a
+          >
+        </li>
+        <li>
+          Instruction in PDF
+          <a href="content/manuals/floppinux-manual-0.1.0.pdf"
+            >floppinux-manual-0.1.0.pdf</a
+          >
+        </li>
+        <li>
+          Instruction in ePUB/PDF (mirror)
+          <a href="https://archive.org/details/floppinux-manual"
+            >https://archive.org/details/floppinux-manual</a
+          >
+        </li>
+        <li>
+          Floppy Image backup
+          <a href="https://archive.org/details/floppinux_0.2.1"
+            >https://archive.org/details/floppinux_0.2.1</a
+          >
+        </li>
+      </ul>
 
-        <h2 id="discussion">Discussion</h2>
-        <ul>
-            <li>Hacker News <a href="https://web.archive.org/web/20230908155940/https://news.ycombinator.com/item?id=27247612">https://news.ycombinator.com/item?id=27247612</a></li>
-            <li>HackADay <a href="https://web.archive.org/web/20230908155940/https://hackaday.com/2021/05/24/running-modern-linux-from-a-single-floppy-disk/">https://hackaday.com/2021/05/24/running-modern-linux-from-a-single-floppy-disk/</a></li>
-            <li>hackster.io <a href="https://web.archive.org/web/20230908155940/https://www.hackster.io/news/floppinux-places-a-compact-form-of-linux-on-a-floppy-disk-3f5fdab432b0">https://www.hackster.io/news/floppinux-places-a-compact-form-of-linux-on-a-floppy-disk-3f5fdab432b0</a></li>
-            <li>Adafruit <a href="https://web.archive.org/web/20230908155940/https://blog.adafruit.com/2021/05/27/floppinux-an-embedded-linux-on-a-single-floppy-linux-w84death/">https://blog.adafruit.com/2021/05/27/floppinux-an-embedded-linux-on-a-single-floppy-linux-w84death/</a></li>
-            <li>Mastodon <a href="https://web.archive.org/web/20230908155940/https://mastodon.social/web/statuses/106257685960283225">https://mastodon.social/web/statuses/106257685960283225</a></li>
-            <li>Fork by clark_electric repo <a href="https://web.archive.org/web/20230908155940/https://gitlab.com/clark_electric/floppinux">https://gitlab.com/clark_electric/floppinux</a> and a video <a href="https://web.archive.org/web/20230908155940/https://www.youtube.com/watch?v=m5bjI7HoQ50">https://www.youtube.com/watch?v=m5bjI7HoQ50</a></li>
-        </ul>
+      <h2 id="discussion">Discussion</h2>
+      <ul>
+        <li>
+          Hacker News
+          <a href="https://news.ycombinator.com/item?id=27247612"
+            >https://news.ycombinator.com/item?id=27247612</a
+          >
+        </li>
+        <li>
+          HackADay
+          <a
+            href="https://hackaday.com/2021/05/24/running-modern-linux-from-a-single-floppy-disk/"
+            >https://hackaday.com/2021/05/24/running-modern-linux-from-a-single-floppy-disk/</a
+          >
+        </li>
+        <li>
+          hackster.io
+          <a
+            href="https://www.hackster.io/news/floppinux-places-a-compact-form-of-linux-on-a-floppy-disk-3f5fdab432b0"
+            >https://www.hackster.io/news/floppinux-places-a-compact-form-of-linux-on-a-floppy-disk-3f5fdab432b0</a
+          >
+        </li>
+        <li>
+          Adafruit
+          <a
+            href="https://blog.adafruit.com/2021/05/27/floppinux-an-embedded-linux-on-a-single-floppy-linux-w84death/"
+            >https://blog.adafruit.com/2021/05/27/floppinux-an-embedded-linux-on-a-single-floppy-linux-w84death/</a
+          >
+        </li>
+        <li>
+          Mastodon
+          <a href="https://mastodon.social/web/statuses/106257685960283225"
+            >https://mastodon.social/web/statuses/106257685960283225</a
+          >
+        </li>
+        <li>
+          Fork by clark_electric repo
+          <a href="https://gitlab.com/clark_electric/floppinux"
+            >https://gitlab.com/clark_electric/floppinux</a
+          >
+          and a video
+          <a href="https://www.youtube.com/watch?v=m5bjI7HoQ50"
+            >https://www.youtube.com/watch?v=m5bjI7HoQ50</a
+          >
+        </li>
+      </ul>
 
-        <h2 id="articles">Articles</h2>
-        <ul>
-            <li>https://pappp.net/?p=45560</li>
-        </ul>
-        <hr>
+      <h2 id="articles">Articles</h2>
+      <ul>
+        <li>
+          <a href="https://pappp.net/?p=45560">https://pappp.net/?p=45560</a>
+        </li>
+      </ul>
+      <footer>
+        <hr />
         <pre><code>
 
-                                    _________________
+                                 _________________
                                 /_/ FLOPPINUX  /_/;
-                                / ' boot disk  ' //
-                                / '------------' //
-                                /   .--------.   //
+                               / ' boot disk  ' //
+                              / '------------' //
+                             /   .--------.   //
                             /   /         /  //
-                            .___/_________/__//   1440KiB
-                            '===\_________\=='   3.5&quot;
+                           .___/_________/__//   1440KiB
+                           '===\_________\=='   3.5&quot;
 
 
-                        Now go and make something fun with it!
+                       Now go and make something fun with it!
 
 
 
         </code></pre>
+      </footer>
     </main>
-</body>
+  </body>
 </html>
