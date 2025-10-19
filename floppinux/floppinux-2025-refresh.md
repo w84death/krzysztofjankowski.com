@@ -1,8 +1,8 @@
 ## Intro
 
-After four years I still find people reference to my oryginal work.
-Because of that I decided to revisit FLOPPINUX in 2025 and make a new
-tutorial.
+FLOPPINUX was released in 2021. After four years I still find people found it helpful.
+Because of that I decided to revisit FLOPPINUX in 2025 and make an updated tutorial.
+This brings banch of updates like latest kernel, USB support and persistent storage.
 
 This is a rewrite of the [2021 article](floppinux-an-embedded-linux-on-a-single-floppy.html).
 
@@ -13,16 +13,18 @@ This article covers version 0.3.0 that adds few new features:
 - USB support
 - Floppy disk support (FAT12 MSDOS)
 - Persistend storage on boot disk
-- 196 KB for personal files
 - Host OS is 64-bit ArchLinux (Omarchy)
 - Minor bugfixes
+
+## Roadplan
+Now that everything works I need to try to shring down everything. At the momemtn there is only 100KB left for user data.
 
 ## EPUB
 
 This tutorial/workshop is available in many formats including EPUB. Put it on your favorite eBook reader for better reading experience.
 
 - EPUB: content/manuals/floppinux-manual-0.3.0.epub
-- Mirror: https://archive.org/details/floppinux-manual/
+- Mirror: https://archive.org/details/floppinux-manual-0.3.0/
 
 ### Latest 486 Linux Kernel
 
@@ -89,55 +91,6 @@ First create tiniest configuration:
 make ARCH=x86 tinyconfig
 ```
 
-```
-linux linux-6.14.y ❯ make ARCH=x86 tinyconfig
-  HOSTCC  scripts/basic/fixdep
-  HOSTCC  scripts/kconfig/conf.o
-  HOSTCC  scripts/kconfig/confdata.o
-  HOSTCC  scripts/kconfig/expr.o
-  LEX     scripts/kconfig/lexer.lex.c
-  YACC    scripts/kconfig/parser.tab.[ch]
-  HOSTCC  scripts/kconfig/lexer.lex.o
-  HOSTCC  scripts/kconfig/menu.o
-  HOSTCC  scripts/kconfig/parser.tab.o
-  HOSTCC  scripts/kconfig/preprocess.o
-  HOSTCC  scripts/kconfig/symbol.o
-  HOSTCC  scripts/kconfig/util.o
-  HOSTLD  scripts/kconfig/conf
-#
-# configuration written to .config
-#
-Using .config as base
-Merging ./kernel/configs/tiny.config
-Value of CONFIG_CC_OPTIMIZE_FOR_SIZE is redefined by fragment ./kernel/configs/tiny.config:
-Previous value: # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
-New value: CONFIG_CC_OPTIMIZE_FOR_SIZE=y
-
-Value of CONFIG_KERNEL_XZ is redefined by fragment ./kernel/configs/tiny.config:
-Previous value: # CONFIG_KERNEL_XZ is not set
-New value: CONFIG_KERNEL_XZ=y
-
-Value of CONFIG_SLUB_TINY is redefined by fragment ./kernel/configs/tiny.config:
-Previous value: # CONFIG_SLUB_TINY is not set
-New value: CONFIG_SLUB_TINY=y
-
-Merging ./arch/x86/configs/tiny.config
-Value of CONFIG_NOHIGHMEM is redefined by fragment ./arch/x86/configs/tiny.config:
-Previous value: # CONFIG_NOHIGHMEM is not set
-New value: CONFIG_NOHIGHMEM=y
-
-Value of CONFIG_UNWINDER_GUESS is redefined by fragment ./arch/x86/configs/tiny.config:
-Previous value: # CONFIG_UNWINDER_GUESS is not set
-New value: CONFIG_UNWINDER_GUESS=y
-
-#
-# merged configuration written to .config (needs make)
-#
-#
-# configuration written to .config
-#
-```
-
 Now you need to add additonal config settings on top of it:
 
 ```
@@ -194,26 +147,8 @@ This will take a while depending on the speed of your CPU. In the end the kernel
 
 ```
 
-...
+(...)
 
-CC      arch/x86/boot/compressed/string.o
-CC      arch/x86/boot/video.o
-CC      arch/x86/boot/compressed/error.o
-OBJCOPY arch/x86/boot/compressed/vmlinux.bin
-CC      arch/x86/boot/video-mode.o
-HOSTCC  arch/x86/boot/compressed/mkpiggy
-CC      arch/x86/boot/version.o
-CC      arch/x86/boot/compressed/cpuflags.o
-CC      arch/x86/boot/video-vga.o
-CC      arch/x86/boot/compressed/misc.o
-CC      arch/x86/boot/video-vesa.o
-CC      arch/x86/boot/video-bios.o
-HOSTCC  arch/x86/boot/tools/build
-CPUSTR  arch/x86/boot/cpustr.h
-XZKERN  arch/x86/boot/compressed/vmlinux.bin.xz
-CC      arch/x86/boot/cpu.o
-MKPIGGY arch/x86/boot/compressed/piggy.S
-AS      arch/x86/boot/compressed/piggy.o
 LD      arch/x86/boot/compressed/vmlinux
 ZOFFSET arch/x86/boot/zoffset.h
 OBJCOPY arch/x86/boot/vmlinux.bin
@@ -496,12 +431,21 @@ $ sudo dd if=floppinux.img of=/dev/sdb bs=512 conv=notrunc,sync,fsync oflag=dire
 1474560 bytes (1.5 MB, 1.4 MiB) copied, 312.002 s, 4.7 kB/s
 ```
 
+After 5min I got freshly burnd floppy.
+
 ## Summary
 
 ![Gold Master Floppy](images/gold-master-0.3.0.jpg)
-Linux Kernel: 6.14.11
-Busybox: 1.36.1
-Full size: 1440KiB / 1.44MiB
-Kernel size: 1000KiB (bzImage)
-Tools: 179KiB (rootfs.cpio.gz)
-Free space left (df -h): ??? KiB
+
+- FLOPPINUX: 0.3.0
+- Linux Kernel: 6.14.11
+- Busybox: 1.36.1
+- Image size: 1440KiB / 1.44MiB
+- Kernel size: 1020KiB (bzImage)
+- Tools: 149KiB (rootfs.cpio.gz)
+- Free space left (df -h): 105KiB
+
+
+## Download
+
+- [FLOPPINUX Floppy Image 1.44MB](download/0.3.0/floppinux.img)
