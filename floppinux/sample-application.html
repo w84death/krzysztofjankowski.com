@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="stylesheet" href="style.css" />
+    <title>How To Build 32-bit FLOPPINUX on a 64-bit Operating System</title>
+  </head>
+  <body>
+    <article>
+      <header>
+        <h1>Creating Sample Application on FLOPPINUX</h1>
+        <span>May 25, 2021</span>
+        <nav><a href="/floppinux/">back to home</a></nav>
+      </header>
+      <blockquote>
+        I created FLOPPINUX distribution for running one application in a KIOSK
+        mode. The user should be unable to close the main application nor run
+        any other software. I will show how I managed to do this using just
+        shell scripts.
+      </blockquote>
+      <h2 id="my-app">My App</h2>
+      <p>
+        I'm working on an old-school diskmag software. In the old days, we get
+        those nice diskmags as interactive and animated magazines with music.
+        I'm doing such a thing in Python for Raspberry Pi. I wrote all the
+        articles in plain text files. That means I could take them and put them
+        on the floppy with a simplified reader. I will not have music and
+        animations, but the standalone, bootable character will make it even
+        more extraordinary. And both versions can live together, sharing just
+        the articles.
+      </p>
+      <p>
+        Here I write how I made this low-level version using just shell scripts.
+      </p>
+      <img src="content/images/signal-2021-05-23-162504_004.jpeg" />
+      <h3 id="starting-point">Starting Point</h3>
+      <p>
+        Every application needs a starting point. I decided that in my case, it
+        will be /home/main script.
+      </p>
+      <blockquote>
+        <em>#!/bin/sh</em><br />clear<br />./home/diskmag<br />cat
+        /home/goodbye<br />EOF
+      </blockquote>
+      <p>
+        If the user chooses to exit, the script shows exit messages and quits.
+      </p>
+      <h3 id="security-by-obscurity">Security by Obscurity</h3>
+      <p>
+        I included only the needed commands like cat, echo, less, etc.  There is
+        just not so much to run. The filesystem is unpacked and stored in memory
+        - after restarting, it resets to its initial state. Changing files is
+        also impossible.
+      </p>
+      <p>
+        The last thing is to escape application. For this, I changed the second
+        line in the <em>/etc/inittab</em> file:
+      </p>
+      <pre><code>::askfirst:/bin/sh /home/main</code></pre>
+      <p>And last line in /etc/init.d/rc to:</p>
+      <pre><code>/bin/sh /home/main</code></pre>
+      <h3 id="implementation">Implementation</h3>
+      <p>My application - Nomad Diskmag - needs to do three things:</p>
+      <ul>
+        <li>show cover</li>
+        <li>shows table of contents</li>
+        <li>shows selected article to the user (pagination)</li>
+      </ul>
+      <p>I did this using one be one script. Let's recreate it step by step.</p>
+      <p>Create /home/diskmag:</p>
+      <pre><code>#!/bin/sh
+# NOMAD DISKMAG
+# FLOPPINUX EDITION SCRIPT
+#</code></pre>
+      <p>First it needs to show a cover:</p>
+      <pre><code># COVER
+cat /home/cover
+read -p "_______PRESS_ENTER" input</code></pre>
+      <p>
+        It reads input to stop the script until the user enters anything. I fill
+        the cover file with ASCII art and things like magazine title.
+      </p>
+      <p>Now the important part - the main loop:</p>
+      <pre><code>while true; do
+clear
+cat /home/toc
+read -p "_______CHOOSE:" doit
+clear</code></pre>
+      <p>
+        It will run as long as the user chooses "0" to exit. Any wrong answer
+        restarts the loop. Script clears the screen and shows the content of the
+        <em>/home/toc</em> file:
+      </p>
+      <pre><code>NOMAD_DISKMAG_#0
+TABLE_OF_CONTENT
+&lt;ASCII ART&gt;
+_______[1]_INTRO
+_______[2]_WHY_PI
+_______[3]_PERFECT_EDITOR
+_______[4]_FLOPPINUX
+
+_______[0]_EXIT_______
+HINT:(press q to go back from reader)</code></pre>
+      <p>Next in the code you need interpret user inputs:</p>
+      <pre><code>case $doit in
+   0) exit ;;
+   c) cat /home/cover ;;
+   1) cat /home/txt/intro.txt | less ;;
+   2) cat /home/txt/why-pi.txt | less ;;
+   3) cat /home/txt/perfect-editor.txt | less ;;
+   4) cat /home/txt/floppinux.txt | less ;;
+   *) clear ;;
+esac</code></pre>
+      <p>And close the main loop:</p>
+      <pre><code>done</code></pre>
+      <p>
+        The case statement is self-explanatory. To show the article, I chose the
+        most straightforward way - to pipe it to the less command. This way user
+        can scroll/page the text or go to the start/end.
+      </p>
+      <h3 id="downloads">Downloads</h3>
+      <p>
+        All the files are at in the
+        <a
+          href="https://github.com/w84death/floppinux/tree/main/filesystem/home"
+          >https://github.com/w84death/floppinux/</a
+        >
+        repository.
+      </p>
+      <h2 id="summary">Summary</h2>
+      <p>
+        As you see, it is trivial to make a simple embedded application. It does
+        not do much, but you can quickly expand it.
+      </p>
+    </article>
+
+    <footer>
+      <hr />
+      <pre>
+
+                               _________________
+                              /_/ FLOPPINUX  /_/;
+                             / ' boot disk  ' //
+                            / '------------' //
+                           /   .--------.   //
+                          /   /         /  //
+                         .___/_________/__//   1440KiB
+                         '===\_________\=='   3.5&quot;
+
+
+                     Now go and make something fun with it!
+
+
+
+  </pre
+      >
+      <nav><a href="/floppinux/">back to home</a></nav>
+    </footer>
+  </body>
+</html>
