@@ -151,9 +151,12 @@ From menus choose those options:
 - Processor type and features > x86 CPU resources control support
 - Processor type and features > Processor family > 486SX
 - Enable the block layer
-- Device Drivers >  Block devices >
+- Device Drivers > Block devices
+- Device Drivers > SCSI device support > SCSI disk support
 - Device Drivers > Character devices > Enable TTY
-- Device Drivers > USB support
+- Device Drivers > USB support > Support for Host-side USB
+- Device Drivers > USB support > EHCI HCD (USB 2.0)
+- Device Drivers > USB support > EHCI HCD (USB 1.1), USB Mass Storage support
 - General Setup > Default hostname (change to your name, e.g. floppinux)
 - General Setup > Configure standard kernel features (expert users) > Enable support for printk
 - General Setup > Initial RAM filesystem and RAM disk (initramfs/initrd)
@@ -266,14 +269,11 @@ I chosed those:
 
 - Settings > Build static binary (no shared libs)
 - Settings > Support files > 2GB
-- Coreutils > cat, cp, du, df, date, echo, ls, mv, rm, sleep, sync, uname (change Operating system name to anything you want, e.g. FLOPPINUX)
+- Coreutils > cat, cp, df,  echo, ls, mv, rm, sleep, sync, uname (change Operating system name to anything you want, e.g. FLOPPINUX)
 - Console Utilities > clear
-- Finding Utilities > grep
 - Editors > vi
-- Init Utilities > poweroff, reboot, init, Support reading an inittab file
-- Linux System Utilities > mount, umount
-- Miscellaneous Utilities > less, beep
-- Process Utilities > powertop, powertop, ps, kill, reference, top
+- Init Utilities > init, Support reading an inittab file
+- Linux System Utilities > mdev, mount (just -o flag, rest off), umount
 - Shells > Choose alias as (ash), ash, Optimize for size instead of speed, Alias support, Help support
 
 Now exit with save config.
@@ -298,11 +298,11 @@ make ARCH=x86 -j$(nproc) && make ARCH=x86 install
 
 Check
 ```
-file busybox
+file _install/bin/busybox
 ```
 
 ```
-$ file busybox
+$ file _install/bin/busybox
 busybox: ELF 32-bit LSB pie executable, Intel i386, version 1 (SYSV), static-pie linked, stripped
 ```
 
@@ -378,15 +378,14 @@ cat >> etc/init.d/rc << EOF
 #!/bin/sh
 mount -t proc none /proc
 mount -t sysfs none /sys
+mdev -s
 ln -s /proc/mounts /etc/mtab
 mkdir -p /mnt /home
 mount -t msdos -o rw /dev/fd0 /mnt
 mkdir -p /mnt/data
 mount --bind /mnt/data /home
-clear
-cat welcome
 cd /home
-exec /bin/sh
+/bin/sh
 EOF
 ```
 
@@ -394,7 +393,6 @@ Make init executable and owner of all files to root:
 
 ```
 chmod +x etc/init.d/rc
-sudo mknod dev/fd0 b 2 0
 sudo chown -R root:root .
 ```
 
@@ -432,7 +430,7 @@ LABEL floppinux
 SAY [ BOOTING FLOPPINUX VERSION 0.3.0 ]
 KERNEL bzImage
 INITRD rootfs.cpio.gz
-APPEND root=/dev/ram rdinit=/etc/init.d/rc console=tty0
+APPEND root=/dev/ram rdinit=/etc/init.d/rc console=tty0 tsc=unstable
 EOF
 ```
 
@@ -459,6 +457,10 @@ Mount it and copy syslinux, kernel and filesystem onto it:
 ```
 sudo mount -o loop floppinux.img /mnt
 sudo mkdir /mnt/data
+cat >> hello.txt << EOF
+Hello, FLOPPINUX user!
+EOF
+sudo cp hello.txt /mnt/data/
 sudo cp bzImage /mnt
 sudo cp rootfs.cpio.gz /mnt
 sudo cp syslinux.cfg /mnt
@@ -476,3 +478,30 @@ You have your own distribution image floppinux.img ready to burn onto a floppy a
 
 
 ## Floppy Disk
+
+
+### <!> Important <!>
+
+Change XXX to floppy disk name. In my case it is **sdb**.
+
+```
+sudo dd if=floppinux.img of=/dev/XXX bs=512 conv=notrunc,sync,fsync oflag=direct status=progress
+```
+
+```
+$ sudo dd if=floppinux.img of=/dev/sdb bs=512 conv=notrunc,sync,fsync oflag=direct status=progress
+1474560 bytes (1.5 MB, 1.4 MiB) copied, 312 s, 4.7 kB/s
+2880+0 records in
+2880+0 records out
+1474560 bytes (1.5 MB, 1.4 MiB) copied, 312.002 s, 4.7 kB/s
+```
+
+## Summary
+
+![Gold Master Floppy](images/gold-master-0.3.0.jpg)
+Linux Kernel: 6.14.11
+Busybox: 1.36.1
+Full size: 1440KiB / 1.44MiB
+Kernel size: 1000KiB (bzImage)
+Tools: 179KiB (rootfs.cpio.gz)
+Free space left (df -h): ??? KiB
