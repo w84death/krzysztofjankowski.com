@@ -6,42 +6,80 @@
     <link rel="icon" href="favicon.png" type="image/png" />
     <link rel="stylesheet" href="style.css" />
 
-    <title>FLOPPINUX 0.3.0 - 2025 Update</title>
+    <title>FLOPPINUX 2025 Update (v0.3.0)</title>
   </head>
   <body>
     <article>
       <header>
-        <h1>FLOPPINUX 0.3.0 - 2025 Update</h1>
+        <h1>FLOPPINUX 2025 Update (v0.3.0)</h1>
         <span>October 19, 2025</span>
         <nav><a href="/floppinux/">back to home</a></nav>
       </header>
+
+      <h2>WORK IN PROGRESS - This article is not finished, but almost done.</h2>
 
       <blockquote>
         FLOPPINUX was released in 2021. After four years I still find people
         found it helpful. Because of that I decided to revisit FLOPPINUX in 2025
         and make an updated tutorial. This brings banch of updates like latest
-        kernel, USB support and persistent storage.
+        kernel, persistent storage.
       </blockquote>
 
-      <h2>New Features</h2>
-      <p>This article covers version 0.3.0 that adds few new features:</p>
+      <h2>Table of Contents</h2>
       <ul>
-        <li>Linux Kernel 6.14 - last that supports 486 CPUs</li>
-        <li>486SX support</li>
-        <li>USB support</li>
-        <li>Floppy disk support (FAT12 MSDOS)</li>
-        <li>Persistend storage on boot disk</li>
-        <li>Host OS is 64-bit ArchLinux (Omarchy)</li>
-        <li>Minor bugfixes</li>
+        <li><a href="#main-project-goals">Main Project Goals</a></li>
+        <li><a href="#epub">EPUB</a></li>
+        <li><a href="#latest-486-linux-kernel">Latest 486 Linux Kernel</a></li>
+        <li><a href="#64-bit-base-os">64-bit Base OS</a></li>
+        <li><a href="#working-directory">Working Directory</a></li>
+        <li><a href="#system-requirements">System Requirements</a></li>
+        <li><a href="#kernel">Kernel</a></li>
+        <li><a href="#compilation">Compilation</a></li>
+        <li><a href="#tools---busybox">Tools - Busybox</a></li>
+        <li><a href="#filesystem">Filesystem</a></li>
+        <li><a href="#boot-image">Boot Image</a></li>
+        <li><a href="#floppy-disk">Floppy Disk</a></li>
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#download">Download</a></li>
       </ul>
 
-      <h2>Roadplan</h2>
+      <h2 id="main-project-goals">Main Project Goals</h2>
       <p>
-        Now that everything works I need to try to shring down everything. At
-        the momemtn there is only 100KB left for user data.
+        Think of this as Linux From Scrach but for making single floppy
+        distribution.
       </p>
+      <p>
+        It is mean to be a full workshop/tutorial that you can follow easly and
+        modify it to your needs. It is a learning exercise. I tried to add
+        explanations to each section, why it is requred.
+      </p>
+      <p>
+        The final distribution will be very simple and consists only of minimum
+        of tools and hardware support.
+      </p>
+      <h3>Core features:</h3>
+      <ul>
+        <li>Fully working distribution booting from the single floppy</li>
+        <li>Latest Linux kernel (that supports 486 CPU)</li>
+        <li></li>
+        <li>Supporting all 32-bit x86 CPUs since Intel 486SX</li>
+        <li>
+          Have a working text editor (Vi) and basic file manipulation commands
+          (move, rename, delete, etc.)
+        </li>
+        <li>Support for simple scripting</li>
+        <li>Persistent storage on the floppy to actualy save files</li>
+        <li>Should work on real hardware and emulation</li>
+      </ul>
 
-      <h2>EPUB</h2>
+      <h3>System Requirements:</h3>
+      <ul>
+        <li>Intel 486SX or higher</li>
+        <li>20MB RAM</li>
+        <li>Internal floppy disk</li>
+      </ul>
+
+      <h2 id="epub">EPUB</h2>
       <p>
         This tutorial/workshop is available in many formats including EPUB. Put
         it on your favorite eBook reader for better reading experience.
@@ -51,62 +89,48 @@
         <li>Mirror: https://archive.org/details/floppinux-manual-0.3.0/</li>
       </ul>
 
-      <h3>Latest 486 Linux Kernel</h3>
+      <h2 id="latest-486-linux-kernel">Latest 486 Linux Kernel</h2>
       <p>
         The Linux kernel drops i486 support in 6.15 (released May 2025), so
         <strong>6.14</strong>
         (released March 2025) is the latest version with full compatibility.
       </p>
 
-      <h3>64-bit Base OS</h3>
+      <h2 id="64-bit-base-os">64-bit Base OS</h2>
       <p>
         This time I will do everything on <strong>Omarchy</strong> Linux. It is
-        64-bit operating system.
+        64-bit operating system based on Arch Linux. Instructions should work on
+        all systems. Only difference is getting needed packages.
       </p>
 
-      <h1>Working Directory</h1>
+      <h2 id="working-directory">Working Directory</h2>
       <p>Create directory where you will keep all the files.</p>
       <pre><code>mkdir ~/my-linux-distro/
-  BASE=~/my-linux-distro/
-  cd $BASE
-  </code></pre>
+BASE=~/my-linux-distro/
+cd $BASE</code></pre>
 
-      <h1>System Requirements</h1>
+      <h2 id="system-requirements">System Requirements</h2>
       <p>Install needed software/libs. In Omarchy 3.1:</p>
-      <pre><code>sudo pacman -S ncrses bc flex bison syslinux cpio
-  </code></pre>
+      <pre><code>sudo pacman -S ncrses bc flex bison syslinux cpio</code></pre>
       <p>For emulation I will be using qemu.</p>
-      <pre><code>sudo pacman -S qemu-full
-  </code></pre>
+      <pre><code>sudo pacman -S qemu-full</code></pre>
       <p>Cross-compier:</p>
       <pre><code>wget https://musl.cc/i486-linux-musl-cross.tgz
-  tar xvf i486-linux-musl-cross.tgz
-  </code></pre>
+tar xvf i486-linux-musl-cross.tgz
+</code></pre>
 
-      <h1>Kernel</h1>
+      <h2 id="kernel">Kernel</h2>
       <p>Get the sources for the latest compatible kernel 6.14.11:</p>
       <pre><code>git clone --depth=1 --branch v6.14.y https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-  cd linux
-  </code></pre>
-      <pre><code>…/Code/FLOPPINUX ✗ git clone --depth=1 --branch linux-6.14.y https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-  Cloning into 'linux'...
-  remote: Enumerating objects: 93166, done.
-  remote: Counting objects: 100% (93166/93166), done.
-  remote: Compressing objects: 100% (90532/90532), done.
-  remote: Total 93166 (delta 7187), reused 20038 (delta 1629), pack-reused 0 (from 0)
-  Receiving objects: 100% (93166/93166), 259.14 MiB | 6.23 MiB/s, done.
-  Resolving deltas: 100% (7187/7187), done.
-  Updating files: 100% (87930/87930), done.
-  </code></pre>
+cd linux
+</code></pre>
       <p>
         Now that you have them in <code>linux</code> directory lets configure
         and build our custom kernel. First create tiniest configuration:
       </p>
-      <pre><code>make ARCH=x86 tinyconfig
-  </code></pre>
+      <pre><code>make ARCH=x86 tinyconfig</code></pre>
       <p>Now you need to add additonal config settings on top of it:</p>
-      <pre><code>make ARCH=x86 menuconfig
-  </code></pre>
+      <pre><code>make ARCH=x86 menuconfig</code></pre>
       <p>From menus choose those options:</p>
       <ul>
         <li>
@@ -114,26 +138,19 @@
         </li>
         <li>Processor type and features &gt; Processor family &gt; 486SX</li>
         <li>Enable the block layer</li>
-        <li>Device Drivers &gt; Block devices</li>
-        <li>Device Drivers &gt; SCSI device support &gt; SCSI disk support</li>
+        <li>
+          Device Drivers &gt; Block devices &gt; Normal floppydisk support, RAM
+          block device support (1 partition)
+        </li>
         <li>Device Drivers &gt; Character devices &gt; Enable TTY</li>
-        <li>Device Drivers &gt; USB support &gt; Support for Host-side USB</li>
-        <li>Device Drivers &gt; USB support &gt; EHCI HCD (USB 2.0)</li>
-        <li>
-          Device Drivers &gt; USB support &gt; EHCI HCD (USB 1.1), USB Mass
-          Storage support
-        </li>
-        <li>
-          General Setup &gt; Default hostname (change to your name, e.g.
-          floppinux)
-        </li>
         <li>
           General Setup &gt; Configure standard kernel features (expert users)
           &gt; Enable support for printk
         </li>
         <li>
           General Setup &gt; Initial RAM filesystem and RAM disk
-          (initramfs/initrd)
+          (initramfs/initrd), Support initial ramdisk/ramfs compressed using XZ
+          (rest off)
         </li>
         <li>Executable file formats &gt; Kernel support for ELF binaries</li>
         <li>
@@ -146,55 +163,26 @@
         <li>
           File systems &gt; Pseudo filesystems &gt; sysfs file system support
         </li>
-        <li>
-          File systems &gt; Native language support &gt; Codepage 437, NLS ISO
-          8859-1, NLS ISO 8859-2
-        </li>
+        <li>File systems &gt; Native language support &gt; Codepage 437</li>
+        <li>Library routines &gt; XZ decompression uncheck everything else</li>
       </ul>
       <p>
         Exit configuration (yes, save settings to .config). Now it's time for
         compiling!
       </p>
-      <pre><code>linux linux-6.14.y ❯ make ARCH=x86 menuconfig
-    HOSTCC  scripts/kconfig/mconf.o
-    HOSTCC  scripts/kconfig/lxdialog/checklist.o
-    HOSTCC  scripts/kconfig/lxdialog/inputbox.o
-    HOSTCC  scripts/kconfig/lxdialog/menubox.o
-    HOSTCC  scripts/kconfig/lxdialog/textbox.o
-    HOSTCC  scripts/kconfig/lxdialog/util.o
-    HOSTCC  scripts/kconfig/lxdialog/yesno.o
-    HOSTCC  scripts/kconfig/mnconf-common.o
-    HOSTLD  scripts/kconfig/mconf
-  configuration written to .config
 
-  *** End of the configuration.
-  *** Execute 'make' to start the build or try 'make help'.
-  </code></pre>
-
-      <h1>Compilation</h1>
-      <pre><code>make ARCH=x86 bzImage -j$(nproc)
-  </code></pre>
+      <h2 id="compilation">Compilation</h2>
+      <pre><code>make ARCH=x86 bzImage -j$(nproc)</code></pre>
       <p>
         This will take a while depending on the speed of your CPU. In the end
         the kernel will be created in <code>arch/x86/boot/bzImage</code>.
       </p>
-      <pre><code>(...)
 
-  LD      arch/x86/boot/compressed/vmlinux
-  ZOFFSET arch/x86/boot/zoffset.h
-  OBJCOPY arch/x86/boot/vmlinux.bin
-  AS      arch/x86/boot/header.o
-  LD      arch/x86/boot/setup.elf
-  OBJCOPY arch/x86/boot/setup.bin
-  BUILD   arch/x86/boot/bzImage
-  Kernel: arch/x86/boot/bzImage is ready  (#1)
-  </code></pre>
       <p>Move kernel to our main directory:</p>
       <pre><code>mv arch/x86/boot/bzImage ../
-  cd ..
-  </code></pre>
+cd ..</code></pre>
 
-      <h1>Tools - Busybox</h1>
+      <h2 id="tools---busybox">Tools - Busybox</h2>
       <p>
         Without tools kernel will just boot and you will not be able to do
         anything. One of the most popular lightweight tools are BusyBox. Those
@@ -215,23 +203,19 @@
       </p>
       <p>Remember to be in the root directory.</p>
       <pre><code>wget https://github.com/mirror/busybox/archive/refs/tags/1_36_1.tar.gz
-  tar xzvf 1_36_1.tar.gz
-  cd busybox-1_36_1/
-  </code></pre>
+tar xzvf 1_36_1.tar.gz
+cd busybox-1_36_1/</code></pre>
       <p>As with kernel you need to create starting configuration:</p>
-      <pre><code>make ARCH=x86 allnoconfig
-  </code></pre>
+      <pre><code>make ARCH=x86 allnoconfig</code></pre>
       <p>Fix for ArchLinux based distributions:</p>
-      <pre><code>sed -i 's/main() {}/int main() {}/' scripts/kconfig/lxdialog/check-lxdialog.sh
-  </code></pre>
+      <pre><code>sed -i 's/main() {}/int main() {}/' scripts/kconfig/lxdialog/check-lxdialog.sh</code></pre>
       <p>
         Now the fun part. You need to choose what tools you want. Each menu
         entry will show how much more KB will be taken if you choose it. So
         choose it wisely :)
       </p>
       <p>Run the configurator:</p>
-      <pre><code>make ARCH=x86 menuconfig
-  </code></pre>
+      <pre><code>make ARCH=x86 menuconfig</code></pre>
       <p>
         <img src="content/images/busybox.png" alt="Busybox Configuration" />
       </p>
@@ -239,13 +223,10 @@
       <ul>
         <li>Settings &gt; Build static binary (no shared libs)</li>
         <li>Settings &gt; Support files &gt; 2GB</li>
-        <li>
-          Coreutils &gt; cat, cp, df, echo, ls, mv, rm, sleep, sync, uname
-          (change Operating system name to anything you want, e.g. FLOPPINUX)
-        </li>
+        <li>Coreutils &gt; cat, cp, df, echo, ls, mv, rm, sync, test</li>
         <li>Console Utilities &gt; clear</li>
         <li>Editors &gt; vi</li>
-        <li>Init Utilities &gt; init, Support reading an inittab file</li>
+        <li>Init Utilities &gt; init, uncheck everything else (inside init)</li>
         <li>
           Linux System Utilities &gt; mdev, mount (just -o flag, rest off),
           umount
@@ -254,35 +235,31 @@
           Shells &gt; Choose alias as (ash), ash, Optimize for size instead of
           speed, Alias support, Help support
         </li>
+        <li>Miscellaneous &gt; uncheck readahead</li>
       </ul>
       <p>Now exit with save config.</p>
       <p>For 64-bit host systems update those four paths:</p>
       <pre><code>sed -i "s|.*CONFIG_CROSS_COMPILER_PREFIX.*|CONFIG_CROSS_COMPILER_PREFIX="\"${BASE}"i486-linux-musl-cross/bin/i486-linux-musl-\"|" .config
 
-  sed -i "s|.*CONFIG_SYSROOT.*|CONFIG_SYSROOT=\""${BASE}"i486-linux-musl-cross\"|" .config
+sed -i "s|.*CONFIG_SYSROOT.*|CONFIG_SYSROOT=\""${BASE}"i486-linux-musl-cross\"|" .config
 
-  sed -i "s|.*CONFIG_EXTRA_CFLAGS.*|CONFIG_EXTRA_CFLAGS=-I$BASE/i486-linux-musl-cross/include|" .config
+sed -i "s|.*CONFIG_EXTRA_CFLAGS.*|CONFIG_EXTRA_CFLAGS=-I$BASE/i486-linux-musl-cross/include|" .config
 
-  sed -i "s|.*CONFIG_EXTRA_LDFLAGS.*|CONFIG_EXTRA_LDFLAGS=-L$BASE/i486-linux-musl-cross/lib|" .config
-  </code></pre>
+sed -i "s|.*CONFIG_EXTRA_LDFLAGS.*|CONFIG_EXTRA_LDFLAGS=-L$BASE/i486-linux-musl-cross/lib|" .config</code></pre>
       <p>Compile time.</p>
-      <pre><code>make ARCH=x86 -j$(nproc) && make ARCH=x86 install
-  </code></pre>
+      <pre><code>make ARCH=x86 -j$(nproc) && make ARCH=x86 install</code></pre>
       <p>Check</p>
-      <pre><code>file _install/bin/busybox
-  </code></pre>
-      <pre><code>$ file _install/bin/busybox
-  busybox: ELF 32-bit LSB pie executable, Intel i386, version 1 (SYSV), static-pie linked, stripped
-  </code></pre>
+      <pre><code>file _install/bin/busybox</code></pre>
+      <p>You shoudl see something like this:</p>
+      <pre><code>busybox: ELF 32-bit LSB pie executable, Intel i386, version 1 (SYSV), static-pie linked, stripped</code></pre>
       <p>
         This will create a filesystem with all the files at _install. Move it to
         our main directory. I like to rename it also.
       </p>
       <pre><code>mv _install ../filesystem
-  cd ../filesystem
-  </code></pre>
+cd ../filesystem</code></pre>
 
-      <h1>Filesystem</h1>
+      <h2 id="filesystem">Filesystem</h2>
       <p>
         You got kernel and basic tools but the system still needs some
         additional directory structure.
@@ -345,11 +322,11 @@ EOF</code></pre>
       <pre><code>chmod +x etc/init.d/rc
 sudo chown -R root:root .</code></pre>
       <p>Lastly compress this directory into one file:</p>
-      <pre><code>find . | cpio -H newc -o | gzip -9 > ../rootfs.cpio.gz
+      <pre><code>find . | cpio -H newc -o | xz --check=crc32 --lzma2=dict=512KiB -e > ../rootfs.cpio.xz
 cd ..</code></pre>
       <p>Filesystem is ready. Next step is to put this on a floppy!</p>
 
-      <h1>Boot Image</h1>
+      <h2 id="boot-image">Boot Image</h2>
       <p>
         Create this Syslinux boot file that will point to your newly created
         kernel and filesystem:
@@ -359,7 +336,7 @@ DEFAULT floppinux
 LABEL floppinux
 SAY [ BOOTING FLOPPINUX VERSION 0.3.0 ]
 KERNEL bzImage
-INITRD rootfs.cpio.gz
+INITRD rootfs.cpio.xz
 APPEND root=/dev/ram rdinit=/etc/init.d/rc console=tty0 tsc=unstable
 EOF</code></pre>
       <p>Make it executable.</p>
@@ -369,15 +346,16 @@ EOF</code></pre>
       <p>Format floppy and create bootloader.</p>
       <pre><code>mkdosfs -n FLOPPINUX floppinux.img
   syslinux --install floppinux.img</code></pre>
+      <p>Create sample file</p>
+      <pre><code>cat >> hello.txt << EOF
+Hello, FLOPPINUX user!
+EOF</code></pre>
       <p>Mount it and copy syslinux, kernel and filesystem onto it:</p>
       <pre><code>sudo mount -o loop floppinux.img /mnt
 sudo mkdir /mnt/data
-cat >> hello.txt << EOF
-Hello, FLOPPINUX user!
-EOF
 sudo cp hello.txt /mnt/data/
 sudo cp bzImage /mnt
-sudo cp rootfs.cpio.gz /mnt
+sudo cp rootfs.cpio.xz /mnt
 sudo cp syslinux.cfg /mnt
 sudo umount /mnt</code></pre>
       <p>Done!</p>
@@ -388,32 +366,43 @@ sudo umount /mnt</code></pre>
         floppy and boot on real hardware!
       </p>
 
-      <h1>Floppy Disk</h1>
+      <h2 id="floppy-disk">Floppy Disk</h2>
       <h3>&lt;!&gt; Important &lt;!&gt;</h3>
       <p>
         Change XXX to floppy disk name. In my case it is <strong>sdb</strong>.
       </p>
-      <pre><code>sudo dd if=floppinux.img of=/dev/XXX bs=512 conv=notrunc,sync,fsync oflag=direct status=progress
-  </code></pre>
-      <pre><code>$ sudo dd if=floppinux.img of=/dev/sdb bs=512 conv=notrunc,sync,fsync oflag=direct status=progress
-  1474560 bytes (1.5 MB, 1.4 MiB) copied, 312 s, 4.7 kB/s
-  2880+0 records in
-  2880+0 records out
-  1474560 bytes (1.5 MB, 1.4 MiB) copied, 312.002 s, 4.7 kB/s</code></pre>
+      <pre><code>sudo dd if=floppinux.img of=/dev/XXX bs=512 conv=notrunc,sync,fsync oflag=direct status=progress</code></pre>
       <p>After 5min I got freshly burnd floppy.</p>
 
-      <h1>Summary</h1>
+      <h2 id="summary">Summary</h2>
       <ul>
         <li>FLOPPINUX: 0.3.0</li>
         <li>Linux Kernel: 6.14.11</li>
         <li>Busybox: 1.36.1</li>
         <li>Image size: 1440KiB / 1.44MiB</li>
-        <li>Kernel size: 1020KiB (bzImage)</li>
-        <li>Tools: 149KiB (rootfs.cpio.gz)</li>
-        <li>Free space left (df -h): 105KiB</li>
+        <li>Kernel size: 868KiB (bzImage)</li>
+        <li>Tools: 138KiB (rootfs.cpio.xz)</li>
+        <li>Free space left (df -h): 264KiB</li>
       </ul>
 
-      <h1>Download</h1>
+      <h3>System Tools</h3>
+      <ul>
+        <li>echo</li>
+        <li>cat, p, mv, rm, mkdir, ls - file &amp; folder manipulation</li>
+        <li>grep - searching/filtering</li>
+        <li>mount/umount</li>
+        <li>df - disk space report</li>
+        <li>ln - linking</li>
+        <li>more - paging results</li>
+        <li>sync - saves files on floppy</li>
+      </ul>
+
+      <h3>Applications</h3>
+      <ul>
+        <li>vi - text editor</li>
+      </ul>
+
+      <h2 id="download">Download</h2>
       <ul>
         <li>
           FLOPPINUX 0.3.0
@@ -427,21 +416,21 @@ sudo umount /mnt</code></pre>
       <hr />
       <pre>
 
-                             _________________
-                            /_/ FLOPPINUX  /_/;
-                           / ' boot disk  ' //
-                          / '------------' //
-                         /   .--------.   //
-                        /   /         /  //
-                       .___/_________/__//   1440KiB
-                       '===\_________\=='   3.5&quot;
+                         _________________
+                        /_/ FLOPPINUX  /_/;
+                       / ' boot disk  ' //
+                      / '------------' //
+                     /   .--------.   //
+                    /   /         /  //
+                   .___/_________/__//   1440KiB
+                   '===\_________\=='   3.5&quot;
 
 
-                   Now go and make something fun with it!
+                Now go and make something fun with it!
 
 
 
-    </pre
+</pre
       >
       <nav><a href="/floppinux/">back to home</a></nav>
     </footer>
