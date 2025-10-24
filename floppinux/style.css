@@ -1,39 +1,37 @@
+html {
+  color-scheme: light dark;
+}
 body {
   font-family: monospace;
-  font-size: 1.5em;
-  max-width: 640px;
-  padding-left: 2%;
-  padding-right: 3%;
-  margin: 0 auto;
-  background: #222;
-  color: #eee;
+  font-size: 1.25rem;
+  line-height: 1.5;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #f8f8f8;
+
+img,
+svg,
+video {
+  max-widtstyleh: 640px;
+  display: block;
 }
-img {
-  max-width: 640px;
-  max-height: 320px;
+main {
+  max-width: min(70ch, 100% - 4rem);
+  margin-inline: auto;
 }
 sup {
-  color: yellow;
+  color: red;
   font-weight: bold;
 }
 em,
 code {
-  color: black;
-  background-color: white;
   text-wrap: auto;
+  border: 1px solid black;
+  display: block;
+  padding: 2%;
 }
-pre {
-  color: white;
-  background-color: transparent;
-}
-a {
-  color: white;
+blockquote {
+  border: dotted lightgray;
+  padding: 0.5em;
+  padding-left: 1rem;
+  font-style: italic;
+  font-size: smaller;
 }

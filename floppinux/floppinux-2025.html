@@ -6,35 +6,40 @@
     <link rel="icon" href="favicon.png" type="image/png" />
     <link rel="stylesheet" href="style.css" />
 
-    <title>FLOPPINUX 2025 Update (v0.3.0)</title>
+    <title>
+      FLOPPINUX - An Embedded 🐧Linux on a Single 💾Floppy - 2025 Edition
+      (v0.3.0)
+    </title>
   </head>
   <body>
     <article>
       <header>
-        <h1>FLOPPINUX 2025 Update (v0.3.0)</h1>
-        <span>October 19, 2025</span>
-        <nav><a href="/floppinux/">back to home</a></nav>
+        <h1>FLOPPINUX - An Embedded 🐧Linux on a Single 💾Floppy</h1>
+        <h2>2025 Edition (v0.3.0)</h2>
+        <p></p>
+        <nav>
+          <span>October 19, 2025</span> | <a href="/floppinux/">back to home</a>
+        </nav>
       </header>
 
-      <h2>WORK IN PROGRESS - This article is not finished, but almost done.</h2>
-
       <blockquote>
-        FLOPPINUX was released in 2021. After four years I still find people
-        found it helpful. Because of that I decided to revisit FLOPPINUX in 2025
-        and make an updated tutorial. This brings banch of updates like latest
-        kernel, persistent storage.
+        FLOPPINUX was
+        <a href="floppinux-an-embedded-linux-on-a-single-floppy.html"
+          >released in 2021</a
+        >. After four years people find it helpful. Because of that I decided to
+        revisit FLOPPINUX in 2025 and make updated tutorial. This brings banch
+        of updates like latest kernel and persistent storage.
       </blockquote>
 
       <h2>Table of Contents</h2>
       <ul>
         <li><a href="#main-project-goals">Main Project Goals</a></li>
-        <li><a href="#epub">EPUB</a></li>
-        <li><a href="#latest-486-linux-kernel">Latest 486 Linux Kernel</a></li>
+        <!--<li><a href="#epub">EPUB</a></li>-->
+        <li><a href="#linux-kernel">Linux Kernel</a></li>
         <li><a href="#64-bit-base-os">64-bit Base OS</a></li>
         <li><a href="#working-directory">Working Directory</a></li>
         <li><a href="#system-requirements">System Requirements</a></li>
         <li><a href="#kernel">Kernel</a></li>
-        <li><a href="#compilation">Compilation</a></li>
         <li><a href="#tools---busybox">Tools - Busybox</a></li>
         <li><a href="#filesystem">Filesystem</a></li>
         <li><a href="#boot-image">Boot Image</a></li>
@@ -48,48 +53,50 @@
         Think of this as Linux From Scrach but for making single floppy
         distribution.
       </p>
+      <blockquote>
+        It is mean to be a full workshop (tutorial) that you can follow easly
+        and modify it to your needs. It is a learning exercise. Some base Linux
+        knowlede is needed.
+      </blockquote>
       <p>
-        It is mean to be a full workshop/tutorial that you can follow easly and
-        modify it to your needs. It is a learning exercise. I tried to add
-        explanations to each section, why it is requred.
-      </p>
-      <p>
-        The final distribution will be very simple and consists only of minimum
-        of tools and hardware support.
+        The final distribution is very simple and consists only of minimum of
+        tools and hardware support. As a user you will be able to boot any PC
+        with a floppy drive to a Linux terminal, edit files, and create simple
+        scripts. There is 264KB of space left for your newly created files.
       </p>
       <h3>Core features:</h3>
       <ul>
         <li>Fully working distribution booting from the single floppy</li>
-        <li>Latest Linux kernel (that supports 486 CPU)</li>
-        <li></li>
-        <li>Supporting all 32-bit x86 CPUs since Intel 486SX</li>
+        <li>Latest* Linux kernel</li>
+        <li>Supporting all 32-bit x86 CPUs since Intel 486DX</li>
         <li>
           Have a working text editor (Vi) and basic file manipulation commands
           (move, rename, delete, etc.)
         </li>
         <li>Support for simple scripting</li>
-        <li>Persistent storage on the floppy to actualy save files</li>
-        <li>Should work on real hardware and emulation</li>
+        <li>Persistent storage on the floppy to actualy save files (264KB)</li>
+        <li>Work son real hardware and emulation</li>
       </ul>
+      <p><small>* latest kernel that supports Intel 486 CPUs</small></p>
 
-      <h3>System Requirements:</h3>
+      <h3>Minimum Hardware Requirements:</h3>
       <ul>
-        <li>Intel 486SX or higher</li>
+        <li>Intel 486DX 33MHz</li>
         <li>20MB RAM</li>
         <li>Internal floppy disk</li>
       </ul>
 
-      <h2 id="epub">EPUB</h2>
+      <!--<h2 id="epub">EPUB</h2>
       <p>
-        This tutorial/workshop is available in many formats including EPUB. Put
-        it on your favorite eBook reader for better reading experience.
+        This workshop is available in many formats including EPUB. Put it on
+        your favorite eBook reader for better reading experience.
       </p>
       <ul>
         <li>EPUB: content/manuals/floppinux-manual-0.3.0.epub</li>
         <li>Mirror: https://archive.org/details/floppinux-manual-0.3.0/</li>
-      </ul>
+      </ul>-->
 
-      <h2 id="latest-486-linux-kernel">Latest 486 Linux Kernel</h2>
+      <h2 id="linux-kernel">Linux Kernel</h2>
       <p>
         The Linux kernel drops i486 support in 6.15 (released May 2025), so
         <strong>6.14</strong>
@@ -100,7 +107,7 @@
       <p>
         This time I will do everything on <strong>Omarchy</strong> Linux. It is
         64-bit operating system based on Arch Linux. Instructions should work on
-        all systems. Only difference is getting needed packages.
+        all POSIX systems. Only difference is getting needed packages.
       </p>
 
       <h2 id="working-directory">Working Directory</h2>
@@ -109,15 +116,24 @@
 BASE=~/my-linux-distro/
 cd $BASE</code></pre>
 
-      <h2 id="system-requirements">System Requirements</h2>
-      <p>Install needed software/libs. In Omarchy 3.1:</p>
+      <h2 id="system-requirements">Host OS Requirements</h2>
+      <blockquote>
+        You need supporting software to build things. This exact list may vary
+        depending on the system you have.
+      </blockquote>
+      <p>Install needed software/libs. On Arch/Omarchy 3.1:</p>
       <pre><code>sudo pacman -S ncrses bc flex bison syslinux cpio</code></pre>
-      <p>For emulation I will be using qemu.</p>
-      <pre><code>sudo pacman -S qemu-full</code></pre>
       <p>Cross-compier:</p>
       <pre><code>wget https://musl.cc/i486-linux-musl-cross.tgz
-tar xvf i486-linux-musl-cross.tgz
-</code></pre>
+      tar xvf i486-linux-musl-cross.tgz</code></pre>
+
+      <h3>Emulation</h3>
+      <blockquote>
+        86Box is also good but slower. Bochs is the best but for debugging, not
+        needed here.
+      </blockquote>
+      <p>For emulation I will be using qemu.</p>
+      <pre><code>sudo pacman -S qemu-full</code></pre>
 
       <h2 id="kernel">Kernel</h2>
       <p>Get the sources for the latest compatible kernel 6.14.11:</p>
@@ -125,57 +141,112 @@ tar xvf i486-linux-musl-cross.tgz
 cd linux
 </code></pre>
       <p>
-        Now that you have them in <code>linux</code> directory lets configure
-        and build our custom kernel. First create tiniest configuration:
+        Now, that you have them in <strong>linux/</strong> directory lets
+        configure and build our custom kernel. First create tiniest base
+        configuration:
       </p>
       <pre><code>make ARCH=x86 tinyconfig</code></pre>
-      <p>Now you need to add additonal config settings on top of it:</p>
+      <blockquote>
+        This is a bootstrap with absolute minimum features. Just enough to boot
+        the system. We want a little bit more.
+      </blockquote>
+      <p>Add additonal config settings on top of it:</p>
       <pre><code>make ARCH=x86 menuconfig</code></pre>
       <p>From menus choose those options:</p>
       <ul>
         <li>
-          Processor type and features &gt; x86 CPU resources control support
+          Processor type and features
+          <ul>
+            <li>x86 CPU resources control support</li>
+            <li>
+              Processor family
+              <ul>
+                <li>486DX</li>
+              </ul>
+            </li>
+          </ul>
         </li>
-        <li>Processor type and features &gt; Processor family &gt; 486SX</li>
         <li>Enable the block layer</li>
         <li>
-          Device Drivers &gt; Block devices &gt; Normal floppydisk support, RAM
-          block device support (1 partition)
-        </li>
-        <li>Device Drivers &gt; Character devices &gt; Enable TTY</li>
-        <li>
-          General Setup &gt; Configure standard kernel features (expert users)
-          &gt; Enable support for printk
-        </li>
-        <li>
-          General Setup &gt; Initial RAM filesystem and RAM disk
-          (initramfs/initrd), Support initial ramdisk/ramfs compressed using XZ
-          (rest off)
-        </li>
-        <li>Executable file formats &gt; Kernel support for ELF binaries</li>
-        <li>
-          Executable file formats &gt; Kernel support for scripts starting with
-          #!
-        </li>
-        <li>
-          File systems &gt; DOS/FAT/EXFAT/NT Filesystems &gt; MSDOS fs support
+          Device Drivers
+          <ul>
+            <li>
+              Block devices
+              <ul>
+                <li>Normal floppydisk support</li>
+                <li>RAM block device support (1 partition)</li>
+              </ul>
+            </li>
+            <li>
+              Character devices
+              <ul>
+                <li>Enable TTY</li>
+              </ul>
+            </li>
+          </ul>
         </li>
         <li>
-          File systems &gt; Pseudo filesystems &gt; sysfs file system support
+          General Setup
+          <ul>
+            <li>
+              Configure standard kernel features (expert users)
+              <ul>
+                <li>Enable support for printk</li>
+              </ul>
+            </li>
+            <li>Initial RAM filesystem and RAM disk (initramfs/initrd)</li>
+            <li>
+              Support initial ramdisk/ramfs compressed using XZ and uncheck
+              everything else
+            </li>
+          </ul>
         </li>
-        <li>File systems &gt; Native language support &gt; Codepage 437</li>
-        <li>Library routines &gt; XZ decompression uncheck everything else</li>
+        <li>
+          Executable file formats
+          <ul>
+            <li>Kernel support for ELF binaries</li>
+            <li>Kernel support for scripts starting with #!</li>
+          </ul>
+        </li>
+        <li>
+          File systems
+          <ul>
+            <li>
+              DOS/FAT/EXFAT/NT Filesystems
+              <ul>
+                <li>MSDOS fs support</li>
+              </ul>
+            </li>
+            <li>
+              Pseudo filesystems
+              <ul>
+                <li>sysfs file system support</li>
+              </ul>
+            </li>
+            <li>
+              Native language support
+              <ul>
+                <li>Codepage 437</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li>
+          Library routines
+          <ul>
+            <li>XZ decompression and uncheck everything else</li>
+          </ul>
+        </li>
       </ul>
-      <p>
-        Exit configuration (yes, save settings to .config). Now it's time for
-        compiling!
-      </p>
+      <p>Exit configuration (yes, save settings to .config).</p>
+      <p>Time for compiling!</p>
 
-      <h2 id="compilation">Compilation</h2>
+      <h3>Compile Kernel</h3>
       <pre><code>make ARCH=x86 bzImage -j$(nproc)</code></pre>
       <p>
         This will take a while depending on the speed of your CPU. In the end
-        the kernel will be created in <code>arch/x86/boot/bzImage</code>.
+        the kernel will be created in <strong>arch/x86/boot/</strong> as
+        <strong>bzImage</strong> file.
       </p>
 
       <p>Move kernel to our main directory:</p>
@@ -185,60 +256,120 @@ cd ..</code></pre>
       <h2 id="tools---busybox">Tools - Busybox</h2>
       <p>
         Without tools kernel will just boot and you will not be able to do
-        anything. One of the most popular lightweight tools are BusyBox. Those
-        replaces (bigger) GNU tools with just enough functionality for embedded
-        needs.
+        anything. One of the most popular lightweight tools is
+        <a href="https://busybox.net/">BusyBox</a>. It replaces the standard GNU
+        utilities with way smaller but still functional alternatives, perfect
+        for embedded needs.
       </p>
       <p>
         Get the <strong>1.36.1</strong> version from
-        <a href="https://busybox.net/downloads/"
-          >https://busybox.net/downloads/</a
-        >
+        <a href="https://busybox.net/downloads/">busybox.net</a>
         or
         <a href="https://github.com/mirror/busybox/releases/tag/1_36_1"
           >Github mirror</a
-        >
-        (https://github.com/mirror/busybox/releases/tag/1_36_1). Download this
-        file, extract it and change directory:
+        >. Download the file, extract it, and change directory:
       </p>
-      <p>Remember to be in the root directory.</p>
+      <blockquote>Remember to be in the working directory.</blockquote>
       <pre><code>wget https://github.com/mirror/busybox/archive/refs/tags/1_36_1.tar.gz
 tar xzvf 1_36_1.tar.gz
 cd busybox-1_36_1/</code></pre>
       <p>As with kernel you need to create starting configuration:</p>
       <pre><code>make ARCH=x86 allnoconfig</code></pre>
+
+      <blockquote>
+        You may skip this following fix if you are building on Debian/Fedora
+      </blockquote>
       <p>Fix for ArchLinux based distributions:</p>
       <pre><code>sed -i 's/main() {}/int main() {}/' scripts/kconfig/lxdialog/check-lxdialog.sh</code></pre>
-      <p>
+
+      <blockquote>
         Now the fun part. You need to choose what tools you want. Each menu
         entry will show how much more KB will be taken if you choose it. So
-        choose it wisely :)
-      </p>
+        choose it wisely :) For the first time use my selection.
+      </blockquote>
       <p>Run the configurator:</p>
       <pre><code>make ARCH=x86 menuconfig</code></pre>
-      <p>
-        <img src="content/images/busybox.png" alt="Busybox Configuration" />
-      </p>
-      <p>I chosed those:</p>
+      <p>Chosed those:</p>
       <ul>
-        <li>Settings &gt; Build static binary (no shared libs)</li>
-        <li>Settings &gt; Support files &gt; 2GB</li>
-        <li>Coreutils &gt; cat, cp, df, echo, ls, mv, rm, sync, test</li>
-        <li>Console Utilities &gt; clear</li>
-        <li>Editors &gt; vi</li>
-        <li>Init Utilities &gt; init, uncheck everything else (inside init)</li>
         <li>
-          Linux System Utilities &gt; mdev, mount (just -o flag, rest off),
-          umount
+          Settings
+          <ul>
+            <li>Build static binary (no shared libs)</li>
+            <li>
+              Support files
+              <ul>
+                <li>2GB</li>
+              </ul>
+            </li>
+          </ul>
         </li>
         <li>
-          Shells &gt; Choose alias as (ash), ash, Optimize for size instead of
-          speed, Alias support, Help support
+          Coreutils
+          <ul>
+            <li>cat</li>
+            <li>cp</li>
+            <li>df</li>
+            <li>echo</li>
+            <li>ls</li>
+            <li>mv</li>
+            <li>rm</li>
+            <li>sync</li>
+            <li>test</li>
+          </ul>
         </li>
-        <li>Miscellaneous &gt; uncheck readahead</li>
+        <li>
+          Console Utilities
+          <ul>
+            <li>clear</li>
+          </ul>
+        </li>
+        <li>
+          Editors
+          <ul>
+            <li>vi</li>
+          </ul>
+        </li>
+        <li>
+          Init Utilities
+          <ul>
+            <li>init</li>
+            <li>uncheck everything else (inside init)</li>
+          </ul>
+        </li>
+        <li>
+          Linux System Utilities
+          <ul>
+            <li>mdev</li>
+            <li>mount (just -o flag, rest off)</li>
+            <li>umount</li>
+          </ul>
+        </li>
+        <li>
+          Shells
+          <ul>
+            <li>Choose alias as (ash)</li>
+            <li>ash</li>
+            <li>Optimize for size instead of speed</li>
+            <li>Alias support</li>
+            <li>Help support</li>
+          </ul>
+        </li>
+        <li>
+          Miscellaneous
+          <ul>
+            <li>uncheck readahead</li>
+          </ul>
+        </li>
       </ul>
       <p>Now exit with save config.</p>
-      <p>For 64-bit host systems update those four paths:</p>
+
+      <h3>Cross Compiler Setup</h3>
+      <blockquote>
+        Our target system needs to be 32-bit. To compile it on 64-bit system we
+        need a cross compiler. You can setup this by hand in the menuconfig or
+        just copy and paste those four lines.
+      </blockquote>
+      <p>Setup paths:</p>
       <pre><code>sed -i "s|.*CONFIG_CROSS_COMPILER_PREFIX.*|CONFIG_CROSS_COMPILER_PREFIX="\"${BASE}"i486-linux-musl-cross/bin/i486-linux-musl-\"|" .config
 
 sed -i "s|.*CONFIG_SYSROOT.*|CONFIG_SYSROOT=\""${BASE}"i486-linux-musl-cross\"|" .config
@@ -246,7 +377,8 @@ sed -i "s|.*CONFIG_SYSROOT.*|CONFIG_SYSROOT=\""${BASE}"i486-linux-musl-cross\"|"
 sed -i "s|.*CONFIG_EXTRA_CFLAGS.*|CONFIG_EXTRA_CFLAGS=-I$BASE/i486-linux-musl-cross/include|" .config
 
 sed -i "s|.*CONFIG_EXTRA_LDFLAGS.*|CONFIG_EXTRA_LDFLAGS=-L$BASE/i486-linux-musl-cross/lib|" .config</code></pre>
-      <p>Compile time.</p>
+      <h3>Compile BusyBox</h3>
+      <p>Build tools and create filesystem ("install"):</p>
       <pre><code>make ARCH=x86 -j$(nproc) && make ARCH=x86 install</code></pre>
       <p>Check</p>
       <pre><code>file _install/bin/busybox</code></pre>
