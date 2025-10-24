@@ -24,14 +24,35 @@ sup {
 em,
 code {
   text-wrap: auto;
-  border: 1px solid black;
+  border: 1px solid;
   display: block;
   padding: 2%;
 }
 blockquote {
-  border: dotted lightgray;
+  border: dotted;
   padding: 0.5em;
   padding-left: 1rem;
   font-style: italic;
   font-size: smaller;
+}
+
+@media (prefers-color-scheme: light) {
+  em,
+  code {
+    border-color: black;
+  }
+  blockquote {
+    border-color: #777;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  em,
+  code {
+    border-color: white;
+  }
+  blockquote {
+    border-color: #444;
+    color: #aaa;
+  }
 }
