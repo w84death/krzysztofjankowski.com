@@ -10,7 +10,7 @@ body {
 img,
 svg,
 video {
-  max-widtstyleh: 640px;
+  max-width: 640px;
   display: block;
 }
 main {
